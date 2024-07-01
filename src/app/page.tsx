@@ -1,113 +1,194 @@
-import Image from "next/image";
+import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
+import CoinIcon from '@/components/svgs/CoinIcon';
+import DrivingIcon from '@/components/svgs/DrivingIcon';
+import MoneyIcon from '@/components/svgs/MoneyIcon';
+import { Button } from '@/components/ui/button';
+import { ArrowDown, MoveRight } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main className='font-sentient'>
+      <Navbar />
+      <div className='mx-auto max-w-[1600px] px-5'>
+        <section
+          id='#about'
+          className='flex flex-col items-center font-medium text-2xl md:text-5xl pt-5'
+        >
+          <h1>Receive Funeral</h1>
+          <h1>Donations With Ease</h1>
+          <p className='mt-4 text-sm font-normal lg:text-2xl md:text-lg lg:mt-5'>
+            Have a funeral and want to collect donations with ease
+          </p>
+          <p className='text-sm font-normal lg:text-2xl md:text-lg'>
+            Nsawa is the place for you
+          </p>
+          <Link
+            href='/auth/login'
+            className='px-[1.1875rem] py-[0.625rem] mt-4 font-normal 
+              text-sm text-white bg-black md:text-base lg:text-2xl lg:mt-12 rounded-[2.9375rem]'
           >
-            By{" "}
+            Create Funeral
+          </Link>
+          <div className=' flex justify-center relative gap-x-2 md:gap-x-8 p-2 max-w-[1600px] w-full pt-36 2xl:pt-56 mx-auto '>
+            <div className='absolute md:h-[calc(100%)] w-[30%] h-[60%] md:w-[25%] 2xl:w-[28%] 2xl:h-[calc(100%-50px)] top-6  md:-top-8 left-2'>
+              <Image fill src='/image/grandpa.png' alt='Grand dad' />
+            </div>
             <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+              src='/image/father.png'
+              alt='Grand dad'
+              width={300}
+              height={250}
+              className='w-[30%] h-[25%] md:w-[18%] md:h-[50%]'
             />
-          </a>
-        </div>
+            <Image
+              src='/image/son.png'
+              alt='Grand dad'
+              width={300}
+              height={250}
+              className='w-[30%] h-[25%] md:w-[18%] md:h-[50%]'
+            />
+            <div className='w-[30%] h-[60%] absolute md:h-[calc(100%)] md:w-[25%] 2xl:w-[28%] 2xl:h-[calc(100%-50px)] top-6 md:-top-8 right-2'>
+              <Image
+                fill
+                src='/image/daughter.png'
+                alt='Grand dad'
+                className=''
+              />
+            </div>
+          </div>
+        </section>
+        <section className='bg-secondary rounded-2xl my-16 lg:my-24 py-28 px-12'>
+          <h1 className='text-2xl font-medium text-center md:text-4xl'>
+            Why Choose Nsawa
+          </h1>
+          <div className='flex flex-col items-center justify-center gap-24 mt-11 md:mt-32 lg:flex-row'>
+            <div className='flex flex-col items-center justify-center '>
+              <MoneyIcon />
+              <h1 className='mt-5 mb-5 font-medium md:mt-9 md:mb-7 md:text-xl lg:text-base '>
+                Donations
+              </h1>
+              <p>Donations to families</p>
+              <p>and loved ones is</p>
+              <p>made easy and organized</p>
+            </div>
+            <div className='flex flex-col items-center justify-center '>
+              <DrivingIcon />
+              <h1 className='mt-5 mb-5 font-medium md:mt-9 md:mb-7 md:text-xl lg:text-base '>
+                Location
+              </h1>
+              <p className='text-center'>Location of the funeral is</p>
+              <p className='text-center'>
+                not a barrier, you can create donations
+              </p>
+              <p className='text-center'>
+                and share to people who cant make it
+              </p>
+            </div>
+            <div className='flex flex-col items-center justify-center '>
+              <CoinIcon />
+              <h1 className='mt-5 mb-5 font-medium md:mt-9 md:mb-7 md:text-xl lg:text-base '>
+                Payment
+              </h1>
+              <p>Donations can be collected</p>
+              <p>virtually through our platform</p>
+            </div>
+          </div>
+        </section>
+        <section id='howItWorks' className='my-16 lg:my-24'>
+          <h1 className='mb-12 font-bold text-center md:text-4xl md:text-left'>
+            How it works
+          </h1>
+          <Image
+            src='/image/dashboard.png'
+            width={1169.3}
+            height={819}
+            alt='dashboard image'
+          />
+        </section>
+        <section
+          id='faqs'
+          className='py-[5.6875rem] text-[#FFFFE2] bg-[#043F2E] mb-12 md:mb-28 rounded-[0.6875rem] px-5'
+        >
+          <div className='flex flex-col items-center justify-center'>
+            <h1 className='text-xl font-bold md:text-3xl'>
+              Frequently Asked Questions
+            </h1>
+            <p className='text-sm md:text-base'>
+              have any other questions email us
+            </p>
+          </div>
+          <div className='lg:mt-32 mt-14 space-y-[2.875rem]'>
+            <details className='md:px-9 '>
+              <summary className='flex items-center justify-between font-medium cursor-pointer '>
+                <span className='text-base'>How do i create a donation</span>
+                <span className='ml-auto text-lg text-black bg-white rounded-md '>
+                  <ArrowDown />
+                </span>
+              </summary>
+              <p className='text-lg font-normal pt-2  text-[#FFFFE2]'>
+                To create a donation, create an account on nsawa, click on
+                create new donation, now you can add the venue and key
+                personalities and the date of the funeral.
+              </p>
+            </details>
+            <details className='md:px-9 '>
+              <summary className='flex items-center justify-between font-medium cursor-pointer '>
+                <span className='  text-base '>
+                  How do people who cant make it donate
+                </span>
+                <span className='ml-auto text-lg text-black bg-white rounded-md '>
+                  <ArrowDown />
+                </span>
+              </summary>
+              <p className=' text-lg pt-2 font-normal text-[#FFFFE2]'>
+                After your donation has been created you are given a unique link
+                to share to friends and family who may not be able to make it to
+                the venue
+              </p>
+            </details>
+            <details className='md:px-9 '>
+              <summary className='flex items-center justify-between font-medium cursor-pointer '>
+                <span className=' font-medium text-base'>
+                  Does Nsawa have a online payment system
+                </span>
+                <span className='ml-auto text-lg text-black bg-white rounded-md '>
+                  <ArrowDown />
+                </span>
+              </summary>
+              <p className=' text-lg  pt-2 font-normal text-[#FFFFE2]'>
+                Friends and family can make donations on Nsawa through our
+                online payment system, which collects the data and help
+                organizers track donors
+              </p>
+            </details>
+          </div>
+        </section>
+        <section
+          id='contactUs'
+          className='flex flex-col items-center text-primary justify-center'
+        >
+          <h1 className='mb-3 text-2xl lg:text-4xl font-bold text-center'>
+            Get In touch
+          </h1>
+          <p className='mb-3 text-xs text-center md:mb-12 md:text-base'>
+            Have any question or need clarity, please send us an email
+          </p>
+          <div className='flex items-center justify-between bg-primary max-w-[75%] md:max-w-[70%] gap-x-4 w-full rounded-[5.4375rem] p-1 md:p-2'>
+            <input
+              type='text'
+              className='text-white bg-transparent outline-none w-full ml-5 md:py-2'
+              placeholder='Email'
+            />
+            <Button className='bg-secondary text-primary rounded-full md:h-16 md:w-[70px] h-10 w-10'>
+              <MoveRight />
+            </Button>
+          </div>
+        </section>
       </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <Footer />
     </main>
   );
 }
