@@ -76,6 +76,7 @@ const config = {
       },
       fontFamily: {
         sentient: ['var(--font-sentient)'],
+        poppins: ['var(--font-poppins)'],
       },
     },
   },

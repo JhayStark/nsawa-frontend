@@ -2,9 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 @layer base {
   :root {
-    --background: 60, 100%, 94%;
+    --background: 0, 0%, 100%;
     --foreground: 222 81% 4%;
 
     --card: 0 0% 100%;
