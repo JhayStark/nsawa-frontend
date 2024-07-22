@@ -2,9 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 @layer base {
   :root {
-    --background: 60, 100%, 94%;
+    --background: 0, 0%, 100%;
     --foreground: 222 81% 4%;
 
     --card: 0 0% 100%;
@@ -13,11 +26,11 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 81% 4%;
 
-    --primary: 161, 51%, 21%;
+    --primary: 162, 16%, 12%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 78, 74%, 65%;
-    --secondary-foreground: 222 46% 11%;
+    --secondary: 39, 100%, 70%;
+    --secondary-foreground: 162, 16%, 12%;
 
     --muted: 210 40% 96%;
     --muted-foreground: 216 16% 46%;
