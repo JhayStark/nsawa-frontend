@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import localFont from 'next/font/local';
 import { Poppins } from 'next/font/google';
 import './globals.css';
+import StoreProvider from './StoreProvider';
 
 const sentient = localFont({
   src: '../../public/fonts/Sentient-Variable.woff2',
@@ -31,15 +32,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body
-        className={cn(
-          'min-h-screen font-sans antialiased',
-          poppins.variable,
-          sentient.variable
-        )}
-      >
-        {children}
-      </body>
+      <StoreProvider>
+        <body
+          className={cn(
+            'min-h-screen font-sans antialiased',
+            poppins.variable,
+            sentient.variable
+          )}
+        >
+          {children}
+        </body>
+      </StoreProvider>
     </html>
   );
 }
