@@ -13,7 +13,7 @@ const Layout = ({
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
       }}
-      className='h-[100vh] w-[100vw] font-poppins '
+      className='h-[100vh] w-[100vw] font-sentient '
     >
       <div className='h-full w-full grid grid-cols-1 lg:grid-cols-2 bg-black bg-opacity-55'>
         <div className='px-16 py-8 hidden  lg:flex flex-col justify-between'>

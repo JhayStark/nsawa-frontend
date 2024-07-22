@@ -46,12 +46,7 @@ const SignUp = () => {
           id='sign-up-form'
           onSubmit={form.handleSubmit(handleSignUp)}
         >
-          <InputField
-            form={form}
-            name='name'
-            placeholder='Name'
-            fieldStyles=''
-          />
+          <InputField form={form} name='name' placeholder='Name' className='' />
           <InputField form={form} name='email' placeholder='Email' />
           <InputField form={form} name='password' placeholder='Password' />
           <InputField

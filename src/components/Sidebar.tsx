@@ -42,7 +42,7 @@ const Sidebar = () => {
     return routeName == path;
   };
   return (
-    <aside className='hidden xl:flex flex-col bg-gradient-to-b font-poppins from-[#5E5E5E] to-black py-9'>
+    <aside className='hidden xl:flex flex-col bg-primary font-poppins  py-9'>
       <header>
         <Image
           src='/image/logo.png'
@@ -51,8 +51,8 @@ const Sidebar = () => {
           height={48}
           className='mx-auto'
         />
-        <div className='flex items-center gap-x-2 mx-auto max-w-52 my-6 '>
-          <div className='w-20 h-20 rounded-full relative'>
+        <div className='flex items-center gap-x-2 mx-auto max-w-52 my-8 '>
+          <div className='w-16 h-16 rounded-full relative'>
             <Image
               src='/image/user.jpg'
               alt='Nsawa logo'
@@ -60,7 +60,7 @@ const Sidebar = () => {
               className='object-cover rounded-full'
             />
           </div>
-          <p className='font-bold text-white'>Mr Osei Bonsu</p>
+          <p className='font-bold text-white'>Mr John Doe</p>
         </div>
       </header>
       <nav aria-label='Main Navigation'>
@@ -69,18 +69,23 @@ const Sidebar = () => {
             <Link key={menu.title} href={`/app/${menu.link}`}>
               <li
                 className={`${
-                  isCurrentPath(menu.link) &&
-                  'from-[#D9D9D9]  bg-gradient-to-r to-[#FFE3AD]'
-                } text-[#6B7480]`}
+                  isCurrentPath(menu.link) && 'bg-white'
+                } text-white`}
               >
-                <div className='flex gap-x-3 items-center max-w-[167px] mx-auto py-5'>
+                <div className='flex gap-x-6 items-center max-w-[180px] mx-auto py-5'>
                   <Image
                     src={menu.icon}
                     width={24}
                     height={24}
                     alt='Dashboard Icon'
                   />
-                  <p className='text-lg'>{menu.title}</p>
+                  <p
+                    className={`${
+                      isCurrentPath(menu.link) && 'text-primary'
+                    } text-lg`}
+                  >
+                    {menu.title}
+                  </p>
                 </div>
               </li>
             </Link>
