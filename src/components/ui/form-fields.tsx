@@ -46,6 +46,7 @@ export const InputField = <T extends FieldValues>({
           <FormControl>
             <input
               {...field}
+              value={field.value ?? ''}
               placeholder={placeholder}
               className={cn(
                 'bg-inherit w-full focus:outline-none appearance-none border-b-[#D9D9D9] border-b-2 py-3 placeholder:text-[#FFF]',

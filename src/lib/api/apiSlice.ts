@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { setToken, setUser } from '../features/auth/authSlice';
+import { setUser } from '../features/auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_URL || 'http://localhost:5000',

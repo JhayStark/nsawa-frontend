@@ -1,12 +1,16 @@
 'use client';
 
+import Link from 'next/link';
+import * as z from 'zod';
 import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InputField } from '@/components/ui/form-fields';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { useRegisterMutation } from '@/lib/features/auth/authApiSlice';
+import { useAppDispatch } from '@/lib/hooks';
+import { login } from '@/lib/features/auth/authSlice';
+import { useRouter } from 'next/navigation';
 
 const signUpSchema = z
   .object({
@@ -28,15 +32,28 @@ const signUpSchema = z
   });
 
 const SignUp = () => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [registerAccount] = useRegisterMutation();
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
   });
 
-  const handleSignUp = (data: any) => {
-    console.log(data);
+  const handleSignUp = async (data: z.infer<typeof signUpSchema>) => {
+    await registerAccount({
+      fullName: data.name,
+      email: data.email,
+      password: data.password,
+    })
+      .unwrap()
+      .then(data => {
+        dispatch(login({ user: data }));
+        router.replace('/app');
+      })
+      .catch(err => console.log(err));
   };
   return (
-    <div className='font-poppins w-full lg:max-w-[550px] text-white space-y-10 lg:space-y-16'>
+    <div className='font-poppins w-full lg:max-w-[550px] text-white space-y-5  sm:space-y-10 lg:space-y-16'>
       <h2 className='font-bold text-4xl text-center lg:text-left lg:text-7xl'>
         Sign Up
       </h2>

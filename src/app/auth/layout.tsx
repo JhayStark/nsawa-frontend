@@ -36,7 +36,7 @@ const Layout = ({
           </div>
         </div>
         <div className='h-full w-full bg-[#D4D4D4] bg-opacity-10  backdrop-blur-xl flex items-center px-16'>
-          <div className='absolute lg:hidden top-10 right-0 left-0 flex items-center justify-center w-full'>
+          <div className='absolute lg:hidden top-5 right-0 left-0 flex items-center justify-center w-full'>
             <Image
               src='/image/logo.png'
               alt='Nsawa logo'

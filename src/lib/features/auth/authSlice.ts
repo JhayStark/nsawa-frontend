@@ -1,33 +1,37 @@
+import { decryptData, encryptData } from '@/lib/utils';
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  user:
+    typeof window !== 'undefined'
+      ? decryptData(localStorage.getItem('user'))
+      : null,
+};
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: { user: {}, token: '' },
+  initialState,
   reducers: {
     setUser: (state, action) => {
       const { user } = action.payload;
       state.user = user;
+      localStorage.setItem('user', encryptData(action.payload.user));
     },
-    setToken: (state, action) => {
-      const { token } = action.payload;
-      state.token = token;
-    },
-    logout: (state, action) => {
-      state.user = {};
-      state.token = '';
+
+    logout: state => {
+      state.user = null;
+      localStorage.removeItem('user');
     },
     login: (state, action) => {
-      const { user, token } = action.payload;
+      const { user } = action.payload;
       state.user = user;
-      state.token = token;
+      localStorage.setItem('user', encryptData(action.payload.user));
     },
   },
   selectors: {
     selectUser: auth => auth.user,
-    selectToken: auth => auth.token,
   },
 });
 
-export const { setUser, setToken, logout, login } = authSlice.actions;
-export const { selectUser, selectToken } = authSlice.selectors;
+export const { setUser, logout, login } = authSlice.actions;
+export const { selectUser } = authSlice.selectors;
 export default authSlice.reducer;
