@@ -1,12 +1,16 @@
 'use client';
 
+import Link from 'next/link';
+import * as z from 'zod';
 import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InputField } from '@/components/ui/form-fields';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { useAppDispatch } from '@/lib/hooks';
+import { login } from '@/lib/features/auth/authSlice';
+import { useLoginMutation } from '@/lib/features/auth/authApiSlice';
+import { useRouter } from 'next/navigation';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Enter a valid email' }),
@@ -14,18 +18,46 @@ const loginSchema = z.object({
 });
 
 const LoginPartial = () => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [loginAccount] = useLoginMutation();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
   });
+
+  const handleLogin = async (data: z.infer<typeof loginSchema>) => {
+    await loginAccount(data)
+      .unwrap()
+      .then(data => {
+        dispatch(login({ user: data }));
+        router.replace('/app');
+      })
+      .catch(err => console.log(err));
+  };
+
   return (
     <div className='font-poppins w-full lg:max-w-[550px] text-white space-y-10 lg:space-y-16'>
       <h2 className='font-bold text-4xl text-center lg:text-left lg:text-7xl'>
         Login
       </h2>
       <Form {...form}>
-        <form className='space-y-1'>
-          <InputField form={form} name='email' placeholder='Email' />
-          <InputField form={form} name='password' placeholder='Password' />
+        <form
+          className='space-y-2'
+          onSubmit={form.handleSubmit(handleLogin)}
+          id='login-form'
+        >
+          <InputField
+            form={form}
+            name='email'
+            placeholder='Email'
+            className='text-white'
+          />
+          <InputField
+            form={form}
+            name='password'
+            placeholder='Password'
+            className='text-white'
+          />
         </form>
       </Form>
       <div className='space-y-14'>
@@ -34,7 +66,10 @@ const LoginPartial = () => {
           <p className='text-sm'>Remember Me</p>
         </div>
         <div className='flex lg:flex-row flex-col items-center gap-y-3 lg:gap-8'>
-          <Button className='from-[#D9D9D9] bg-gradient-to-r rounded-none text-black to-[#FFE3AD] px-11  py-6'>
+          <Button
+            className=' rounded-none text-black bg-secondary px-11  py-6'
+            form='login-form'
+          >
             Login
           </Button>
           <Link href='/auth/sign-up'>Don&apos;t have an account?</Link>
