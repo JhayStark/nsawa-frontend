@@ -6,7 +6,13 @@ import {
   FormLabel,
   FormMessage,
 } from './form';
-import { Input } from './input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { UseFormReturn, FieldValues, Path } from 'react-hook-form';
 import { cn } from '@/lib/utils';
 import {
@@ -26,6 +32,8 @@ type FormProps<T extends FieldValues> = {
   description?: string;
   placeholder?: string;
   className?: string;
+  type?: string;
+  options?: { label: string; value: string }[];
 };
 
 export const InputField = <T extends FieldValues>({
@@ -35,6 +43,7 @@ export const InputField = <T extends FieldValues>({
   label,
   placeholder,
   className,
+  type,
 }: FormProps<T>) => {
   return (
     <FormField
@@ -52,6 +61,7 @@ export const InputField = <T extends FieldValues>({
                 'bg-inherit w-full focus:outline-none appearance-none border-b-[#D9D9D9] border-b-2 py-3 placeholder:text-[#FFF]',
                 className
               )}
+              type={type}
             />
           </FormControl>
           <FormMessage />
@@ -107,6 +117,49 @@ export const DatePickerField = <T extends FieldValues>({
             </PopoverContent>
           </Popover>
           <FormDescription>{description}</FormDescription>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+};
+
+export const SelectFormField = <T extends FieldValues>({
+  form,
+  name,
+  label,
+  options,
+  placeholder,
+}: FormProps<T>) => {
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>{label}</FormLabel>
+          <Select
+            {...field}
+            onValueChange={field.onChange}
+            defaultValue={field.value}
+          >
+            <FormControl>
+              <SelectTrigger
+                className={cn(
+                  'bg-inherit w-full focus:outline-none border-0 rounded-none p-0 placeholder:text-lg font-sentient appearance-none border-b-[#D9D9D9] border-b-2 py-3 placeholder:text-[#FFF]'
+                )}
+              >
+                <SelectValue placeholder={placeholder} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              {options?.map(option => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <FormMessage />
         </FormItem>
       )}

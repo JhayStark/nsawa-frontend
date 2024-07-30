@@ -3,7 +3,7 @@ import { User } from 'lucide-react';
 function isOdd(number: number) {
   return number % 2 !== 0;
 }
-const DonationHistory = ({ index }: { index: number }) => {
+const DonationHistory = ({ index, data }: { index: any; data: any }) => {
   return (
     <div className='flex items-center gap-5'>
       <div
@@ -17,10 +17,11 @@ const DonationHistory = ({ index }: { index: number }) => {
       </div>
       <div>
         <p className='font-medium'>
-          A donation of GHS 5000.00 was received from John Doe via MTN Mobile
-          Money.
+          A donation of GHS {data?.amountDonated} was received from{' '}
+          {data?.donorName} via
+          {data?.modeOfDonation}.
         </p>
-        <p className='text-gray- text-sm'>Cummens Doe</p>
+        <p className='text-gray- text-sm'>Omani Dankwah </p>
       </div>
     </div>
   );

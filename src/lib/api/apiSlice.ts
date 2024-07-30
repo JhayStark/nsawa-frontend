@@ -5,7 +5,8 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_URL || 'http://localhost:5000',
   credentials: 'include',
   prepareHeaders: (headers, { getState }: any) => {
-    const token = getState().auth.token;
+    const token = getState().auth?.user?.token;
+    console.log(getState()?.auth);
     if (token) {
       headers.set('authorization', `Bearer ${token}`);
     }
