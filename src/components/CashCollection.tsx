@@ -3,7 +3,7 @@
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { InputField, SelectFormField } from './ui/form-fields';
+import { InputField, SelectFormField, TextField } from './ui/form-fields';
 import { Form } from './ui/form';
 import { Button } from './ui/button';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -16,23 +16,28 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { useSearchParams } from 'next/navigation';
+import { useToast } from '@/components/ui/use-toast';
+import { Checkbox } from './ui/checkbox';
 
 const donationsSchema = z.object({
   donorName: z.string(),
   keyPerson: z.string(),
   donorPhoneNumber: z.string(),
-  donorEmail: z.string(),
   amountDonated: z.string(),
   modeOfDonation: z.string(),
   funeralId: z.string(),
+  announcement: z.string().optional(),
 });
 
 const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
   const searchParams = useSearchParams();
   const openForm = searchParams.get('sub-form') || '';
   const params = new URLSearchParams(searchParams.toString());
+  const [showAnnouncement, setShowAnnouncement] = useState(false);
   const [createDonation] = useAddDonationMutation();
   const { data, isLoading } = useGetKeyPersonsQuery(funeralDetails?._id || '');
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof donationsSchema>>({
     resolver: zodResolver(donationsSchema),
   });
@@ -55,8 +60,17 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
     async (data: z.infer<typeof donationsSchema>) => {
       createDonation(data)
         .unwrap()
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+        .then(() =>
+          toast({
+            title: 'Donation recieved',
+          })
+        )
+        .catch(err =>
+          toast({
+            title: 'Donation not recieved',
+            variant: 'destructive',
+          })
+        );
     },
     []
   );
@@ -125,12 +139,6 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
                 placeholder='Donor mobile number'
                 className='placeholder:text-primary'
               />
-              <InputField
-                form={form}
-                name='donorEmail'
-                placeholder='Donor email'
-                className='placeholder:text-primary'
-              />
               <SelectFormField
                 form={form}
                 name='keyPerson'
@@ -144,6 +152,27 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
                 placeholder='Amount recieved'
                 className='placeholder:text-primary'
               />
+              <div className='flex items-center space-x-2 my-3'>
+                <Checkbox
+                  id='announce'
+                  onCheckedChange={() => setShowAnnouncement(prev => !prev)}
+                  className='rounded-none'
+                />
+                <label
+                  htmlFor='announce'
+                  className='text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                >
+                  Announce donation
+                </label>
+              </div>
+              {showAnnouncement && (
+                <TextField
+                  form={form}
+                  name='announcement'
+                  placeholder='Enter announcement here'
+                  className='placeholder:text-primary'
+                />
+              )}
             </form>
           </Form>
           <Button className='h-16 rounded-none w-full' form='cash-donation'>

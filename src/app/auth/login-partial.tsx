@@ -11,6 +11,9 @@ import { useAppDispatch } from '@/lib/hooks';
 import { login } from '@/lib/features/auth/authSlice';
 import { useLoginMutation } from '@/lib/features/auth/authApiSlice';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Enter a valid email' }),
@@ -20,19 +23,31 @@ const loginSchema = z.object({
 const LoginPartial = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { toast } = useToast();
   const [loginAccount] = useLoginMutation();
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
   });
 
+  console.log(isLoading);
   const handleLogin = async (data: z.infer<typeof loginSchema>) => {
+    setIsLoading(true);
     await loginAccount(data)
       .unwrap()
       .then(data => {
+        setIsLoading(false);
+        toast({ title: 'Logged In' });
         dispatch(login({ user: data }));
         router.replace('/app');
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        setIsLoading(false);
+        toast({
+          title: err?.data?.message || 'Failed to login',
+          variant: 'destructive',
+        });
+      });
   };
 
   return (
@@ -69,8 +84,16 @@ const LoginPartial = () => {
           <Button
             className=' rounded-none text-black bg-secondary px-11  py-6'
             form='login-form'
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? (
+              <>
+                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                Please wait
+              </>
+            ) : (
+              <>Login</>
+            )}
           </Button>
           <Link href='/auth/sign-up'>Don&apos;t have an account?</Link>
         </div>

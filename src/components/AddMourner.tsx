@@ -14,25 +14,24 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
+import { useToast } from './ui/use-toast';
 
 const createPersonalitySchema = z.object({
   name: z.string(),
-  email: z.string(),
-  phoneNumber: z.string(),
   relation: z.string(),
   funeralId: z.string(),
 });
 
 const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
   const searchParams = useSearchParams();
+  const funeralId = useParams().id;
   const openForm = searchParams.get('sub-form') || '';
   const params = new URLSearchParams(searchParams.toString());
-  const selectedFuneral = useMemo(
-    () => searchParams.get('selected-funeral') || '',
-    [searchParams]
-  );
+  const selectedFuneral = useMemo(() => funeralId || '', [funeralId]);
   const [createPersonality] = useCreatePersonalityMutation();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof createPersonalitySchema>>({
     resolver: zodResolver(createPersonalitySchema),
   });
@@ -41,9 +40,16 @@ const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
     async (data: z.infer<typeof createPersonalitySchema>) => {
       createPersonality(data)
         .unwrap()
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
-      // console.log(data);
+        .then(() =>
+          toast({
+            title: 'Mourner created',
+          })
+        )
+        .catch(() =>
+          toast({
+            title: 'Failed to create mourner',
+          })
+        );
     },
     []
   );
@@ -68,7 +74,9 @@ const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
   };
 
   useEffect(() => {
-    form.setValue('funeralId', selectedFuneral);
+    if (typeof selectedFuneral == 'string') {
+      form.setValue('funeralId', selectedFuneral);
+    }
   }, [selectedFuneral]);
 
   return (
@@ -84,7 +92,7 @@ const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
             variant='outline'
           >
             <UserPlus />
-            <p className='text-lg'>Add Chief Mourner</p>
+            <p className='text-lg'>Add Chief Mourners</p>
           </Button>
         )}
       </CollapsibleTrigger>
@@ -92,7 +100,7 @@ const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
         <div className='border-2 border-primary rounded-lg p-5  h-[500px] flex justify-between flex-col'>
           <div className='relative'>
             <h2 className='text-center text-lg font-semibold'>
-              Add Chief Mourner
+              Add Chief Mourners
             </h2>
             <p className='text-sm text-center'>
               In Memory of {funeralDetails?.nameOfDeceased}
@@ -112,18 +120,6 @@ const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
                 form={form}
                 placeholder='Name of Mourner'
                 name='name'
-                className='placeholder:text-gray-500'
-              />
-              <InputField
-                form={form}
-                placeholder='Email of mourner'
-                name='email'
-                className='placeholder:text-gray-500'
-              />
-              <InputField
-                form={form}
-                placeholder='Phone Number'
-                name='phoneNumber'
                 className='placeholder:text-gray-500'
               />
               <InputField

@@ -24,11 +24,11 @@ const menuOptions = [
   //   icon: '/svgs/people.svg',
   //   link: 'personalities',
   // },
-  {
-    title: 'Collections',
-    icon: '/svgs/donate.svg',
-    link: 'collections',
-  },
+  // {
+  //   title: 'Collections',
+  //   icon: '/svgs/donate.svg',
+  //   link: 'collections',
+  // },
   {
     title: 'Profile',
     icon: '/svgs/profile.svg',

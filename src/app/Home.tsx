@@ -26,11 +26,11 @@ export default function HomePage() {
             Nsawa is the place for you
           </p>
           <Link
-            href='/auth/login'
+            href='/auth'
             className='px-[1.1875rem] py-[0.625rem] mt-4 font-normal 
               text-sm text-white bg-black md:text-base lg:text-2xl lg:mt-12 rounded-[2.9375rem]'
           >
-            Create Funeral
+            Set Up Funeral
           </Link>
           <div className=' flex justify-center relative gap-x-2 md:gap-x-8 p-2 max-w-[1600px] w-full pt-36 2xl:pt-56 mx-auto '>
             <div className='absolute md:h-[calc(100%)] w-[30%] h-[60%] md:w-[25%] 2xl:w-[28%] 2xl:h-[calc(100%-50px)] top-6  md:-top-8 left-2'>

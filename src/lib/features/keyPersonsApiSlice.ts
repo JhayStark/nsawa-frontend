@@ -8,10 +8,12 @@ const keyPersonsApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['KeyPerson'],
     }),
 
     getKeyPersons: builder.query({
       query: (id: string) => `/key-person/funeral/${id}`,
+      providesTags: ['KeyPerson'],
     }),
   }),
 });

@@ -8,13 +8,16 @@ const donationsApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Donation'],
     }),
 
     getDonations: builder.query({
       query: (id: string) => `/donation/${id}`,
+      providesTags: ['Donation'],
     }),
     getDonationStats: builder.query({
       query: (id: string) => `/donation/stats/${id}`,
+      providesTags: ['Donation'],
     }),
   }),
 });

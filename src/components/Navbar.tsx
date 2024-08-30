@@ -35,8 +35,11 @@ const Navbar = () => {
           </a>
         ))}
       </div>
-      <Link href='/' className='bg-primary rounded-3xl text-white px-5 py-2'>
-        Create Funeral
+      <Link
+        href='/auth'
+        className='bg-primary rounded-3xl text-white px-5 py-2'
+      >
+        Set Up Funeral
       </Link>
     </div>
   );
