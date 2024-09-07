@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { DatePickerField, InputField } from '@/components/ui/form-fields';
@@ -76,13 +76,10 @@ const CreateFuneral = () => {
     resolver: zodResolver(createFuneralSchema),
   });
 
-  console.log(imageData);
-
   const onSubmit = async (data: z.infer<typeof createFuneralSchema>) => {
     setSubmitting(true);
     if (imageData?.images?.length <= 0 || imageData?.bannerIndex == null) {
       setSubmitting(false);
-      console.log(imageData);
       toast({
         title: 'Upload images of deceased',
         description:
@@ -128,11 +125,6 @@ const CreateFuneral = () => {
       imagesOfDeceased: [...imageToUpload, ...uploadedBannerImage],
       bannerImage: uploadedBannerImage[0],
     };
-
-    // Debug: Log final data structure
-    console.log('Final data to submit:', objectToSubmit);
-
-    // Uncomment and use the API call
 
     createFuneral(objectToSubmit)
       .unwrap()
@@ -229,7 +221,7 @@ const CreateFuneral = () => {
             </Dialog>
           </div>
           <Button
-            className='bg-primary rounded-none h-16 w-48'
+            className='bg-primary h-16 w-48'
             form='funeral-form'
             disabled={submitting}
           >

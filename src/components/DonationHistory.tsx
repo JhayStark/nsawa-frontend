@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -29,12 +29,21 @@ import {
   useGetDonationsQuery,
   useGetDonationStatsQuery,
 } from '@/lib/features/donationsApiSlice';
+import { useDebounce } from 'use-debounce';
 
 export default function DonationHistory({ funeralDetails }: any) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
-  const [modeFilter, setModeFilter] = useState('all');
-  const { data } = useGetDonationsQuery(funeralDetails?._id || '');
+  const [value] = useDebounce(search, 500);
+  const [modeFilter, setModeFilter] = useState('');
+  const { data } = useGetDonationsQuery({
+    id: funeralDetails?._id,
+    pageSize: 10,
+    pageNumber: 1,
+    search: value,
+    paymentMethod: modeFilter,
+  });
+
   const { data: stats } = useGetDonationStatsQuery(funeralDetails?._id || '');
 
   return (
@@ -44,7 +53,7 @@ export default function DonationHistory({ funeralDetails }: any) {
           Donation History <ExternalLink />
         </Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[800px]'>
+      <DialogContent className='sm:max-w-[800px] h-[100vh] md:h-auto'>
         <DialogHeader>
           <DialogTitle>Donation History</DialogTitle>
         </DialogHeader>
@@ -58,12 +67,11 @@ export default function DonationHistory({ funeralDetails }: any) {
           />
           <Select value={modeFilter} onValueChange={setModeFilter}>
             <SelectTrigger className='w-[180px]'>
-              <SelectValue placeholder='Filter by mode' />
+              <SelectValue placeholder='Select filter' />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value='all'>All</SelectItem>
-              <SelectItem value='cash'>Cash</SelectItem>
-              <SelectItem value='online'>Online</SelectItem>
+              <SelectItem value='Cash'>Cash</SelectItem>
+              <SelectItem value='Online'>Online</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -105,7 +113,7 @@ export default function DonationHistory({ funeralDetails }: any) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data?.donations.map(donation => (
+              {data?.donations.map((donation: any) => (
                 <TableRow key={donation._id}>
                   <TableCell>{donation.donorName}</TableCell>
                   <TableCell>{donation.donorPhoneNumber}</TableCell>

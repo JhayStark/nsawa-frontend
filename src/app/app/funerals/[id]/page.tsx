@@ -2,36 +2,34 @@
 
 import CashCollection from '@/components/CashCollection';
 import DonationHistory from '@/components/DonationHistory';
-import { CalendarIcon, MapPinIcon, Share2, UserPlus } from 'lucide-react';
+import { CalendarIcon, ImageDown, MapPinIcon, Share2 } from 'lucide-react';
 import { useGetFuneralQuery } from '@/lib/features/funeralApiSlice';
-import { useSearchParams, useParams } from 'next/navigation';
-import {
-  useGetDonationsQuery,
-  useGetDonationStatsQuery,
-} from '@/lib/features/donationsApiSlice';
+import { useSearchParams, useParams, useRouter } from 'next/navigation';
 import AddMourner from '@/components/AddMourner';
 import { formatDateToString } from '@/lib/helpers';
 import QRCode from 'react-qr-code';
 import MournersList from '@/components/MournersList';
+import Withdrawal from '@/components/Withdrawal';
 
 const Page = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const params = useParams();
   const { data } = useGetFuneralQuery(params.id as string);
-  console.log(data);
 
   return (
     <div className=' font-sentient h-full flex'>
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-5 w-full'>
         <div
-          className='w-full flex-1 lg:col-span-2 h-full  rounded-md'
+          className='w-full flex-1 lg:col-span-2 h-full'
           style={{
             backgroundImage: `url(${data?.bannerImage})`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
+            borderRadius: 50,
           }}
         >
-          <div className='bg-black opacity-55 h-full w-full rounded-md'>
+          <div className='bg-black opacity-55 rounded-[50px] h-full w-full'>
             <div className='text-white h-full p-5 flex flex-col justify-between '>
               <div>
                 <div>
@@ -58,7 +56,6 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
-                {/* <Button className='text-green-300'>Withdraw Donations</Button> */}
               </div>
             </div>
           </div>
@@ -83,7 +80,7 @@ const Page = () => {
                 </h2>
                 <p className='text-sm '>In Memory of {data?.nameOfDeceased}</p>
               </div>
-              <div
+              {/* <div
                 style={{
                   height: 'auto',
                   margin: 'auto',
@@ -97,6 +94,15 @@ const Page = () => {
                   value={`https://www.nsawa.com/${data?._id}`}
                   viewBox={`0 0 256 256`}
                 />
+              </div> */}
+              <div className='flex flex-col justify-center items-center'>
+                <ImageDown
+                  size={100}
+                  onClick={() =>
+                    router.push(`http://localhost:3000/${data?._id}/qr-code`)
+                  }
+                />
+                <p>Click to download QR code</p>
               </div>
               <div className='flex items-end gap-3  h-10'>
                 <p className='bg-white/80 text-primary p-2 truncate rounded flex-1 '>
@@ -110,6 +116,7 @@ const Page = () => {
           </div>
           <CashCollection funeralDetails={data} />
           <AddMourner funeralDetails={data} />
+          <Withdrawal />
           {/* <Button>Withdraw Cash</Button> */}
         </div>
       </div>

@@ -10,59 +10,19 @@ import {
   ScrollText,
 } from 'lucide-react';
 import Link from 'next/link';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatDateToString, checkActiveFuneral } from '@/lib/helpers';
 import { useGetFuneralsQuery } from '@/lib/features/funeralApiSlice';
 import { useRouter } from 'next/navigation';
-
-const funerals = [
-  {
-    id: 1,
-    name: 'Kwame Nkrumah',
-    startDate: '2023-06-01',
-    endDate: '2024-08-20',
-    location: 'Independence Square, Accra',
-  },
-  {
-    id: 2,
-    name: 'Yaa Asantewaa',
-    startDate: '2023-07-15',
-    endDate: '2023-07-17',
-    location: 'Kumasi Cultural Centre, Kumasi',
-  },
-  {
-    id: 3,
-    name: 'Kofi Annan',
-    startDate: '2023-08-10',
-    endDate: '2023-08-12',
-    location: 'Labadi Beach Hotel, Accra',
-  },
-  {
-    id: 4,
-    name: 'Ama Ata Aidoo',
-    startDate: '2023-09-05',
-    endDate: '2023-09-07',
-    location: 'Cape Coast Castle, Cape Coast',
-  },
-  {
-    id: 5,
-    name: 'Jerry Rawlings',
-    startDate: '2023-10-20',
-    endDate: '2023-10-22',
-    location: 'Kwame Nkrumah Mausoleum, Accra',
-  },
-];
+import FuneralCard from '@/components/FuneralCard';
 
 const Page = () => {
   const router = useRouter();
-  const { data } = useGetFuneralsQuery({});
+  const { data } = useGetFuneralsQuery({
+    search: '',
+    pageSize: 10,
+    pageNumber: 1,
+  });
 
   return (
     <div className='font-sentient h-full space-y-3 '>
@@ -73,8 +33,8 @@ const Page = () => {
         </Button>
       </Link>
       <div className='grid grid-cols-4 gap-4'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-5  pb-5 col-span-4 2xl:col-span-3'>
-          {data?.funerals?.map((funeral, index) => (
+        <div className='hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-5  pb-5 col-span-4 2xl:col-span-3'>
+          {data?.funerals?.map((funeral: any, index: number) => (
             <Card
               key={funeral._id}
               className={`border-l-8 cursor-pointer hover:scale-[101%] max-h-56 ${
@@ -109,6 +69,11 @@ const Page = () => {
                 </div>
               </CardContent>
             </Card>
+          ))}
+        </div>
+        <div className='lg:hidden col-span-4 space-y-5'>
+          {data?.funerals?.map((funeral: any) => (
+            <FuneralCard funeral={funeral} key={funeral._id} />
           ))}
         </div>
         {!data?.funerals?.length && (

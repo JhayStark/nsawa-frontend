@@ -19,6 +19,15 @@ import { Button } from '@/components/ui/button';
 import CarouselComponent from '@/components/CarouselComponent';
 import Image from 'next/image';
 import { useMemo } from 'react';
+import { usePaystackPayment } from 'react-paystack';
+
+const config = {
+  reference: new Date().getTime().toString(),
+  email: 'user@example.com',
+  amount: 20, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+  publicKey: 'pk_test_db4e09868b49d7f59f8fe2987a46ff07379e5ab2',
+  currency: 'GHS',
+};
 
 const donationSchema = z.object({
   name: z.string(),
@@ -35,14 +44,27 @@ const Page = () => {
   const form = useForm<z.infer<typeof donationSchema>>({
     resolver: zodResolver(donationSchema),
   });
+  const initializePayment = usePaystackPayment(config);
 
   const imagesOfDeceased = useMemo(() => {
-    if (data.imagesOfDeceased.length) {
-      return [...data.imagesOfDeceased, data.bannerImage];
+    if (data?.imagesOfDeceased?.length) {
+      return [...data?.imagesOfDeceased, data?.bannerImage];
     } else {
       return [];
     }
   }, [data]);
+
+  const onSuccess = reference => {
+    // Implementation for whatever you want to do with reference and after success call.
+    console.log(reference);
+  };
+
+  // you can call this function anything
+  const onClose = () => {
+    // implementation for  whatever you want to do when the Paystack dialog closed.
+    console.log('closed');
+  };
+
   return (
     <div className='max-w-7xl mx-auto   flex py-5 xl:py-10 xl:gap-2'>
       <div className='max-w-[589px] xl:px-5 mx-auto'>
@@ -114,7 +136,14 @@ const Page = () => {
               </li>
             </ul>
 
-            <Button className='w-full' variant='secondary'>
+            <Button
+              className='w-full'
+              variant='secondary'
+              type='button'
+              onClick={() => {
+                initializePayment(onSuccess, onClose);
+              }}
+            >
               Donate
             </Button>
           </form>

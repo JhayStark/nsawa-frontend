@@ -24,7 +24,7 @@ export default function FileUpload({ onUpdate }: { onUpdate?: any }) {
     }
   }, [images, bannerIndex]);
   return (
-    <div className='h-full '>
+    <div className='h-full'>
       <ImageUploading
         multiple
         value={images}
@@ -46,7 +46,7 @@ export default function FileUpload({ onUpdate }: { onUpdate?: any }) {
                 style={isDragging ? { color: 'red' } : undefined}
                 onClick={onImageUpload}
                 {...dragProps}
-                className='border-dashed border-2 border-blue-800 flex justify-center items-center py-5 lg:h-96 rounded-lg  cursor-pointer'
+                className='border-dashed border-2 border-blue-800 flex justify-center items-center py-5 lg:h-96 rounded-lg min-h-80  cursor-pointer'
               >
                 <div>
                   <p className='text-sm font-medium'>

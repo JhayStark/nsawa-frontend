@@ -10,9 +10,18 @@ const donationsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Donation'],
     }),
+    addDonationPublic: builder.mutation({
+      query: body => ({
+        url: '/donations/public/create',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Donation'],
+    }),
 
     getDonations: builder.query({
-      query: (id: string) => `/donation/${id}`,
+      query: ({ id, search, pageSize, pageNumber, paymentMethod = '' }) =>
+        `/donation/${id}?search=${search}&pageSize=${pageSize}&pageNumber=${pageNumber}&paymentMethod=${paymentMethod}`,
       providesTags: ['Donation'],
     }),
     getDonationStats: builder.query({
