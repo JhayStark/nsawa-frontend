@@ -30,7 +30,6 @@ const LoginPartial = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  console.log(isLoading);
   const handleLogin = async (data: z.infer<typeof loginSchema>) => {
     setIsLoading(true);
     await loginAccount(data)
