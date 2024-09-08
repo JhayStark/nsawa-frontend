@@ -98,27 +98,9 @@ const Page = () => {
               <div className='flex flex-col justify-center items-center'>
                 <ImageDown
                   size={100}
-                  onClick={async () => {
-                    const response = await fetch(
-                      `/api/generate-pdf?id=${data?._id}`
-                    );
-
-                    if (response.ok) {
-                      const blob = await response.blob();
-                      const url = window.URL.createObjectURL(blob);
-
-                      // Create a link to download the file
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = 'funeral-details.pdf';
-                      document.body.appendChild(a);
-                      a.click();
-                      a.remove();
-                    } else {
-                      console.log(response);
-                      console.error('Failed to generate PDF');
-                    }
-                  }}
+                  onClick={() =>
+                    router.push(`http://localhost:3000/${data?._id}/qr-code`)
+                  }
                 />
                 <p>Click to download QR code</p>
               </div>
