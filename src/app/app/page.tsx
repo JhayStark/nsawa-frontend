@@ -4,7 +4,7 @@ import FuneralCard from '@/components/FuneralCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useGetFuneralsQuery } from '@/lib/features/funeralApiSlice';
-import { Search } from 'lucide-react';
+import { ScrollText, Search } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useDebounce } from 'use-debounce';
@@ -56,6 +56,15 @@ const Page = () => {
           {data?.funerals?.map((funeral: any) => (
             <FuneralCard funeral={funeral} key={funeral?._id} />
           ))}
+          {!data?.funerals?.length && (
+            <div className=' col-span-4  2xl:col-span-3 h-[70vh] flex justify-center items-center '>
+              <div className='flex flex-col justify-center items-center text-gray-600'>
+                <ScrollText size={300} className='text-gray-200' />
+                <p>No funerals to display</p>
+                <p>Created funerals will be displayed here</p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

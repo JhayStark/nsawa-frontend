@@ -80,20 +80,13 @@ const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
   }, [selectedFuneral]);
 
   return (
-    <Collapsible
-      open={openForm == 'add-mourner'}
-      onOpenChange={handleOpen}
-      className=''
-    >
+    <Collapsible open={openForm == 'add-mourner'} onOpenChange={handleOpen}>
       <CollapsibleTrigger asChild>
         {openForm !== 'add-mourner' && (
-          <Button
-            className='h-14 space-x-5 w-full border-primary'
-            variant='outline'
-          >
+          <div className='h-14 space-x-5 flex justify-center items-center border-2 border-primary rounded-lg w-full'>
             <UserPlus />
             <p className='text-lg'>Add Chief Mourners</p>
-          </Button>
+          </div>
         )}
       </CollapsibleTrigger>
       <CollapsibleContent>

@@ -97,14 +97,13 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
     <Collapsible
       open={openForm == 'recieve-donation'}
       onOpenChange={handleOpen}
-      className=''
     >
       <CollapsibleTrigger asChild>
         {openForm !== 'recieve-donation' && (
-          <Button className='h-14 space-x-5 w-full' variant='secondary'>
+          <div className='h-14 space-x-5 flex justify-center items-center bg-secondary rounded-lg w-full'>
             <HandCoins />
             <p className='text-lg'>Recieve Cash Donation</p>
-          </Button>
+          </div>
         )}
       </CollapsibleTrigger>
       <CollapsibleContent>

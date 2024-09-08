@@ -55,10 +55,10 @@ export default function Withdrawal() {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className='h-14 space-x-5 w-full' variant='default'>
+        <div className='h-14 space-x-5 w-full flex justify-center items-center bg-primary text-white rounded-lg'>
           <Landmark />
           <p className='text-lg'>Withdraw Donation</p>
-        </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
