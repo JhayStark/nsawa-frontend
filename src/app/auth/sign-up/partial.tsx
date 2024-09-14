@@ -11,6 +11,9 @@ import { useRegisterMutation } from '@/lib/features/auth/authApiSlice';
 import { useAppDispatch } from '@/lib/hooks';
 import { login } from '@/lib/features/auth/authSlice';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useToast } from '@/components/ui/use-toast';
+import { Loader2 } from 'lucide-react';
 
 const signUpSchema = z
   .object({
@@ -35,11 +38,15 @@ const SignUp = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [registerAccount] = useRegisterMutation();
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
   });
 
   const handleSignUp = async (data: z.infer<typeof signUpSchema>) => {
+    setIsLoading(true);
     await registerAccount({
       fullName: data.name,
       email: data.email,
@@ -47,10 +54,18 @@ const SignUp = () => {
     })
       .unwrap()
       .then(data => {
+        setIsLoading(false);
+        toast({ title: 'Logged In' });
         dispatch(login({ user: data }));
         router.replace('/app');
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        setIsLoading(false);
+        toast({
+          title: err?.data?.message || 'Failed to login',
+          variant: 'destructive',
+        });
+      });
   };
   return (
     <div className='font-poppins w-full lg:max-w-[550px] text-white space-y-5  sm:space-y-10 lg:space-y-16'>
@@ -103,8 +118,16 @@ const SignUp = () => {
             className='rounded-none text-black bg-secondary px-11  py-6'
             type='submit'
             form='sign-up-form'
+            disabled={isLoading}
           >
-            Create Account
+            {isLoading ? (
+              <>
+                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                Please wait
+              </>
+            ) : (
+              <>Create Account</>
+            )}
           </Button>
           <Link href='/auth' className='text-lg'>
             Have an account ?

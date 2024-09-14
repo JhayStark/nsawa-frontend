@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import type { AppStore } from '@/lib/store';
 import type { ReactNode } from 'react';
 import { makeStore } from '@/lib/store';
@@ -22,7 +22,11 @@ const StoreProvider = ({ children }: StoreProviderProps) => {
       return unsubscribe;
     }
   }, []);
-  return <Provider store={storeRef.current}>{children}</Provider>;
+  return (
+    <Provider store={storeRef.current}>
+      <Suspense>{children}</Suspense>
+    </Provider>
+  );
 };
 
 export default StoreProvider;

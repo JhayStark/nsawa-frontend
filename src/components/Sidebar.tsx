@@ -1,9 +1,12 @@
 'use client';
 
-import { LogOut } from 'lucide-react';
+import { CircleUserRound, LogOut } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { logout, selectUser } from '@/lib/features/auth/authSlice';
+import { useEffect, useState } from 'react';
 
 const menuOptions = [
   {
@@ -16,16 +19,16 @@ const menuOptions = [
     icon: '/svgs/tombstone.svg',
     link: 'funerals',
   },
-  {
-    title: 'Personalities',
-    icon: '/svgs/people.svg',
-    link: 'personalities',
-  },
-  {
-    title: 'Collections',
-    icon: '/svgs/donate.svg',
-    link: 'collections',
-  },
+  // {
+  //   title: 'Mourners',
+  //   icon: '/svgs/people.svg',
+  //   link: 'personalities',
+  // },
+  // {
+  //   title: 'Collections',
+  //   icon: '/svgs/donate.svg',
+  //   link: 'collections',
+  // },
   {
     title: 'Profile',
     icon: '/svgs/profile.svg',
@@ -35,12 +38,23 @@ const menuOptions = [
 
 const Sidebar = () => {
   const pathName = usePathname();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const user = useAppSelector(selectUser);
+  const [userName, setUserName] = useState('');
 
   const isCurrentPath = (path: string) => {
     const pathSegments = pathName.split('/');
     const routeName = pathSegments[2] || '/';
     return routeName == path;
   };
+
+  useEffect(() => {
+    if (user) {
+      setUserName(user?.userName.split(' ')[0]);
+    }
+  }, [user]);
+
   return (
     <aside className='hidden xl:flex flex-col bg-primary font-poppins  py-9'>
       <header>
@@ -51,16 +65,10 @@ const Sidebar = () => {
           height={48}
           className='mx-auto'
         />
-        <div className='flex items-center gap-x-2 mx-auto max-w-52 my-8 '>
-          <div className='w-16 h-16 rounded-full relative'>
-            <Image
-              src='/image/user.jpg'
-              alt='Nsawa logo'
-              fill
-              className='object-cover rounded-full'
-            />
-          </div>
-          <p className='font-bold text-white'>Mr John Doe</p>
+
+        <div className='flex items-center gap-x-6 mx-auto max-w-52 my-8 '>
+          <CircleUserRound className='text-white' size={50} />
+          <p className='font-bold text-white '>{userName}</p>
         </div>
       </header>
       <nav aria-label='Main Navigation'>
@@ -92,7 +100,13 @@ const Sidebar = () => {
           ))}
         </ul>
       </nav>
-      <div className='flex gap-x-3 w-full mt-auto  text-[#6B7480] items-center max-w-[167px] mx-auto py-5'>
+      <div
+        className='flex gap-x-3 w-full mt-auto  text-[#6B7480] items-center max-w-[167px] mx-auto py-5 cursor-pointer'
+        onClick={() => {
+          dispatch(logout());
+          router.replace('/auth');
+        }}
+      >
         <LogOut />
         <p className='text-lg'>Log out</p>
       </div>

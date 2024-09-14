@@ -1,67 +1,70 @@
-import CashCollection from '@/components/CashCollection';
-import DonationHistory from '@/components/DonationHistory';
-import StatsCard from '@/components/StatsCard';
-import { Clipboard } from 'lucide-react';
+'use client';
 
-const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+import FuneralCard from '@/components/FuneralCard';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useGetFuneralsQuery } from '@/lib/features/funeralApiSlice';
+import { ScrollText, Search } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useDebounce } from 'use-debounce';
 
 const Page = () => {
-  return (
-    <div className=' space-y-8 font-sentient'>
-      <div className='grid grid-cols-2 lg:grid-cols-3 gap-3 2xl:gap-5 col-span-3'>
-        <StatsCard
-          className=' bg-secondary'
-          title='Total donors'
-          text='70 donors'
-        />
-        <StatsCard
-          text='$ 40,000'
-          className='bg-primary text-white'
-          title='Total donations'
-        />
+  const [searchInput, setSearchInput] = useState('');
+  const [searchValue] = useDebounce(searchInput, 500);
+  const { data, isFetching, isLoading } = useGetFuneralsQuery({
+    search: searchValue,
+  });
 
-        <StatsCard
-          className='border-2 border-primary col-span-2 lg:col-span-1'
-          title='Total Online donations'
-          text='$ 40,000'
-        />
-      </div>
-      <div className='grid grid-cols-3 gap-3 2xl:gap-5'>
-        <div className='col-span-2'>
-          <h2 className='text-xl font-bold text-primary'>Recent donations</h2>
-          <div className='py-5 space-y-5 overflow-auto max-h-[700px]'>
-            {array?.map((item, index) => (
-              <DonationHistory index={index} key={item} />
-            ))}
-          </div>
+  return (
+    <div className='font-sentient space-y-5 flex flex-col overflow-y-hidden  h-full'>
+      <div
+        style={{
+          backgroundImage: 'url("/image/auth-bg.png")',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        }}
+        className='h-52  rounded-lg shadow-lg'
+      >
+        <div className='bg-black bg-opacity-55 h-full rounded-lg flex flex-col justify-between p-5'>
+          <p className='text-white max-w-fit'>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate
+            eligendi saepe iste asperiores accusantium quia, culpa pariatur
+            Cupiditate eligendi saepe iste asperiores accusantium quia, culpa
+          </p>
+          <Link href='/app/funerals/create'>
+            <Button
+              className='flex items-center gap-x-3 w-full p-5 xl:max-w-72 '
+              variant='secondary'
+            >
+              <span> Set Up Funeral</span>
+            </Button>
+          </Link>
         </div>
-        <div className=' flex flex-col gap-5'>
-          <div
-            style={{
-              backgroundImage: 'url("/image/auth-bg.png")',
-              backgroundSize: 'cover',
-              backgroundRepeat: 'no-repeat',
-            }}
-            className=' text-primary-foreground rounded-md flex-1'
-          >
-            <div className='p-5  bg-black/60 h-full rounded-md flex flex-col justify-between '>
-              <div>
-                <h2 className='text-lg font-medium font-sentient'>
-                  Share Funeral Donation Details
-                </h2>
-                <p className='text-sm '>In Memory of `deceaseds name`</p>
-              </div>
-              <div className='flex items-end gap-3  h-10'>
-                <p className='bg-white/80 text-primary p-2 rounded flex-1 '>
-                  https://www.funeral-donations.com
-                </p>
-                <div className='bg-white/80 text-primary px-2 h-full rounded flex justify-center items-center'>
-                  <Clipboard />
-                </div>
+      </div>
+      <div className='flex-1  gap-y-2 overflow-hidden flex flex-col '>
+        <div className='flex items-center gap-x-1 border rounded-md p-2'>
+          <Search className='text-gray-400' />
+          <Input
+            className='border-none'
+            placeholder='Search funerals'
+            value={searchInput}
+            onChange={e => setSearchInput(e.target.value)}
+          />
+        </div>
+        <div className='overflow-y-auto flex-1 space-y-5 py-5 md:px-5'>
+          {data?.funerals?.map((funeral: any) => (
+            <FuneralCard funeral={funeral} key={funeral?._id} />
+          ))}
+          {!data?.funerals?.length && (
+            <div className=' col-span-4  2xl:col-span-3 h-[70vh] flex justify-center items-center '>
+              <div className='flex flex-col justify-center items-center text-gray-600'>
+                <ScrollText size={300} className='text-gray-200' />
+                <p>No funerals to display</p>
+                <p>Created funerals will be displayed here</p>
               </div>
             </div>
-          </div>
-          <CashCollection />
+          )}
         </div>
       </div>
     </div>

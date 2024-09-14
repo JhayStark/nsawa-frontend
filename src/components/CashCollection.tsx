@@ -3,64 +3,187 @@
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { InputField } from './ui/form-fields';
+import { InputField, SelectFormField, TextField } from './ui/form-fields';
 import { Form } from './ui/form';
 import { Button } from './ui/button';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useGetKeyPersonsQuery } from '@/lib/features/keyPersonsApiSlice';
+import { useAddDonationMutation } from '@/lib/features/donationsApiSlice';
+import { CircleX, HandCoins } from 'lucide-react';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+import { useSearchParams } from 'next/navigation';
+import { useToast } from '@/components/ui/use-toast';
+import { Checkbox } from './ui/checkbox';
 
 const donationsSchema = z.object({
-  nameOfdonor: z.string(),
-  recipient: z.string(),
-  phoneNumber: z.string(),
-  email: z.string(),
-  amount: z.number(),
+  donorName: z.string(),
+  keyPerson: z.string(),
+  donorPhoneNumber: z.string(),
+  amountDonated: z.string(),
+  modeOfDonation: z.string(),
+  funeralId: z.string(),
+  announcement: z.string().optional(),
 });
 
-const CashCollection = () => {
+const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
+  const searchParams = useSearchParams();
+  const openForm = searchParams.get('sub-form') || '';
+  const params = new URLSearchParams(searchParams.toString());
+  const [showAnnouncement, setShowAnnouncement] = useState(false);
+  const [createDonation] = useAddDonationMutation();
+  const { data, isLoading } = useGetKeyPersonsQuery(funeralDetails?._id || '');
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof donationsSchema>>({
     resolver: zodResolver(donationsSchema),
+    defaultValues: {
+      modeOfDonation: 'Cash',
+      funeralId: funeralDetails?._id,
+    },
   });
+
+  const keyPersons = useMemo(() => {
+    return (
+      data?.persons?.map((person: any) => ({
+        label: person.name,
+        value: person._id,
+      })) || []
+    );
+  }, [data]);
+
+  // useEffect(() => {
+  //   form.setValue('modeOfDonation', 'Cash');
+  //   form.setValue('funeralId', funeralDetails?._id);
+  // }, [funeralDetails]);
+
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof donationsSchema>) => {
+      createDonation(data)
+        .unwrap()
+        .then(() =>
+          toast({
+            title: 'Donation recieved',
+          })
+        )
+        .catch(err =>
+          toast({
+            title: 'Donation not recieved',
+            variant: 'destructive',
+          })
+        );
+    },
+    []
+  );
+
+  const handleOpen = () => {
+    params.set('sub-form', 'recieve-donation');
+    window.history.replaceState(
+      {},
+      '',
+      `${window.location.pathname}?${params}`
+    );
+  };
+
+  const handleClose = () => {
+    params.delete('sub-form');
+    window.history.replaceState(
+      {},
+      '',
+      `${window.location.pathname}?${params}`
+    );
+  };
+
   return (
-    <div className='border-2 border-primary rounded-lg p-5  h-[550px] flex justify-between flex-col'>
-      <div>
-        <h2 className='text-center text-lg font-semibold'>Recieve Donation</h2>
-        <p className='text-sm text-center'>In Memory of `deceaseds name`</p>
-      </div>
-      <Form {...form}>
-        <form action=''>
-          <InputField
-            form={form}
-            name='nameOfdonor'
-            placeholder='Donor name'
-            className='placeholder:text-primary'
-          />
-          <InputField
-            form={form}
-            name='phoneNumber'
-            placeholder='Donor mobile number'
-            className='placeholder:text-primary'
-          />
-          <InputField
-            form={form}
-            name='email'
-            placeholder='Donor email'
-            className='placeholder:text-primary'
-          />
-          <InputField
-            form={form}
-            name='recipient'
-            placeholder='Select chief mourner'
-            className='placeholder:text-primary'
-          />
-          <InputField
-            form={form}
-            name='amount'
-            placeholder='Amount recieved'
-            className='placeholder:text-primary'
-          />
-        </form>
-      </Form>
-      <Button className='h-16 rounded-none w-full'>Recieve Donation</Button>
-    </div>
+    <Collapsible
+      open={openForm == 'recieve-donation'}
+      onOpenChange={handleOpen}
+    >
+      <CollapsibleTrigger asChild>
+        {openForm !== 'recieve-donation' && (
+          <div className='h-14 space-x-5 flex justify-center items-center bg-secondary rounded-lg w-full'>
+            <HandCoins />
+            <p className='text-lg'>Recieve Cash Donation</p>
+          </div>
+        )}
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <div className='border-2 border-primary rounded-lg p-5  h-[550px] flex justify-between flex-col'>
+          <div className='relative'>
+            <h2 className='text-center text-lg font-semibold'>
+              Recieve Cash Donation
+            </h2>
+            <p className='text-sm text-center'>
+              In Memory of {funeralDetails?.nameOfDeceased}
+            </p>
+            <CircleX
+              className='absolute top-0 right-0 text-red-500 cursor-pointer'
+              onClick={() => handleClose()}
+            />
+          </div>
+          <Form {...form}>
+            <form
+              action=''
+              onSubmit={form.handleSubmit(onSubmit)}
+              id='cash-donation'
+            >
+              <InputField
+                form={form}
+                name='donorName'
+                placeholder='Donor name'
+                className='placeholder:text-primary'
+              />
+              <InputField
+                form={form}
+                name='donorPhoneNumber'
+                placeholder='Donor mobile number'
+                className='placeholder:text-primary'
+              />
+              <SelectFormField
+                form={form}
+                name='keyPerson'
+                placeholder='Select chief mourner'
+                className='placeholder:text-primary'
+                options={keyPersons}
+              />
+              <InputField
+                form={form}
+                name='amountDonated'
+                placeholder='Amount recieved'
+                className='placeholder:text-primary'
+              />
+              <div className='flex items-center space-x-2 my-3'>
+                <Checkbox
+                  id='announce'
+                  onCheckedChange={() => setShowAnnouncement(prev => !prev)}
+                  className='rounded-none'
+                />
+                <label
+                  htmlFor='announce'
+                  className='text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                >
+                  Announce donation
+                </label>
+              </div>
+              {showAnnouncement && (
+                <TextField
+                  form={form}
+                  name='announcement'
+                  placeholder='Enter announcement here'
+                  className='placeholder:text-primary'
+                />
+              )}
+            </form>
+          </Form>
+          <Button className='h-16 rounded-none w-full' form='cash-donation'>
+            Recieve Donation
+          </Button>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
 };
 
