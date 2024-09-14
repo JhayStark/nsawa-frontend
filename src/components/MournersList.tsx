@@ -53,7 +53,7 @@ export default function MournersList({ funeralDetails }: any) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data?.persons?.map(mourner => (
+              {data?.persons?.map((mourner: any) => (
                 <TableRow key={mourner._id}>
                   <TableCell>{mourner.name}</TableCell>
                   <TableCell>{mourner.relation}</TableCell>
