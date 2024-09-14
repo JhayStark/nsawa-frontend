@@ -1,49 +1,74 @@
 'use client';
 
-import { useGetFuneralQuery } from '@/lib/features/funeralApiSlice';
-import { formatDateToString } from '@/lib/helpers';
-import { CalendarIcon, MapPinIcon } from 'lucide-react';
+import { useGetPublicFuneralQuery } from '@/lib/features/funeralApiSlice';
 import { useParams } from 'next/navigation';
 import {
-  InputField,
-  SelectFormField,
+  ShadcnCheckBox,
   ShadcnInputField,
   ShadcnSelectFormField,
+  TextField,
 } from '@/components/ui/form-fields';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
-import { Checkbox } from '@radix-ui/react-checkbox';
 import { Button } from '@/components/ui/button';
 import CarouselComponent from '@/components/CarouselComponent';
 import Image from 'next/image';
 import { useMemo } from 'react';
 import { usePaystackPayment } from 'react-paystack';
-
-const config = {
-  reference: new Date().getTime().toString(),
-  email: 'user@example.com',
-  amount: 20, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-  publicKey: 'pk_test_db4e09868b49d7f59f8fe2987a46ff07379e5ab2',
-  currency: 'GHS',
-};
+import { useGetKeyPersonsPublicQuery } from '@/lib/features/keyPersonsApiSlice';
+import { useAddDonationPublicMutation } from '@/lib/features/donationsApiSlice';
+import { useToast } from '@/components/ui/use-toast';
 
 const donationSchema = z.object({
-  name: z.string(),
+  donorName: z.string(),
   keyPerson: z.string(),
   funeralId: z.string(),
   donorPhoneNumber: z.string(),
   amountDonated: z.string(),
   announcement: z.string(),
+  modeOfDonation: z.string(),
+  reference: z.string().optional(),
+  isAnnouncement: z.boolean().optional(),
 });
 
 const Page = () => {
   const params = useParams();
-  const { data } = useGetFuneralQuery(params.id as string);
+  const { data } = useGetPublicFuneralQuery(params.id as string);
+  const { data: keyPersonsData } = useGetKeyPersonsPublicQuery(
+    params.id as string
+  );
+  const [addDonation] = useAddDonationPublicMutation();
+  const { toast } = useToast();
+
+  const keyPersons = useMemo(() => {
+    return (
+      keyPersonsData?.persons?.map((person: any) => ({
+        label: person.name,
+        value: person._id,
+      })) || []
+    );
+  }, [keyPersonsData]);
+
   const form = useForm<z.infer<typeof donationSchema>>({
     resolver: zodResolver(donationSchema),
+    defaultValues: {
+      funeralId: params.id as string,
+      modeOfDonation: 'Online',
+      isAnnouncement: false,
+      reference: new Date().getTime().toString(),
+    },
   });
+
+  const config = {
+    reference: form.watch('reference'),
+    email: `${form.watch('donorPhoneNumber')}@nsawa.com`,
+    amount: parseInt(form.watch('amountDonated')) * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+    publicKey: process.env.NEXT_PUBLIC_PAYSTACK as string,
+    currency: 'GHS',
+  };
+
   const initializePayment = usePaystackPayment(config);
 
   const imagesOfDeceased = useMemo(() => {
@@ -54,17 +79,30 @@ const Page = () => {
     }
   }, [data]);
 
-  const onSuccess = reference => {
+  const onSuccess = () => {
     // Implementation for whatever you want to do with reference and after success call.
-    console.log(reference);
+    toast({
+      title: 'Success',
+      description: 'Donation successful',
+    });
+    form.reset();
   };
 
-  // you can call this function anything
-  const onClose = () => {
-    // implementation for  whatever you want to do when the Paystack dialog closed.
-    console.log('closed');
+  const handleSubmit = async (values: z.infer<typeof donationSchema>) => {
+    const submitData = values;
+    delete submitData?.isAnnouncement;
+    await addDonation(submitData)
+      .unwrap()
+      .then(() => {
+        initializePayment({ onSuccess });
+      })
+      .catch(() =>
+        toast({
+          title: 'Failed',
+          description: 'Donation failed',
+        })
+      );
   };
-
   return (
     <div className='max-w-7xl mx-auto   flex py-5 xl:py-10 xl:gap-2'>
       <div className='max-w-[589px] xl:px-5 mx-auto'>
@@ -89,7 +127,11 @@ const Page = () => {
           </div>
         </div>
         <Form {...form}>
-          <form action='' className='max-w-[480px] px-4 space-y-2'>
+          <form
+            id='donationForm'
+            className='max-w-[480px]   px-4 space-y-2'
+            onSubmit={form.handleSubmit(handleSubmit)}
+          >
             <ShadcnInputField
               form={form}
               name='amountDonated'
@@ -100,7 +142,7 @@ const Page = () => {
             <div className='grid grid-cols-2 gap-4 py-2 '>
               <ShadcnInputField
                 form={form}
-                name='name'
+                name='donorName'
                 label='Name'
                 placeholder='Your name'
               />
@@ -114,42 +156,36 @@ const Page = () => {
             <ShadcnSelectFormField
               form={form}
               name='keyPerson'
-              options={[]}
+              options={keyPersons}
               className=''
               formItemClassName='py-2'
               placeholder='Select Chief Mourner'
               label='Chief Mourner'
             />
-            <div className='flex items-center space-x-2 py-2'>
-              <input type='checkbox' name='announce' id='announce' />
-              <label htmlFor='announce' className=''>
-                I would like my donation to be announced.
-              </label>
-            </div>
-            <h2 className='text-xl font-bold font-sans pt-5 pb-4'>
-              Payment Method
-            </h2>
-
-            <ul className='py-4'>
-              <li className='border px-4 py-[10.5px] w-fit rounded-md'>
-                MTN Momo
-              </li>
-            </ul>
-
-            <Button
-              className='w-full'
-              variant='secondary'
-              type='button'
-              onClick={() => {
-                initializePayment(onSuccess, onClose);
-              }}
-            >
-              Donate
-            </Button>
+            <ShadcnCheckBox
+              form={form}
+              name='isAnnouncement'
+              label='I would like my donation to be announced.'
+            />
+            {form.watch('isAnnouncement') && (
+              <TextField
+                form={form}
+                name='announcement'
+                placeholder='Enter announcement here'
+                className='placeholder:text-primary'
+              />
+            )}
           </form>
         </Form>
+        <Button
+          className='w-full mt-14'
+          variant='secondary'
+          type='submit'
+          form='donationForm'
+        >
+          Donate
+        </Button>
       </div>
-
       <div className='flex-1 hidden xl:block'>
         <CarouselComponent
           images={imagesOfDeceased}

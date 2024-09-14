@@ -15,8 +15,15 @@ const keyPersonsApiSlice = apiSlice.injectEndpoints({
       query: (id: string) => `/key-person/funeral/${id}`,
       providesTags: ['KeyPerson'],
     }),
+    getKeyPersonsPublic: builder.query({
+      query: (id: string) => `/key-persons/public/${id}`,
+      providesTags: ['KeyPerson'],
+    }),
   }),
 });
 
-export const { useCreatePersonalityMutation, useGetKeyPersonsQuery } =
-  keyPersonsApiSlice;
+export const {
+  useCreatePersonalityMutation,
+  useGetKeyPersonsQuery,
+  useGetKeyPersonsPublicQuery,
+} = keyPersonsApiSlice;

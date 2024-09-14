@@ -26,6 +26,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { Input } from './input';
+import { Checkbox } from './checkbox';
 
 type FormProps<T extends FieldValues> = {
   name: Path<T>;
@@ -272,6 +273,37 @@ export const TextField = <T extends FieldValues>({
             />
           </FormControl>
           <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+};
+
+export const ShadcnCheckBox = <T extends FieldValues>({
+  form,
+  name,
+  label,
+}: FormProps<T>) => {
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className='flex items-center gap-x-2'>
+          <FormControl>
+            <div className='flex items-center space-x-2 py-2'>
+              <input
+                type='checkbox'
+                name='announce'
+                id='announce'
+                value={field.value}
+                onChange={field.onChange}
+              />
+              <label htmlFor='announce' className=''>
+                I would like my donation to be announced.
+              </label>
+            </div>
+          </FormControl>
         </FormItem>
       )}
     />

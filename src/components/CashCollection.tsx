@@ -40,6 +40,10 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
 
   const form = useForm<z.infer<typeof donationsSchema>>({
     resolver: zodResolver(donationsSchema),
+    defaultValues: {
+      modeOfDonation: 'Cash',
+      funeralId: funeralDetails?._id,
+    },
   });
 
   const keyPersons = useMemo(() => {
@@ -51,10 +55,10 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
     );
   }, [data]);
 
-  useEffect(() => {
-    form.setValue('modeOfDonation', 'Cash');
-    form.setValue('funeralId', funeralDetails?._id);
-  }, [funeralDetails]);
+  // useEffect(() => {
+  //   form.setValue('modeOfDonation', 'Cash');
+  //   form.setValue('funeralId', funeralDetails?._id);
+  // }, [funeralDetails]);
 
   const onSubmit = useCallback(
     async (data: z.infer<typeof donationsSchema>) => {

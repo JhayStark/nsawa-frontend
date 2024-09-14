@@ -35,4 +35,5 @@ export const {
   useAddDonationMutation,
   useGetDonationsQuery,
   useGetDonationStatsQuery,
+  useAddDonationPublicMutation,
 } = donationsApiSlice;
