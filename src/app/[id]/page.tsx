@@ -27,7 +27,7 @@ const donationSchema = z.object({
   funeralId: z.string(),
   donorPhoneNumber: z.string(),
   amountDonated: z.string(),
-  announcement: z.string(),
+  announcement: z.string().optional(),
   modeOfDonation: z.string(),
   reference: z.string().optional(),
   isAnnouncement: z.boolean().optional(),
@@ -178,7 +178,7 @@ const Page = () => {
           </form>
         </Form>
         <Button
-          className='w-full mt-14'
+          className='w-full mt-14 mx-1'
           variant='secondary'
           type='submit'
           form='donationForm'
