@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,14 +19,37 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Landmark } from 'lucide-react';
+import {
+  useGetAccountInfoMutation,
+  useGetBanksListQuery,
+} from '@/lib/features/payestackApiSlice';
+import { useGetDonationStatsQuery } from '@/lib/features/donationsApiSlice';
+import { useParams } from 'next/navigation';
 
 export default function Withdrawal() {
+  const params = useParams();
   const [withdrawalMethod, setWithdrawalMethod] = useState('mobile');
-  const [mobileNumber, setMobileNumber] = useState('');
   const [bankName, setBankName] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
   const [accountName, setAccountName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [verifyAccountDetails] = useGetAccountInfoMutation();
+  const { data } = useGetBanksListQuery({
+    type: withdrawalMethod == 'bank' ? '' : 'mobile_money',
+  });
+  const { data: stats } = useGetDonationStatsQuery(
+    (params?.id as string) || ''
+  );
+
+  const banks = useMemo(() => {
+    return data?.data?.data || [];
+  }, [data]);
+
+  useEffect(() => {
+    setAccountNumber('');
+    setBankName('');
+    setAccountName('');
+  }, [withdrawalMethod]);
 
   // Simulated withdrawal amount (replace with actual system-determined amount)
   const withdrawalAmount = 1000;
@@ -47,8 +70,13 @@ export default function Withdrawal() {
 
     // Simulate API call to verify account
     await new Promise(resolve => setTimeout(resolve, 1000));
+    await verifyAccountDetails({ accountNumber, bankCode: bankName })
+      .unwrap()
+      .then(res => {
+        // res.data;
+        setAccountName(res?.data?.data?.account_name);
+      });
 
-    setAccountName(withdrawalMethod === 'mobile' ? 'John Doe' : 'Jane Smith');
     setIsLoading(false);
   };
 
@@ -77,12 +105,27 @@ export default function Withdrawal() {
             </TabsList>
             <TabsContent value='mobile' className='space-y-4'>
               <div className='space-y-2'>
+                <Label htmlFor='bankName'>Bank Name</Label>
+                <Select onValueChange={setBankName} required>
+                  <SelectTrigger id='bankName'>
+                    <SelectValue placeholder='Select your bank' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {banks?.map((bank: any) => (
+                      <SelectItem key={bank.code} value={bank.code}>
+                        {bank.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className='space-y-2'>
                 <Label htmlFor='mobileNumber'>Mobile Number</Label>
                 <Input
                   id='mobileNumber'
                   placeholder='Enter your mobile number'
-                  value={mobileNumber}
-                  onChange={e => setMobileNumber(e.target.value)}
+                  value={accountNumber}
+                  onChange={e => setAccountNumber(e.target.value)}
                   required
                 />
               </div>
@@ -95,9 +138,11 @@ export default function Withdrawal() {
                     <SelectValue placeholder='Select your bank' />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='bank1'>Bank 1</SelectItem>
-                    <SelectItem value='bank2'>Bank 2</SelectItem>
-                    <SelectItem value='bank3'>Bank 3</SelectItem>
+                    {banks?.map((bank: any) => (
+                      <SelectItem key={bank.code} value={bank.code}>
+                        {bank.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -118,12 +163,7 @@ export default function Withdrawal() {
               type='button'
               variant='outline'
               onClick={verifyAccount}
-              disabled={
-                isLoading ||
-                (withdrawalMethod === 'mobile'
-                  ? !mobileNumber
-                  : !bankName || !accountNumber)
-              }
+              disabled={isLoading || !bankName || !accountNumber}
             >
               {isLoading ? 'Verifying...' : 'Verify Account'}
             </Button>
@@ -132,8 +172,9 @@ export default function Withdrawal() {
                 <strong>Account Name:</strong> {accountName}
               </div>
             )}
-            <div className='text-sm'>
-              <strong>Withdrawal Amount:</strong> ${withdrawalAmount.toFixed(2)}
+            <div className='text-sm '>
+              <strong>Withdrawal Amount:</strong> GHS{' '}
+              {stats?.totalDonations?.toFixed(2)}
             </div>
             <Button type='submit' disabled={isLoading || !accountName}>
               {isLoading ? 'Processing...' : 'Confirm Withdrawal'}

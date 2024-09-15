@@ -5,6 +5,7 @@ import { Poppins } from 'next/font/google';
 import './globals.css';
 import StoreProvider from './StoreProvider';
 import { Toaster } from '@/components/ui/toaster';
+import { Suspense } from 'react';
 
 const sentient = localFont({
   src: '../../public/fonts/Sentient-Variable.woff2',
@@ -41,7 +42,7 @@ export default function RootLayout({
             sentient.variable
           )}
         >
-          {children}
+          <Suspense>{children}</Suspense>
           <Toaster />
         </body>
       </StoreProvider>

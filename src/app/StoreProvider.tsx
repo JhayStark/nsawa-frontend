@@ -22,11 +22,7 @@ const StoreProvider = ({ children }: StoreProviderProps) => {
       return unsubscribe;
     }
   }, []);
-  return (
-    <Provider store={storeRef.current}>
-      <Suspense>{children}</Suspense>
-    </Provider>
-  );
+  return <Provider store={storeRef.current}>{children}</Provider>;
 };
 
 export default StoreProvider;
