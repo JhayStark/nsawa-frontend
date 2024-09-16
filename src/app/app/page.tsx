@@ -17,21 +17,18 @@ const Page = () => {
   });
 
   return (
-    <div className='font-sentient space-y-5 flex flex-col overflow-y-hidden  h-full'>
+    <div className='font-sentient space-y-3 lg:space-y-5 flex flex-col overflow-y-hidden  h-full'>
       <div
         style={{
           backgroundImage: 'url("/image/auth-bg.png")',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
         }}
-        className='h-52  rounded-lg shadow-lg'
+        className='h-40  rounded-lg shadow-lg'
       >
         <div className='bg-black bg-opacity-55 h-full rounded-lg flex flex-col justify-between p-5'>
-          <p className='text-white max-w-fit'>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate
-            eligendi saepe iste asperiores accusantium quia, culpa pariatur
-            Cupiditate eligendi saepe iste asperiores accusantium quia, culpa
-          </p>
+          <p className='text-white max-w-fit text-lg'>Welcome to Nsawa!</p>
+
           <Link href='/app/funerals/create'>
             <Button
               className='flex items-center gap-x-3 w-full p-5 xl:max-w-72 '

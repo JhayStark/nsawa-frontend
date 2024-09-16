@@ -16,7 +16,7 @@ const FuneralCard = ({ funeral }: any) => {
       onClick={() => router.push(`/app/funerals/${funeral._id}`)}
     >
       <div className='flex items-center gap-x-3'>
-        <div className='w-[124px] h-[100px] rounded-lg relative '>
+        <div className='g:w-[124px] w-24 h-20 lg:h-[100px] rounded-lg relative '>
           <Image
             fill
             alt='image of deceased'
