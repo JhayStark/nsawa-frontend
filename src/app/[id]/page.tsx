@@ -104,7 +104,7 @@ const Page = () => {
       );
   };
   return (
-    <div className='max-w-7xl mx-auto  h-[100vh] flex py-5 xl:py-10 xl:gap-2'>
+    <div className='max-w-7xl mx-auto  h-[100svh] flex py-5 xl:py-10 xl:gap-2'>
       <div className='max-w-[589px] flex flex-col xl:px-5 mx-auto overflow-x-hidden'>
         <h2 className='text-xl font-bold font-sans px-4 pt-5 pb-4'>
           Donate to the {data?.familyName} family
