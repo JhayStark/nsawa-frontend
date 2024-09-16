@@ -267,7 +267,7 @@ export const TextField = <T extends FieldValues>({
               value={field.value ?? ''}
               placeholder={placeholder}
               className={cn(
-                'bg-inherit w-full rounded focus:outline-none appearance-none border-b-[#D9D9D9] border-2 p-3 placeholder:text-[#FFF]',
+                'bg-inherit w-full rounded focus:outline-none appearance-none border-b-[#D9D9D9] border-[1px] p-3 placeholder:text-[#FFF]',
                 className
               )}
             />

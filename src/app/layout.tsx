@@ -37,7 +37,7 @@ export default function RootLayout({
       <StoreProvider>
         <body
           className={cn(
-            'min-h-screen font-sans antialiased',
+            'min-h-screen font-sans antialiased ',
             poppins.variable,
             sentient.variable
           )}

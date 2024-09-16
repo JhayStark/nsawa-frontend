@@ -104,8 +104,8 @@ const Page = () => {
       );
   };
   return (
-    <div className='max-w-7xl mx-auto   flex py-5 xl:py-10 xl:gap-2'>
-      <div className='max-w-[589px] xl:px-5 mx-auto'>
+    <div className='max-w-7xl mx-auto  h-[100vh] flex py-5 xl:py-10 xl:gap-2'>
+      <div className='max-w-[589px] flex flex-col xl:px-5 mx-auto overflow-x-hidden'>
         <h2 className='text-xl font-bold font-sans px-4 pt-5 pb-4'>
           Donate to the {data?.familyName} family
         </h2>
@@ -129,62 +129,64 @@ const Page = () => {
         <Form {...form}>
           <form
             id='donationForm'
-            className='max-w-[480px]   px-4 space-y-2'
+            className='max-w-[480px] px-2 lg:block flex flex-col justify-between  h-full'
             onSubmit={form.handleSubmit(handleSubmit)}
           >
-            <ShadcnInputField
-              form={form}
-              name='amountDonated'
-              label='Donation amount'
-              formItemClassName=' py-2'
-              placeholder='GHC 0.00'
-            />
-            <div className='grid grid-cols-2 gap-4 py-2 '>
+            <div>
               <ShadcnInputField
                 form={form}
-                name='donorName'
-                label='Name'
-                placeholder='Your name'
+                name='amountDonated'
+                label='Donation amount'
+                formItemClassName=' py-2'
+                placeholder='GHC 0.00'
               />
-              <ShadcnInputField
+              <div className='grid grid-cols-2 gap-4 py-2 '>
+                <ShadcnInputField
+                  form={form}
+                  name='donorName'
+                  label='Name'
+                  placeholder='Your name'
+                />
+                <ShadcnInputField
+                  form={form}
+                  name='donorPhoneNumber'
+                  label='Phone Number'
+                  placeholder='Your phone number'
+                />
+              </div>
+              <ShadcnSelectFormField
                 form={form}
-                name='donorPhoneNumber'
-                label='Phone Number'
-                placeholder='Your phone number'
+                name='keyPerson'
+                options={keyPersons}
+                className=''
+                formItemClassName='py-2'
+                placeholder='Select Chief Mourner'
+                label='Chief Mourner'
               />
+              <ShadcnCheckBox
+                form={form}
+                name='isAnnouncement'
+                label='I would like my donation to be announced.'
+              />
+              {form.watch('isAnnouncement') && (
+                <TextField
+                  form={form}
+                  name='announcement'
+                  placeholder='Enter announcement here'
+                  className='placeholder:text-primary'
+                />
+              )}
             </div>
-            <ShadcnSelectFormField
-              form={form}
-              name='keyPerson'
-              options={keyPersons}
-              className=''
-              formItemClassName='py-2'
-              placeholder='Select Chief Mourner'
-              label='Chief Mourner'
-            />
-            <ShadcnCheckBox
-              form={form}
-              name='isAnnouncement'
-              label='I would like my donation to be announced.'
-            />
-            {form.watch('isAnnouncement') && (
-              <TextField
-                form={form}
-                name='announcement'
-                placeholder='Enter announcement here'
-                className='placeholder:text-primary'
-              />
-            )}
+            <Button
+              className='w-full mt-14'
+              variant='secondary'
+              type='submit'
+              form='donationForm'
+            >
+              Donate
+            </Button>
           </form>
         </Form>
-        <Button
-          className='w-full mt-14 mx-1'
-          variant='secondary'
-          type='submit'
-          form='donationForm'
-        >
-          Donate
-        </Button>
       </div>
       <div className='flex-1 hidden xl:block'>
         <CarouselComponent
