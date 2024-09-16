@@ -23,8 +23,6 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { Loader2 } from 'lucide-react';
 
-// withdrawal details
-
 const createFuneralSchema = z.object({
   nameOfDeceased: z.string(),
   familyName: z.string(),
@@ -151,11 +149,29 @@ const CreateFuneral = () => {
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 h-full max-w-[1500px]'>
       <Form {...form}>
-        <div className='space-y-5 max-w-xl'>
-          <h2 className='text-primary font-bold text-2xl'>Set Up Funeral</h2>
+        <div className=' space-y-3 lg:space-y-5 max-w-xl pb-5'>
+          <div className='flex items-center justify-between'>
+            <h2 className='text-primary font-bold text-lg lg:text-2xl'>
+              Set Up Funeral
+            </h2>
+            <div className='flex justify-end items-center'>
+              <Dialog>
+                <DialogTrigger className='flex gap-2 text-sm items-center bg-secondary rounded-md p-2 lg:hidden'>
+                  <Upload size={18} />
+                  <span>Upload Images</span>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle className='mb-5'>Upload Images</DialogTitle>
+                    <FileUpload onUpdate={onImageChange} />
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-5'
+            className='space-y-3 lg:space-y-5'
             id='funeral-form'
           >
             <InputField
@@ -205,23 +221,8 @@ const CreateFuneral = () => {
               name='endDate'
             />
           </form>
-          <div className='flex justify-end'>
-            <Dialog>
-              <DialogTrigger className='flex gap-2 text-sm items-center bg-secondary rounded-md p-2 lg:hidden'>
-                <Upload size={18} />
-                <span>Upload Images</span>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle className='mb-5'>Upload Images</DialogTitle>
-
-                  <FileUpload onUpdate={onImageChange} />
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
-          </div>
           <Button
-            className='bg-primary h-16 w-48'
+            className='bg-primary lg:h-16 w-full lg:w-48'
             form='funeral-form'
             disabled={submitting}
           >
