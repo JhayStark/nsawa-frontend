@@ -69,7 +69,7 @@ const SignUp = () => {
   };
   return (
     <div className='font-poppins w-full lg:max-w-[550px] text-white space-y-5  sm:space-y-10 lg:space-y-16'>
-      <h2 className='font-bold text-4xl text-center lg:text-left lg:text-7xl'>
+      <h2 className='font-bold text-4xl text-center lg:text-left lg:text-7xl mt-10 lg:mt-0'>
         Sign Up
       </h2>
       <Form {...form}>

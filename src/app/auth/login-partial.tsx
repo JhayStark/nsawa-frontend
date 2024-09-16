@@ -50,13 +50,13 @@ const LoginPartial = () => {
   };
 
   return (
-    <div className='font-poppins w-full lg:max-w-[550px] text-white space-y-10 lg:space-y-16'>
+    <div className='font-poppins w-full  lg:max-w-[550px] text-white space-y-10 lg:space-y-16'>
       <h2 className='font-bold text-4xl text-center lg:text-left lg:text-7xl'>
         Login
       </h2>
       <Form {...form}>
         <form
-          className='space-y-2'
+          className='space-y-2 w-full '
           onSubmit={form.handleSubmit(handleLogin)}
           id='login-form'
         >
