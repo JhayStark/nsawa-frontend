@@ -193,6 +193,7 @@ const Page = () => {
           images={imagesOfDeceased}
           showThumbs={false}
           swipeable={true}
+          dynamicHeight
         />
       </div>
     </div>
