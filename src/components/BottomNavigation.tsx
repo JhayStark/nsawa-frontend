@@ -15,16 +15,16 @@ const menuOptions = [
     icon: '/svgs/tombstone.svg',
     link: 'funerals',
   },
-  {
-    title: 'Personalities',
-    icon: '/svgs/people.svg',
-    link: 'personalities',
-  },
-  {
-    title: 'Collections',
-    icon: '/svgs/donate.svg',
-    link: 'collections',
-  },
+  // {
+  //   title: 'Mourners',
+  //   icon: '/svgs/people.svg',
+  //   link: 'personalities',
+  // },
+  // {
+  //   title: 'Collections',
+  //   icon: '/svgs/donate.svg',
+  //   link: 'collections',
+  // },
   {
     title: 'Profile',
     icon: '/svgs/profile.svg',
@@ -41,7 +41,7 @@ const BottomNavigation = () => {
     return routeName == path;
   };
   return (
-    <nav className='h-[70px] bg-[#333333]'>
+    <nav className='h-[70px] bg-primary'>
       <ul className='flex justify-between items-center h-full px-6 '>
         {menuOptions?.map(menu => (
           <Link key={menu.title} href={`/app/${menu.link}`}>

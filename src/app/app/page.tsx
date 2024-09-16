@@ -54,9 +54,9 @@ const Page = () => {
             <FuneralCard funeral={funeral} key={funeral?._id} />
           ))}
           {!data?.funerals?.length && (
-            <div className=' col-span-4  2xl:col-span-3 h-[70vh] flex justify-center items-center '>
+            <div className=' col-span-4  2xl:col-span-3 lg:h-full flex justify-center items-center '>
               <div className='flex flex-col justify-center items-center text-gray-600'>
-                <ScrollText size={300} className='text-gray-200' />
+                <ScrollText size={150} className='text-gray-200' />
                 <p>No funerals to display</p>
                 <p>Created funerals will be displayed here</p>
               </div>
