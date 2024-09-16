@@ -27,7 +27,7 @@ const Page = () => {
           }}
         >
           <div className='bg-black opacity-55 rounded-md h-full w-full'>
-            <div className='text-white h-full p-5 flex flex-col justify-between '>
+            <div className='text-white h-full p-3 lg:p-5 flex flex-col justify-between '>
               <div>
                 <div>
                   <h2 className='xl:text-lg'>Funeral of the late</h2>
@@ -45,14 +45,12 @@ const Page = () => {
                     <MapPinIcon className='h-5 w-5 ' />
                     <div className=''>{data?.funeralLocation}</div>
                   </div>
-                  <div className='flex items-center gap-2'>
+                  <div className='hidden lg:flex items-center gap-2'>
                     <CalendarIcon className='h-5 w-5 ' />
                     <div className=''>
-                      <span className='hidden md:inline-block'>From</span>{' '}
-                      <span className='hidden md:inline-block'>
-                        {formatDateToString(data?.startDate)}
-                      </span>{' '}
-                      <span className='hidden md:inline-block'>to</span>{' '}
+                      <span>From</span>{' '}
+                      <span>{formatDateToString(data?.startDate)}</span>{' '}
+                      <span>to</span>{' '}
                       <span>{formatDateToString(data?.endDate)}</span>
                     </div>
                   </div>
