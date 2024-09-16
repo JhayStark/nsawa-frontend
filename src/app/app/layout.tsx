@@ -1,8 +1,5 @@
 import BottomNavigation from '@/components/BottomNavigation';
 import Sidebar from '@/components/Sidebar';
-import { Button } from '@/components/ui/button';
-import { CirclePlus } from 'lucide-react';
-import Link from 'next/link';
 
 const Layout = ({
   children,
@@ -13,7 +10,7 @@ const Layout = ({
     <div className='grid h-screen w-full grid-cols-1 xl:grid-cols-[300px_1fr] font-sentient'>
       <Sidebar />
       <div className='box-border overflow-hidden'>
-        <div className='h-[calc(100svh-70px)] max-w-[1960px] xl:h-[100vh] py-6 px-5  2xl:px-10 overflow-auto'>
+        <div className='h-[calc(100svh-70px)] max-w-[1960px] xl:h-[100vh] py-6 px-5 2xl:px-10 overflow-hidden lg:overflow-auto'>
           {children}
         </div>
         <BottomNavigation />
