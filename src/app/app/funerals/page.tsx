@@ -71,7 +71,7 @@ const Page = () => {
             </Card>
           ))}
         </div>
-        <div className='lg:hidden col-span-4 space-y-5'>
+        <div className='lg:hidden col-span-4 space-y-5 pb-2'>
           {data?.funerals?.map((funeral: any) => (
             <FuneralCard funeral={funeral} key={funeral._id} />
           ))}

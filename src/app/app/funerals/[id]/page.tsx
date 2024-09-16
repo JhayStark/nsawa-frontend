@@ -4,15 +4,13 @@ import CashCollection from '@/components/CashCollection';
 import DonationHistory from '@/components/DonationHistory';
 import { CalendarIcon, ImageDown, MapPinIcon, Share2 } from 'lucide-react';
 import { useGetFuneralQuery } from '@/lib/features/funeralApiSlice';
-import { useSearchParams, useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import AddMourner from '@/components/AddMourner';
 import { formatDateToString } from '@/lib/helpers';
-import QRCode from 'react-qr-code';
 import MournersList from '@/components/MournersList';
 import Withdrawal from '@/components/Withdrawal';
 
 const Page = () => {
-  const searchParams = useSearchParams();
   const router = useRouter();
   const params = useParams();
   const { data } = useGetFuneralQuery(params.id as string);
@@ -21,15 +19,14 @@ const Page = () => {
     <div className=' font-sentient h-full flex'>
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-5 w-full'>
         <div
-          className='w-full flex-1 lg:col-span-2 h-full'
+          className='w-full flex-1 lg:col-span-2 h-full rounded-md'
           style={{
             backgroundImage: `url(${data?.bannerImage})`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
-            borderRadius: 50,
           }}
         >
-          <div className='bg-black opacity-55 rounded-[50px] h-full w-full'>
+          <div className='bg-black opacity-55 rounded-md h-full w-full'>
             <div className='text-white h-full p-5 flex flex-col justify-between '>
               <div>
                 <div>
@@ -43,7 +40,7 @@ const Page = () => {
                 </p>
               </div>
               <div className='flex sm:flex-row flex-col gap-10 items-end justify-between '>
-                <div className='text-secondary text-lg'>
+                <div className='text-secondary w-full lg:w-fit flex justify-between pt-3 lg:0 lg:block text-lg'>
                   <div className='flex items-center gap-2'>
                     <MapPinIcon className='h-5 w-5 ' />
                     <div className=''>{data?.funeralLocation}</div>
@@ -51,8 +48,12 @@ const Page = () => {
                   <div className='flex items-center gap-2'>
                     <CalendarIcon className='h-5 w-5 ' />
                     <div className=''>
-                      From {formatDateToString(data?.startDate)} to{' '}
-                      {formatDateToString(data?.endDate)}
+                      <span className='hidden md:inline-block'>From</span>{' '}
+                      <span className='hidden md:inline-block'>
+                        {formatDateToString(data?.startDate)}
+                      </span>{' '}
+                      <span className='hidden md:inline-block'>to</span>{' '}
+                      <span>{formatDateToString(data?.endDate)}</span>
                     </div>
                   </div>
                 </div>
@@ -60,7 +61,7 @@ const Page = () => {
             </div>
           </div>
         </div>
-        <div className=' flex flex-col gap-2'>
+        <div className=' flex flex-col gap-2 pb-3 lg:pb-0'>
           <div className='grid-cols-2 grid gap-2 w-full'>
             <DonationHistory funeralDetails={data} />
             <MournersList funeralDetails={data} />
@@ -80,21 +81,6 @@ const Page = () => {
                 </h2>
                 <p className='text-sm '>In Memory of {data?.nameOfDeceased}</p>
               </div>
-              {/* <div
-                style={{
-                  height: 'auto',
-                  margin: 'auto',
-                  maxWidth: 64,
-                  width: '100%',
-                }}
-              >
-                <QRCode
-                  size={256}
-                  style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-                  value={`https://www.nsawa.com/${data?._id}`}
-                  viewBox={`0 0 256 256`}
-                />
-              </div> */}
               <div className='flex flex-col justify-center items-center'>
                 <ImageDown
                   size={100}
