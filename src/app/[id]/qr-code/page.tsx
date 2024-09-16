@@ -12,7 +12,7 @@ const Page = () => {
   return (
     <div className='flex justify-center items-center flex-col h-screen '>
       <div className='grid grid-cols-2 gap-2'>
-        <div className='relative w-[500px]'>
+        <div className='hidden lg:block relative w-[500px]'>
           <Image
             src={data?.bannerImage}
             fill
@@ -20,8 +20,8 @@ const Page = () => {
             className='rounded-[8px] object-cover'
           />
         </div>
-        <div className='flex justify-center items-center flex-col'>
-          <h2 className='text-xl font-bold font-sans px-4 pt-5 pb-4'>
+        <div className='col-span-2 px-1 lg:col-span-1 flex justify-center items-center flex-col'>
+          <h2 className='text-center lg:text-left text-lg lg:text-xl font-bold font-sans px-4 pt-5 pb-4'>
             Scan to donate to the {data?.familyName} family
           </h2>
           <div className='px-4 pt-2 pb-10 space-x-4 flex items-center'>
@@ -56,6 +56,7 @@ const Page = () => {
               viewBox={`0 0 256 256`}
             />
           </div>
+          <p className='italic text-sm text-primary mt-5'>Powered by Nsawa</p>
         </div>
       </div>
     </div>
