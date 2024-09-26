@@ -83,17 +83,25 @@ const Page = () => {
                 <ImageDown
                   size={100}
                   onClick={() =>
-                    router.push(`http://localhost:3000/${data?._id}/qr-code`)
+                    router.push(
+                      `${process.env.NEXT_PUBLIC_FRONTEND_URL}/${data?._id}/qr-code`
+                    )
                   }
                 />
                 <p>Click to download QR code</p>
               </div>
               <div className='flex items-end gap-3  h-10'>
                 <p className='bg-white/80 text-primary p-2 truncate rounded flex-1 '>
-                  https://www.nsawa.com/{data?._id}
+                  {process.env.NEXT_PUBLIC_FRONTEND_URL}/{data?._id}
                 </p>
                 <div className='bg-white/80 text-primary px-2 h-full rounded flex justify-center items-center'>
-                  <Share2 />
+                  <Share2
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/${data?._id}`
+                      )
+                    }
+                  />
                 </div>
               </div>
             </div>

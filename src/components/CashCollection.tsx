@@ -55,10 +55,10 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
     );
   }, [data]);
 
-  // useEffect(() => {
-  //   form.setValue('modeOfDonation', 'Cash');
-  //   form.setValue('funeralId', funeralDetails?._id);
-  // }, [funeralDetails]);
+  useEffect(() => {
+    form.setValue('modeOfDonation', 'Cash');
+    form.setValue('funeralId', funeralDetails?._id);
+  }, [funeralDetails]);
 
   const onSubmit = useCallback(
     async (data: z.infer<typeof donationsSchema>) => {
@@ -104,7 +104,7 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
     >
       <CollapsibleTrigger asChild>
         {openForm !== 'recieve-donation' && (
-          <div className='h-14 space-x-5 flex justify-center items-center bg-secondary rounded-lg w-full'>
+          <div className='h-14 space-x-5 flex cursor-pointer justify-center items-center bg-secondary rounded-lg w-full'>
             <HandCoins />
             <p className='text-lg'>Recieve Cash Donation</p>
           </div>
