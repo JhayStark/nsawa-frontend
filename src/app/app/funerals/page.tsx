@@ -88,8 +88,8 @@ const Page = () => {
         <div className='hidden 2xl:block border rounded border-blue-800 p-2 bg-blue-100 h-[50vh] py-5'>
           <ul className='space-y-5 list-disc px-5 text-sm'>
             <li>
-              If you need to create a new funeral page, click the "Set Up
-              Funeral" button.
+              If you need to create a new funeral page, click the Set Up Funeral
+              button.
             </li>
             <li>
               You can view all your funerals here. Click on a funeral to manage
@@ -97,9 +97,9 @@ const Page = () => {
               withdrawing funds.
             </li>
             <li>
-              Note: Only funerals you’ve personally created will appear here. If
-              you’re unable to find a funeral, ensure you're logged into the
-              correct account.
+              Note: Only funerals you have personally created will appear here.
+              If you are unable to find a funeral, ensure you are logged into
+              the correct account.
             </li>
           </ul>
         </div>
