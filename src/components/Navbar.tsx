@@ -23,7 +23,7 @@ const menuItems = [
 const Navbar = () => {
   return (
     <div className='max-w-[1600px] mx-auto font-sentient flex items-center justify-between py-4 px-5'>
-      <h1 className='text-2xl font-bold'>Nsawa</h1>
+      <h1 className='text-lg lg:text-2xl font-bold'>Nsawa Digital</h1>
       <div className='space-x-5 hidden md:block'>
         {menuItems.map(link => (
           <a

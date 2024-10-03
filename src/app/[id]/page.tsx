@@ -138,20 +138,20 @@ const Page = () => {
                 name='amountDonated'
                 label='Donation amount'
                 formItemClassName=' py-2'
-                placeholder='GHC 0.00'
+                // placeholder='GHC 0.00'
               />
-              <div className='grid grid-cols-2 gap-4 py-2 '>
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-4 py-2 '>
                 <ShadcnInputField
                   form={form}
                   name='donorName'
                   label='Name'
-                  placeholder='Your name'
+                  // placeholder='Your name'
                 />
                 <ShadcnInputField
                   form={form}
                   name='donorPhoneNumber'
                   label='Phone Number'
-                  placeholder='Your phone number'
+                  // placeholder='Your phone number'
                 />
               </div>
               <ShadcnSelectFormField
@@ -160,7 +160,7 @@ const Page = () => {
                 options={keyPersons}
                 className=''
                 formItemClassName='py-2'
-                placeholder='Select Chief Mourner'
+                // placeholder='Select Chief Mourner'
                 label='Chief Mourner'
               />
               <ShadcnCheckBox
@@ -172,7 +172,7 @@ const Page = () => {
                 <TextField
                   form={form}
                   name='announcement'
-                  placeholder='Enter announcement here'
+                  // placeholder='Enter announcement here'
                   className='placeholder:text-primary'
                 />
               )}

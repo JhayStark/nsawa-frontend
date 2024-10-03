@@ -58,13 +58,18 @@ const Sidebar = () => {
   return (
     <aside className='hidden xl:flex flex-col bg-primary font-poppins  py-9'>
       <header>
-        <Image
-          src='/image/logo.png'
-          alt='Nsawa logo'
-          width={198}
-          height={48}
-          className='mx-auto'
-        />
+        <div className='w-fit mx-auto'>
+          <Image
+            src='/image/logo.png'
+            alt='Nsawa logo'
+            width={198}
+            height={48}
+            className='mx-auto'
+          />
+          <p className='text-white font-bold font-sentient text-right'>
+            Digital
+          </p>
+        </div>
 
         <div className='flex items-center gap-x-6 mx-auto max-w-52 my-8 '>
           <CircleUserRound className='text-white' size={50} />

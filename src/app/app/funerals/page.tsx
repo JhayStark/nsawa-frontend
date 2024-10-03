@@ -85,13 +85,23 @@ const Page = () => {
             </div>
           </div>
         )}
-        <div className='hidden 2xl:block border rounded border-blue-800 p-2 bg-blue-100 h-[50vh]'>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis sunt
-          soluta esse repudiandae natus eum voluptatibus et aut voluptate quasi
-          inventore porro, nemo nam error tempore magni nulla totam autem optio
-          obcaecati eveniet ipsam itaque? Sed eos, odit, atque nobis ratione
-          temporibus recusandae pariatur, officia beatae nam porro inventore
-          quaerat!
+        <div className='hidden 2xl:block border rounded border-blue-800 p-2 bg-blue-100 h-[50vh] py-5'>
+          <ul className='space-y-5 list-disc px-5 text-sm'>
+            <li>
+              If you need to create a new funeral page, click the "Set Up
+              Funeral" button.
+            </li>
+            <li>
+              You can view all your funerals here. Click on a funeral to manage
+              each one by viewing donation stats, updating details, or
+              withdrawing funds.
+            </li>
+            <li>
+              Note: Only funerals you’ve personally created will appear here. If
+              you’re unable to find a funeral, ensure you're logged into the
+              correct account.
+            </li>
+          </ul>
         </div>
       </div>
     </div>

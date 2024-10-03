@@ -191,6 +191,7 @@ const CreateFuneral = () => {
               placeholder='Designated Phone Number for Funeral'
               name='phoneNumber'
               className='placeholder:text-gray-500'
+              description='This phone number will be used to confirm all funeral withdrawals'
             />
             <InputField
               form={form}

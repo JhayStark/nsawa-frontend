@@ -100,6 +100,11 @@ export const InputField = <T extends FieldValues>({
               type={type}
             />
           </FormControl>
+          {description && (
+            <FormDescription className='text-red-400'>
+              {description}
+            </FormDescription>
+          )}
           <FormMessage />
         </FormItem>
       )}

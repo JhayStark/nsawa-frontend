@@ -4,9 +4,23 @@ import CoinIcon from '@/components/svgs/CoinIcon';
 import DrivingIcon from '@/components/svgs/DrivingIcon';
 import MoneyIcon from '@/components/svgs/MoneyIcon';
 import { Button } from '@/components/ui/button';
-import { ArrowDown, MoveRight } from 'lucide-react';
+import { ArrowDown, Check, MessageSquare, MoveRight, X } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import Image from 'next/image';
 import Link from 'next/link';
+
+const subscriptionPlans = [
+  { id: 'basic', name: 'Basic', price: '', smsLimit: 700 },
+  { id: 'standard', name: 'Standard', price: 'GHS 199', smsLimit: 3000 },
+  { id: 'premium', name: 'Premium', price: 'GHS 299', smsLimit: 7500 },
+];
 
 export default function HomePage() {
   return (
@@ -23,7 +37,7 @@ export default function HomePage() {
             Have a funeral and want to collect donations with ease
           </p>
           <p className='text-sm font-normal lg:text-2xl md:text-lg'>
-            Nsawa is the place for you
+            Nsawa Digital is the place for you
           </p>
           <Link
             href='/auth'
@@ -62,7 +76,7 @@ export default function HomePage() {
         </section>
         <section className='bg-secondary rounded-2xl my-16 lg:my-24 py-28 px-12'>
           <h1 className='text-2xl font-medium text-center md:text-4xl'>
-            Why Choose Nsawa
+            Why Choose Nsawa Digital
           </h1>
           <div className='flex flex-col items-center justify-center gap-24 mt-11 md:mt-32 lg:flex-row'>
             <div className='flex flex-col items-center justify-center '>
@@ -97,7 +111,108 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-        <section id='howItWorks' className='my-16 lg:my-24'>
+        <section className='  my-16   '>
+          <h2 className='text-3xl font-bold text-center mb-10 text-primary'>
+            Subscriptions
+          </h2>
+          <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+            <Card className='flex flex-col'>
+              <CardHeader>
+                <CardTitle className='text-2xl'>Basic Plan</CardTitle>
+                <CardDescription>For those just starting out</CardDescription>
+              </CardHeader>
+              <CardContent className='flex-grow'>
+                <ul className='space-y-2'>
+                  <li className='flex items-center'>
+                    <Check className='mr-2 h-4 w-4 text-green-500' />
+                    Receive cash donations
+                  </li>
+                  <li className='flex items-center'>
+                    <X className='mr-2 h-4 w-4 text-red-500' />
+                    No thank you message for cash donations
+                  </li>
+                  <li className='flex items-center'>
+                    <Check className='mr-2 h-4 w-4 text-green-500' />
+                    Accept online donations
+                  </li>
+                  <li className='flex items-center'>
+                    <Check className='mr-2 h-4 w-4 text-green-500' />
+                    Automatic thank you message for online donations
+                  </li>
+                  <li className='flex items-center'>
+                    <X className='mr-2 h-4 w-4 text-red-500' />
+                    No appreciation message
+                  </li>
+                </ul>
+              </CardContent>
+              <CardFooter>
+                <Button className='w-full' variant='secondary'>
+                  Select Basic Plan
+                </Button>
+              </CardFooter>
+            </Card>
+
+            <Card className='flex flex-col border-primary'>
+              <CardHeader>
+                <CardTitle className='text-2xl'>Standard Plan</CardTitle>
+              </CardHeader>
+              <CardContent className='flex-grow mt-5'>
+                <ul className='space-y-2'>
+                  <li className='flex items-center'>
+                    <Check className='mr-2 h-4 w-4 text-green-500' />
+                    All Basic Plan features
+                  </li>
+                  <li className='flex items-center'>
+                    <Check className='mr-2 h-4 w-4 text-green-500' />
+                    Thank you message for all donations
+                  </li>
+                  <li className='flex items-center'>
+                    <Check className='mr-2 h-4 w-4 text-green-500' />
+                    Appreciation message later
+                  </li>
+                  <li className='flex items-center'>
+                    <Check className='mr-2 h-4 w-4 text-green-500' />
+                    Limited to 3,000 messages
+                  </li>
+                </ul>
+              </CardContent>
+              <CardFooter>
+                <Button className='w-full' variant='outline'>
+                  Select Standard Plan
+                </Button>
+              </CardFooter>
+            </Card>
+
+            <Card className='flex flex-col'>
+              <CardHeader>
+                <CardTitle className='text-2xl'>Premium Plan</CardTitle>
+              </CardHeader>
+              <CardContent className='flex-grow mt-5'>
+                <ul className='space-y-2'>
+                  <li className='flex items-center'>
+                    <Check className='mr-2 h-4 w-4 text-green-500' />
+                    All Standard Plan features
+                  </li>
+                  <li className='flex items-center'>
+                    <Check className='mr-2 h-4 w-4 text-green-500' />
+                    Increased message limit
+                  </li>
+                  <li className='flex items-center'>
+                    <Check className='mr-2 h-4 w-4 text-green-500' />
+                    Up to 7,000 messages
+                  </li>
+                </ul>
+              </CardContent>
+              <CardFooter>
+                <Button className='w-full' variant='secondary'>
+                  Select Premium Plan
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+        </section>
+
+        {/* <section id='howItWorks' className='my-16 lg:my-24'>
           <h1 className='mb-12 font-bold text-center md:text-4xl md:text-left'>
             How it works
           </h1>
@@ -107,7 +222,7 @@ export default function HomePage() {
             height={819}
             alt='dashboard image'
           />
-        </section>
+        </section> */}
         <section
           id='faqs'
           className='py-[5.6875rem] text-[#FFFFE2] bg-[#043F2E] mb-12 md:mb-28 rounded-[0.6875rem] px-5'

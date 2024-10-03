@@ -4,16 +4,24 @@ import CashCollection from '@/components/CashCollection';
 import DonationHistory from '@/components/DonationHistory';
 import { CalendarIcon, ImageDown, MapPinIcon, Share2 } from 'lucide-react';
 import { useGetFuneralQuery } from '@/lib/features/funeralApiSlice';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import AddMourner from '@/components/AddMourner';
 import { formatDateToString } from '@/lib/helpers';
 import MournersList from '@/components/MournersList';
 import Withdrawal from '@/components/Withdrawal';
+import DonorSMSSubscriptionPopup from '@/components/Subscription';
+import { useEffect, useMemo } from 'react';
 
 const Page = () => {
+  const searchParams = useSearchParams();
+  const urlParams = new URLSearchParams(searchParams.toString());
   const router = useRouter();
   const params = useParams();
   const { data } = useGetFuneralQuery(params.id as string);
+  const subFormOpen = useMemo(
+    () => urlParams.get('sub-form')?.toString(),
+    [searchParams]
+  );
 
   return (
     <div className=' font-sentient h-full flex'>
@@ -23,6 +31,7 @@ const Page = () => {
           style={{
             backgroundImage: `url(${data?.bannerImage})`,
             backgroundSize: 'cover',
+            backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
           }}
         >
@@ -68,18 +77,27 @@ const Page = () => {
             style={{
               backgroundImage: 'url("/image/auth-bg.png")',
               backgroundSize: 'cover',
+              backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
             }}
             className=' text-primary-foreground rounded-md flex-1'
           >
             <div className='p-5 gap-5  bg-black/60 h-full rounded-md flex flex-col justify-between '>
               <div>
-                <h2 className='text-lg font-medium font-sentient'>
+                <h2
+                  className={` ${
+                    subFormOpen && 'lg:hidden'
+                  } font-medium font-sentient `}
+                >
                   Share Funeral Donation Details
                 </h2>
                 <p className='text-sm '>In Memory of {data?.nameOfDeceased}</p>
               </div>
-              <div className='flex flex-col justify-center items-center'>
+              <div
+                className={`flex flex-col justify-center items-center ${
+                  subFormOpen && 'lg:hidden'
+                }`}
+              >
                 <ImageDown
                   size={100}
                   onClick={() =>
@@ -110,6 +128,7 @@ const Page = () => {
           <AddMourner funeralDetails={data} />
           <Withdrawal />
         </div>
+        {/* <DonorSMSSubscriptionPopup funeral={data} /> */}
       </div>
     </div>
   );
