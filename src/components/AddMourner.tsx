@@ -40,11 +40,12 @@ const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
     async (data: z.infer<typeof createPersonalitySchema>) => {
       createPersonality(data)
         .unwrap()
-        .then(() =>
+        .then(() => {
           toast({
             title: 'Mourner created',
-          })
-        )
+          });
+          form.reset({});
+        })
         .catch(() =>
           toast({
             title: 'Failed to create mourner',

@@ -1,12 +1,12 @@
 'use client';
 
-import { CircleUserRound, LogOut } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { logout, selectUser } from '@/lib/features/auth/authSlice';
-import { useEffect, useState } from 'react';
+import { useAppDispatch } from '@/lib/hooks';
+import { logout } from '@/lib/features/auth/authSlice';
+// import { useEffect, useState } from 'react';
 
 const menuOptions = [
   {
@@ -29,19 +29,19 @@ const menuOptions = [
   //   icon: '/svgs/donate.svg',
   //   link: 'collections',
   // },
-  {
-    title: 'Profile',
-    icon: '/svgs/profile.svg',
-    link: 'profile',
-  },
+  // {
+  //   title: 'Profile',
+  //   icon: '/svgs/profile.svg',
+  //   link: 'profile',
+  // },
 ];
 
 const Sidebar = () => {
   const pathName = usePathname();
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const user = useAppSelector(selectUser);
-  const [userName, setUserName] = useState('');
+  // const user = useAppSelector(selectUser);
+  // const [userName, setUserName] = useState('');
 
   const isCurrentPath = (path: string) => {
     const pathSegments = pathName.split('/');
@@ -49,11 +49,11 @@ const Sidebar = () => {
     return routeName == path;
   };
 
-  useEffect(() => {
-    if (user) {
-      setUserName(user?.userName.split(' ')[0]);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     setUserName(user?.userName.split(' ')[0]);
+  //   }
+  // }, [user]);
 
   return (
     <aside className='hidden xl:flex flex-col bg-primary font-poppins  py-9'>
@@ -71,12 +71,12 @@ const Sidebar = () => {
           </p>
         </div>
 
-        <div className='flex items-center gap-x-6 mx-auto max-w-52 my-8 '>
+        {/* <div className='flex items-center gap-x-6 mx-auto max-w-52 my-8 '>
           <CircleUserRound className='text-white' size={50} />
           <p className='font-bold text-white '>{userName}</p>
-        </div>
+        </div> */}
       </header>
-      <nav aria-label='Main Navigation'>
+      <nav aria-label='Main Navigation' className='mt-10'>
         <ul>
           {menuOptions?.map(menu => (
             <Link key={menu.title} href={`/app/${menu.link}`}>

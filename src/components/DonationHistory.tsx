@@ -30,16 +30,19 @@ import {
   useGetDonationStatsQuery,
 } from '@/lib/features/donationsApiSlice';
 import { useDebounce } from 'use-debounce';
+import PaginationComponent from './PaginationComponent';
 
 export default function DonationHistory({ funeralDetails }: any) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [value] = useDebounce(search, 500);
   const [modeFilter, setModeFilter] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const { data } = useGetDonationsQuery({
     id: funeralDetails?._id,
-    pageSize: 10,
-    pageNumber: 1,
+    pageSize,
+    pageNumber,
     search: value,
     paymentMethod: modeFilter,
   });
@@ -75,7 +78,7 @@ export default function DonationHistory({ funeralDetails }: any) {
             </SelectContent>
           </Select>
         </div>
-        <div className='grid grid-cols-2 gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
               <CardTitle className='text-sm font-medium'>
@@ -117,7 +120,7 @@ export default function DonationHistory({ funeralDetails }: any) {
                 <TableRow key={donation._id}>
                   <TableCell>{donation.donorName}</TableCell>
                   <TableCell>{donation.donorPhoneNumber}</TableCell>
-                  <TableCell>{donation.keyPerson.name}</TableCell>
+                  <TableCell>{donation?.keyPerson?.name || ''}</TableCell>
                   <TableCell>{donation.amountDonated}</TableCell>
                   <TableCell>{donation.modeOfDonation}</TableCell>
                 </TableRow>
@@ -125,6 +128,12 @@ export default function DonationHistory({ funeralDetails }: any) {
             </TableBody>
           </Table>
         </div>
+        <PaginationComponent
+          currentPage={pageNumber}
+          itemsPerPage={pageSize}
+          onPageChange={page => setPageNumber(() => page)}
+          totalItems={data?.total}
+        />
       </DialogContent>
     </Dialog>
   );

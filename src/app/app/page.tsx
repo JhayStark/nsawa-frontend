@@ -1,20 +1,35 @@
 'use client';
 
 import FuneralCard from '@/components/FuneralCard';
+import PaginationComponent from '@/components/PaginationComponent';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { selectUser } from '@/lib/features/auth/authSlice';
 import { useGetFuneralsQuery } from '@/lib/features/funeralApiSlice';
+import { useAppSelector } from '@/lib/hooks';
 import { ScrollText, Search } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
 const Page = () => {
   const [searchInput, setSearchInput] = useState('');
   const [searchValue] = useDebounce(searchInput, 500);
+  const user = useAppSelector(selectUser);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(7);
   const { data, isFetching, isLoading } = useGetFuneralsQuery({
     search: searchValue,
+    pageNumber,
+    pageSize,
   });
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      setUserName(user?.userName);
+    }
+  }, [user]);
 
   return (
     <div className='font-sentient space-y-3 lg:space-y-5 flex flex-col overflow-y-hidden  h-full'>
@@ -27,8 +42,10 @@ const Page = () => {
         className='h-40  rounded-lg shadow-lg'
       >
         <div className='bg-black bg-opacity-55 h-full rounded-lg flex flex-col justify-between p-5'>
-          <p className='text-white max-w-fit text-lg'>Welcome to Nsawa!</p>
-
+          <div>
+            <p className='text-white'>Hello, {userName} </p>
+            <p className='text-white max-w-fit text-lg'>Welcome to Nsawa!</p>
+          </div>
           <Link href='/app/funerals/create'>
             <Button
               className='flex items-center gap-x-3 w-full p-5 xl:max-w-72 '
@@ -63,6 +80,12 @@ const Page = () => {
             </div>
           )}
         </div>
+        <PaginationComponent
+          currentPage={pageNumber}
+          itemsPerPage={pageSize}
+          onPageChange={page => setPageNumber(() => page)}
+          totalItems={data?.total}
+        />
       </div>
     </div>
   );

@@ -33,11 +33,11 @@ export default function HomePage() {
         >
           <h1>Receive Funeral</h1>
           <h1>Donations With Ease</h1>
-          <p className='mt-4 text-sm font-normal lg:text-2xl md:text-lg lg:mt-5'>
-            Have a funeral and want to collect donations with ease
-          </p>
-          <p className='text-sm font-normal lg:text-2xl md:text-lg'>
-            Nsawa Digital is the place for you
+          {/* <p className='mt-4 text-sm font-normal lg:text-2xl md:text-lg lg:mt-5'>
+            Collect funeral donations with ease
+          </p> */}
+          <p className='text-sm font-normal mt-4 lg:text-2xl md:text-lg lg:mt-5'>
+            Nsawa Digital is the platform for you
           </p>
           <Link
             href='/auth'
@@ -119,7 +119,7 @@ export default function HomePage() {
             <Card className='flex flex-col'>
               <CardHeader>
                 <CardTitle className='text-2xl'>Basic Plan</CardTitle>
-                <CardDescription>For those just starting out</CardDescription>
+                <CardDescription>Free</CardDescription>
               </CardHeader>
               <CardContent className='flex-grow'>
                 <ul className='space-y-2'>
@@ -141,7 +141,7 @@ export default function HomePage() {
                   </li>
                   <li className='flex items-center'>
                     <X className='mr-2 h-4 w-4 text-red-500' />
-                    No appreciation message
+                    No appreciation messages after funeral
                   </li>
                 </ul>
               </CardContent>
@@ -155,6 +155,9 @@ export default function HomePage() {
             <Card className='flex flex-col border-primary'>
               <CardHeader>
                 <CardTitle className='text-2xl'>Standard Plan</CardTitle>
+                <CardDescription className='font-bold text-lg'>
+                  GHS 199
+                </CardDescription>
               </CardHeader>
               <CardContent className='flex-grow mt-5'>
                 <ul className='space-y-2'>
@@ -186,6 +189,9 @@ export default function HomePage() {
             <Card className='flex flex-col'>
               <CardHeader>
                 <CardTitle className='text-2xl'>Premium Plan</CardTitle>
+                <CardDescription className='font-bold text-lg'>
+                  GHS 299
+                </CardDescription>
               </CardHeader>
               <CardContent className='flex-grow mt-5'>
                 <ul className='space-y-2'>

@@ -24,8 +24,8 @@ const Footer = () => {
       </div>
       <div className='bg-primary px-5'>
         <p className=' mx-auto max-w-7xl text-white py-3 text-sm text-center lg:text-left '>
-          All Rights Reserved Nsawa | Designed by jodesign Developed by
-          jhaystark
+          All Rights Reserved Nsawa Digital | Powered by Variable-X Solutions |
+          info@variablexsolutions.com
         </p>
       </div>
     </div>

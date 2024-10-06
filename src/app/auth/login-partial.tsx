@@ -75,10 +75,10 @@ const LoginPartial = () => {
         </form>
       </Form>
       <div className='space-y-14'>
-        <div className='flex items-center gap-x-2'>
+        {/* <div className='flex items-center gap-x-2'>
           <input type='checkbox' name='' id='' />
           <p className='text-sm'>Remember Me</p>
-        </div>
+        </div> */}
         <div className='flex lg:flex-row flex-col items-center gap-y-3 lg:gap-8'>
           <Button
             className=' rounded-none text-black bg-secondary px-11  py-6'

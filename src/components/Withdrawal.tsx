@@ -92,7 +92,11 @@ export default function Withdrawal() {
 
   useEffect(() => {
     // Check if the account number length is either 10 or 12 before triggering verification
-    if (accountNumber.length === 10 || accountNumber.length === 12) {
+    if (
+      accountNumber.length === 10 ||
+      accountNumber.length === 12 ||
+      accountNumber.length > 12
+    ) {
       bankName && verifyAccount();
     }
   }, [debouncedAccountNumber]);

@@ -18,10 +18,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { ExternalLink } from 'lucide-react';
 import { useGetKeyPersonsQuery } from '@/lib/features/keyPersonsApiSlice';
+import PaginationComponent from './PaginationComponent';
 
 export default function MournersList({ funeralDetails }: any) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const { data } = useGetKeyPersonsQuery(funeralDetails?._id || '');
 
   return (
@@ -63,6 +66,12 @@ export default function MournersList({ funeralDetails }: any) {
             </TableBody>
           </Table>
         </div>
+        <PaginationComponent
+          currentPage={pageNumber}
+          itemsPerPage={pageSize}
+          onPageChange={page => setPageNumber(() => page)}
+          totalItems={data?.total}
+        />
       </DialogContent>
     </Dialog>
   );

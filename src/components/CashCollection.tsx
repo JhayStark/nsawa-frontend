@@ -21,7 +21,7 @@ import { Checkbox } from './ui/checkbox';
 
 const donationsSchema = z.object({
   donorName: z.string(),
-  keyPerson: z.string(),
+  keyPerson: z.string().optional(),
   donorPhoneNumber: z.string(),
   amountDonated: z.string(),
   modeOfDonation: z.string(),
@@ -64,11 +64,12 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
     async (data: z.infer<typeof donationsSchema>) => {
       createDonation(data)
         .unwrap()
-        .then(() =>
+        .then(() => {
           toast({
             title: 'Donation recieved',
-          })
-        )
+          });
+          form.reset({});
+        })
         .catch(err =>
           toast({
             title: 'Donation not recieved',

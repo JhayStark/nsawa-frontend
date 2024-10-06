@@ -108,7 +108,7 @@ const SignUp = () => {
           <input type='checkbox' name='' id='' />
           <p className='text-sm'>
             I agree to the{' '}
-            <Link href='/terms' className='font-bold'>
+            <Link href='/' className='font-bold'>
               Terms & Conditions ?
             </Link>
           </p>

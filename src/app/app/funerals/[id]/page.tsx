@@ -11,6 +11,7 @@ import MournersList from '@/components/MournersList';
 import Withdrawal from '@/components/Withdrawal';
 import DonorSMSSubscriptionPopup from '@/components/Subscription';
 import { useEffect, useMemo } from 'react';
+import ThankYouComposer from '@/components/ThankYouComposer';
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -64,6 +65,7 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
+                <ThankYouComposer />
               </div>
             </div>
           </div>

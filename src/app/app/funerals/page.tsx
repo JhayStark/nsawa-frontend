@@ -15,17 +15,21 @@ import { formatDateToString, checkActiveFuneral } from '@/lib/helpers';
 import { useGetFuneralsQuery } from '@/lib/features/funeralApiSlice';
 import { useRouter } from 'next/navigation';
 import FuneralCard from '@/components/FuneralCard';
+import { useState } from 'react';
+import PaginationComponent from '@/components/PaginationComponent';
 
 const Page = () => {
   const router = useRouter();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const { data } = useGetFuneralsQuery({
     search: '',
-    pageSize: 10,
-    pageNumber: 1,
+    pageSize,
+    pageNumber,
   });
 
   return (
-    <div className='font-sentient h-full space-y-3 '>
+    <div className='font-sentient h-full space-y-3 lg:overflow-hidden '>
       <Link href='/app/funerals/create'>
         <Button className='flex items-center gap-x-3 w-full  p-5 xl:max-w-72 ml-auto '>
           <CirclePlus />
@@ -33,7 +37,7 @@ const Page = () => {
         </Button>
       </Link>
       <div className='grid grid-cols-4 gap-4'>
-        <div className='hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-5  pb-5 col-span-4 2xl:col-span-3'>
+        <div className='hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-5 max-h-[calc(100vh-150px)] overflow-y-auto overflow-x-hidden pb-5 col-span-4 2xl:col-span-3'>
           {data?.funerals?.map((funeral: any, index: number) => (
             <Card
               key={funeral._id}
@@ -104,6 +108,12 @@ const Page = () => {
           </ul>
         </div>
       </div>
+      <PaginationComponent
+        currentPage={pageNumber}
+        itemsPerPage={pageSize}
+        onPageChange={page => setPageNumber(() => page)}
+        totalItems={data?.total}
+      />
     </div>
   );
 };
