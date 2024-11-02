@@ -31,12 +31,12 @@ const Page = () => {
           className='w-full flex-1 lg:col-span-2 h-full rounded-md'
           style={{
             backgroundImage: `url(${data?.bannerImage})`,
-            backgroundSize: 'cover',
+            backgroundSize: '100%',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
           }}
         >
-          <div className='bg-black opacity-55 rounded-md h-full w-full'>
+          <div className='bg-black bg-opacity-60 rounded-md h-full w-full'>
             <div className='text-white h-full p-3 lg:p-5 flex flex-col justify-between '>
               <div>
                 <div>

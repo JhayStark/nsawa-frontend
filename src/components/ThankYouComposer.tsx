@@ -39,7 +39,7 @@ export default function ThankYouComposer() {
           Compose Thank You Message
         </Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className='sm:max-w-[425px] lg:max-w-[600px]'>
         <DialogHeader>
           <DialogTitle>Compose Thank You Message</DialogTitle>
           <DialogDescription>

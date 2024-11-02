@@ -11,15 +11,16 @@ const Page = () => {
   const { data } = useGetPublicFuneralQuery(params.id as string);
   return (
     <div className='flex justify-center items-center flex-col h-screen '>
-      <div className='grid grid-cols-2 gap-2'>
-        <div className='hidden lg:block relative w-[500px]'>
-          <Image
-            src={data?.bannerImage}
-            fill
-            alt='deceaseds image'
-            className='rounded-[8px] object-cover'
-          />
-        </div>
+      <div className='grid grid-cols-2 items-center gap-2'>
+        {/* <div className='hidden lg:block relative w-[500px]'> */}
+        <Image
+          src={data?.bannerImage}
+          width={500}
+          height={800}
+          alt='deceaseds image'
+          className='rounded-[8px] object-cover'
+        />
+        {/* </div> */}
         <div className='col-span-2 px-1 lg:col-span-1 flex justify-center items-center flex-col'>
           <h2 className='text-center lg:text-left text-lg lg:text-xl font-bold font-sans px-4 pt-5 pb-4'>
             Scan to donate to the {data?.familyName} family
