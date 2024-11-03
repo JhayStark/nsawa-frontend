@@ -1,4 +1,5 @@
 import { apiSlice } from '@/lib/api/apiSlice';
+import { verify } from 'crypto';
 
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
@@ -16,7 +17,26 @@ const authApiSlice = apiSlice.injectEndpoints({
         body: credentials,
       }),
     }),
+    sendResetOtp: builder.mutation({
+      query: credentials => ({
+        url: '/auth//send-reset-password-otp',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
+    verifyResetOtp: builder.mutation({
+      query: credentials => ({
+        url: '/auth/verify-reset-password-otp',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApiSlice;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useSendResetOtpMutation,
+  useVerifyResetOtpMutation,
+} = authApiSlice;

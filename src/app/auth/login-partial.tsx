@@ -71,6 +71,7 @@ const LoginPartial = () => {
             name='password'
             placeholder='Password'
             className='text-white'
+            type='password'
           />
         </form>
       </Form>

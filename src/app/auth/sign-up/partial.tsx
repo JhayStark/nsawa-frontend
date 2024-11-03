@@ -13,13 +13,17 @@ import { login } from '@/lib/features/auth/authSlice';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Phone } from 'lucide-react';
 
 const signUpSchema = z
   .object({
     name: z.string().min(1, { message: 'Enter a valid name' }),
     email: z.string().email({ message: 'Enter a valid email' }),
     password: z.string().min(8, { message: 'Must be above 8 characters' }),
+    phoneNumber: z
+      .string()
+      .min(10, { message: 'Enter a valid phone number' })
+      .max(13, { message: 'Enter a valid phone number' }),
     confirmPassword: z
       .string()
       .min(8, { message: 'Must be above 8 characters' }),
@@ -51,22 +55,25 @@ const SignUp = () => {
       fullName: data.name,
       email: data.email,
       password: data.password,
+      phoneNumber: data.phoneNumber,
     })
       .unwrap()
       .then(data => {
         setIsLoading(false);
-        toast({ title: 'Logged In' });
+        toast({ title: 'Sign up successful' });
         dispatch(login({ user: data }));
         router.replace('/app');
       })
       .catch(err => {
         setIsLoading(false);
         toast({
-          title: err?.data?.message || 'Failed to login',
+          title: err?.data?.message || 'Failed to Sign up',
           variant: 'destructive',
         });
       });
   };
+
+  console.log(form.formState.errors);
   return (
     <div className='font-poppins w-full lg:max-w-[550px] text-white space-y-5  sm:space-y-10 lg:space-y-16'>
       <h2 className='font-bold text-4xl text-center lg:text-left lg:text-7xl mt-10 lg:mt-0'>
@@ -92,14 +99,22 @@ const SignUp = () => {
           />
           <InputField
             form={form}
+            name='phoneNumber'
+            placeholder='0*********'
+            className='text-white'
+          />
+          <InputField
+            form={form}
             name='password'
             placeholder='Password'
             className='text-white'
+            type='password'
           />
           <InputField
             form={form}
             name='confirmPassword'
             placeholder='Confirm Password'
+            type='password'
           />
         </form>
       </Form>
