@@ -41,7 +41,7 @@ const BottomNavigation = () => {
     return routeName == path;
   };
   return (
-    <nav className='h-[70px] bg-primary fixed w-full bottom-0'>
+    <nav className='h-[70px] bg-primary fixed lg:hidden w-full bottom-0'>
       <ul className='flex justify-between items-center h-full px-6 '>
         {menuOptions?.map(menu => (
           <Link key={menu.title} href={`/app/${menu.link}`}>
