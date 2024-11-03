@@ -76,6 +76,7 @@ const LoginPartial = () => {
         </form>
       </Form>
       <div className='space-y-14'>
+        <Link href='/auth/reset'>Forgot password?</Link>
         {/* <div className='flex items-center gap-x-2'>
           <input type='checkbox' name='' id='' />
           <p className='text-sm'>Remember Me</p>
