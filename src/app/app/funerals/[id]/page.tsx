@@ -9,8 +9,7 @@ import AddMourner from '@/components/AddMourner';
 import { formatDateToString } from '@/lib/helpers';
 import MournersList from '@/components/MournersList';
 import Withdrawal from '@/components/Withdrawal';
-import DonorSMSSubscriptionPopup from '@/components/Subscription';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import ThankYouComposer from '@/components/ThankYouComposer';
 
 const Page = () => {
@@ -51,8 +50,8 @@ const Page = () => {
               </div>
               <div className='flex sm:flex-row flex-col gap-10 items-end justify-between '>
                 <div className='text-secondary w-full lg:w-fit flex justify-between pt-3 lg:0 lg:block text-lg'>
-                  <div className='flex items-center gap-2'>
-                    <MapPinIcon className='h-5 w-5 ' />
+                  <div className='flex items-center gap-x-1'>
+                    <MapPinIcon className='h-5 w-5' />
                     <div className=''>{data?.funeralLocation}</div>
                   </div>
                   <div className='hidden lg:flex items-center gap-2'>

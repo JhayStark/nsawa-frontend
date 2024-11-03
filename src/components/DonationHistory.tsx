@@ -73,6 +73,7 @@ export default function DonationHistory({ funeralDetails }: any) {
               <SelectValue placeholder='Select filter' />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value='all'>All</SelectItem>
               <SelectItem value='Cash'>Cash</SelectItem>
               <SelectItem value='Online'>Online</SelectItem>
             </SelectContent>
@@ -109,20 +110,24 @@ export default function DonationHistory({ funeralDetails }: any) {
             <TableHeader>
               <TableRow>
                 <TableHead>Donor Name</TableHead>
-                <TableHead>Phone Number</TableHead>
+                <TableHead className='hidden md:block'>Phone Number</TableHead>
                 <TableHead>Donated To</TableHead>
                 <TableHead>Amount</TableHead>
-                <TableHead>Mode</TableHead>
+                <TableHead className='hidden md:block'>Mode</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {data?.donations.map((donation: any) => (
                 <TableRow key={donation._id}>
                   <TableCell>{donation.donorName}</TableCell>
-                  <TableCell>{donation.donorPhoneNumber}</TableCell>
+                  <TableCell className='hidden md:block'>
+                    {donation.donorPhoneNumber}
+                  </TableCell>
                   <TableCell>{donation?.keyPerson?.name || ''}</TableCell>
                   <TableCell>{donation.amountDonated}</TableCell>
-                  <TableCell>{donation.modeOfDonation}</TableCell>
+                  <TableCell className='hidden md:block'>
+                    {donation.modeOfDonation}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { InputField, SelectFormField, TextField } from './ui/form-fields';
 import { Form } from './ui/form';
 import { Button } from './ui/button';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useGetKeyPersonsQuery } from '@/lib/features/keyPersonsApiSlice';
 import { useAddDonationMutation } from '@/lib/features/donationsApiSlice';
 import { CircleX, HandCoins } from 'lucide-react';
@@ -30,6 +30,7 @@ const donationsSchema = z.object({
 });
 
 const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
+  const cashCollectionRef = useRef<HTMLDivElement | null>(null);
   const searchParams = useSearchParams();
   const openForm = searchParams.get('sub-form') || '';
   const params = new URLSearchParams(searchParams.toString());
@@ -98,6 +99,12 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
     );
   };
 
+  useEffect(() => {
+    if (openForm === 'recieve-donation') {
+      cashCollectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [openForm]);
+
   return (
     <Collapsible
       open={openForm == 'recieve-donation'}
@@ -112,7 +119,10 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
         )}
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <div className='border-2 border-primary rounded-lg p-5  h-[550px] flex justify-between flex-col'>
+        <div
+          className='border-2 border-primary rounded-lg p-5  h-[550px] flex justify-between flex-col'
+          ref={cashCollectionRef}
+        >
           <div className='relative'>
             <h2 className='text-center text-lg font-semibold'>
               Recieve Cash Donation

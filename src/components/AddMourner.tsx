@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { InputField, SelectFormField } from './ui/form-fields';
 import { Form } from './ui/form';
 import { Button } from './ui/button';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useCreatePersonalityMutation } from '@/lib/features/keyPersonsApiSlice';
 import { CircleX, UserPlus } from 'lucide-react';
 import {
@@ -24,6 +24,7 @@ const createPersonalitySchema = z.object({
 });
 
 const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
+  const mournerRef = useRef<HTMLDivElement | null>(null);
   const searchParams = useSearchParams();
   const funeralId = useParams().id;
   const openForm = searchParams.get('sub-form') || '';
@@ -80,6 +81,12 @@ const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
     }
   }, [selectedFuneral]);
 
+  useEffect(() => {
+    if (openForm === 'add-mourner') {
+      mournerRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [openForm]);
+
   return (
     <Collapsible open={openForm == 'add-mourner'} onOpenChange={handleOpen}>
       <CollapsibleTrigger asChild>
@@ -91,7 +98,10 @@ const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
         )}
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <div className='border-2 border-primary rounded-lg p-5  h-[500px] flex justify-between flex-col'>
+        <div
+          className='border-2 border-primary rounded-lg p-5  h-[500px] flex justify-between flex-col'
+          ref={mournerRef}
+        >
           <div className='relative'>
             <h2 className='text-center text-lg font-semibold'>
               Add Chief Mourners

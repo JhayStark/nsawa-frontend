@@ -1,14 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  CalendarIcon,
-  ChevronRight,
-  CirclePlus,
-  Eye,
-  MapPinIcon,
-  ScrollText,
-} from 'lucide-react';
+import { CalendarIcon, CirclePlus, MapPinIcon, ScrollText } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatDateToString, checkActiveFuneral } from '@/lib/helpers';
@@ -75,7 +68,7 @@ const Page = () => {
             </Card>
           ))}
         </div>
-        <div className='lg:hidden col-span-4 space-y-5 pb-2'>
+        <div className='max-h-[calc(100vh-200px)]  overflow-y-auto lg:hidden col-span-4 space-y-5 pb-2'>
           {data?.funerals?.map((funeral: any) => (
             <FuneralCard funeral={funeral} key={funeral._id} />
           ))}
