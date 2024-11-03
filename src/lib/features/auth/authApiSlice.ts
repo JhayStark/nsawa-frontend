@@ -19,7 +19,7 @@ const authApiSlice = apiSlice.injectEndpoints({
     }),
     sendResetOtp: builder.mutation({
       query: credentials => ({
-        url: '/auth//send-reset-password-otp',
+        url: '/auth/send-reset-password-otp',
         method: 'POST',
         body: credentials,
       }),
