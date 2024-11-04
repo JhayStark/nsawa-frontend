@@ -20,8 +20,10 @@ const donationsApiSlice = apiSlice.injectEndpoints({
     }),
 
     getDonations: builder.query({
-      query: ({ id, search, pageSize, pageNumber, paymentMethod = '' }) =>
-        `/donation/${id}?search=${search}&pageSize=${pageSize}&pageNumber=${pageNumber}&paymentMethod=${paymentMethod}`,
+      query: ({ id, search, pageSize, pageNumber, paymentMethod = '' }) => {
+        const method = paymentMethod == 'all' ? '' : paymentMethod;
+        return `/donation/${id}?search=${search}&pageSize=${pageSize}&pageNumber=${pageNumber}&paymentMethod=${method}`;
+      },
       providesTags: ['Donation'],
     }),
     getDonationStats: builder.query({
