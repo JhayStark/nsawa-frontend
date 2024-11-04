@@ -1,3 +1,5 @@
+'use client';
+
 import {
   FormControl,
   FormDescription,
@@ -21,12 +23,13 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+// import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { Input } from './input';
-import { Checkbox } from './checkbox';
+// import { Checkbox } from './checkbox';
+import { useState } from 'react';
 
 type FormProps<T extends FieldValues> = {
   name: Path<T>;
@@ -120,6 +123,7 @@ export const DatePickerField = <T extends FieldValues>({
   className,
   placeholder,
 }: FormProps<T>) => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   return (
     <FormField
       control={form.control}
@@ -127,7 +131,7 @@ export const DatePickerField = <T extends FieldValues>({
       render={({ field }) => (
         <FormItem className='flex flex-col'>
           <FormLabel>{label}</FormLabel>
-          <Popover>
+          <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
@@ -150,7 +154,10 @@ export const DatePickerField = <T extends FieldValues>({
               <Calendar
                 mode='single'
                 selected={field.value}
-                onSelect={field.onChange}
+                onSelect={date => {
+                  field.onChange(date);
+                  setIsPopoverOpen(false); // Close popover on date selection
+                }}
                 disabled={date => date < new Date('1900-01-01')}
                 initialFocus
               />

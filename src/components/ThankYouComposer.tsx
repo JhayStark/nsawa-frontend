@@ -45,7 +45,7 @@ export default function ThankYouComposer() {
           <DialogTitle>Compose Thank You Message</DialogTitle>
           <DialogDescription>
             Write a heartfelt thank you message to send to your donors. Click
-            send when you&apos;re done.
+            compose when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
@@ -62,7 +62,7 @@ export default function ThankYouComposer() {
             </div>
           </div>
           <DialogFooter>
-            <Button type='submit'>Send Message</Button>
+            <Button type='submit'>Compose</Button>
           </DialogFooter>
         </form>
       </DialogContent>
