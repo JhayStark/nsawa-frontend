@@ -53,11 +53,13 @@ const Page = () => {
             <QRCode
               size={256}
               style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-              value={`https://www.nsawa.com/`}
+              value={process.env.NEXT_PUBLIC_FRONTEND_URL + '/' + data?._id}
               viewBox={`0 0 256 256`}
             />
           </div>
-          <p className='italic text-sm text-primary mt-5'>Powered by Nsawa</p>
+          <p className='italic text-sm text-primary mt-5'>
+            Powered by Nsawa Digital
+          </p>
         </div>
       </div>
     </div>

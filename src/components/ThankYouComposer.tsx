@@ -36,13 +36,13 @@ export default function ThankYouComposer() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant='secondary' className='md:text-lg text-primary'>
-          <span className='hidden md:block'>Compose Thank You Message</span>
+          <span className='hidden md:block'>Compose Appreciation Message</span>
           <span className='md:hidden '>Compose Message</span>
         </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px] lg:max-w-[600px]'>
         <DialogHeader>
-          <DialogTitle>Compose Thank You Message</DialogTitle>
+          <DialogTitle>Compose Appreciation Message</DialogTitle>
           <DialogDescription>
             Write a heartfelt thank you message to send to your donors. Click
             compose when you&apos;re done.

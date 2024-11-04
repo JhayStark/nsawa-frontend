@@ -5,12 +5,14 @@ import { useEffect, useState } from 'react';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 import { Trash2 } from 'lucide-react';
 import { Button } from './ui/button';
+import { useToast } from './ui/use-toast';
 
 export default function FileUpload({ onUpdate }: { onUpdate?: any }) {
   const [images, setImages] = useState<ImageListType>([]);
   const [bannerIndex, setBannerIndex] = useState<number | null>(null);
   const [showUpload, setShowUpload] = useState(true);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const toast = useToast();
   const maxNumber = 4;
 
   const onChange = (imageList: ImageListType) => {
@@ -70,7 +72,13 @@ export default function FileUpload({ onUpdate }: { onUpdate?: any }) {
                   <Button
                     variant='secondary'
                     className='text-xs p-2'
-                    onClick={() => setBannerIndex(selectedImage)}
+                    onClick={() => {
+                      setBannerIndex(selectedImage);
+                      toast.toast({
+                        title: 'Banner Set',
+                        description: 'Banner has been set',
+                      });
+                    }}
                   >
                     Set as Banner
                   </Button>

@@ -110,22 +110,24 @@ export default function DonationHistory({ funeralDetails }: any) {
             <TableHeader>
               <TableRow>
                 <TableHead>Donor Name</TableHead>
-                <TableHead className='hidden md:block'>Phone Number</TableHead>
+                <TableHead className='hidden md:table-cell'>
+                  Phone Number
+                </TableHead>
                 <TableHead>Donated To</TableHead>
                 <TableHead>Amount</TableHead>
-                <TableHead className='hidden md:block'>Mode</TableHead>
+                <TableHead className='hidden md:table-cell'>Mode</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {data?.donations.map((donation: any) => (
                 <TableRow key={donation._id}>
                   <TableCell>{donation.donorName}</TableCell>
-                  <TableCell className='hidden md:block'>
+                  <TableCell className='hidden md:table-cell'>
                     {donation.donorPhoneNumber}
                   </TableCell>
                   <TableCell>{donation?.keyPerson?.name || ''}</TableCell>
                   <TableCell>{donation.amountDonated}</TableCell>
-                  <TableCell className='hidden md:block'>
+                  <TableCell className='hidden md:table-cell'>
                     {donation.modeOfDonation}
                   </TableCell>
                 </TableRow>

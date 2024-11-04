@@ -93,7 +93,7 @@ const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
         {openForm !== 'add-mourner' && (
           <div className='h-14 space-x-5 flex justify-center items-center border-2 border-primary rounded-lg w-full'>
             <UserPlus />
-            <p className='text-lg'>Add Chief Mourners</p>
+            <p className='text-lg'>Add Mourners</p>
           </div>
         )}
       </CollapsibleTrigger>
@@ -103,9 +103,7 @@ const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
           ref={mournerRef}
         >
           <div className='relative'>
-            <h2 className='text-center text-lg font-semibold'>
-              Add Chief Mourners
-            </h2>
+            <h2 className='text-center text-lg font-semibold'>Add Mourners</h2>
             <p className='text-sm text-center'>
               In Memory of {funeralDetails?.nameOfDeceased}
             </p>
