@@ -163,7 +163,7 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
               <SelectFormField
                 form={form}
                 name='keyPerson'
-                placeholder='Select chief mourner'
+                placeholder='Select mourner'
                 className='placeholder:text-primary'
                 options={keyPersons}
               />
