@@ -35,7 +35,7 @@ export default function ThankYouComposer() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant='secondary' className='md:text-lg text-primary'>
+        <Button variant='secondary' className=' text-primary'>
           <span className='hidden md:block'>Compose Appreciation Message</span>
           <span className='md:hidden '>Compose Message</span>
         </Button>

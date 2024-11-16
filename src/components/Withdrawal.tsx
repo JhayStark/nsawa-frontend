@@ -28,10 +28,15 @@ import {
 import { useGetDonationStatsQuery } from '@/lib/features/donationsApiSlice';
 import { useParams } from 'next/navigation';
 import { useDebounce } from 'use-debounce';
+import {
+  useGetWithdrawalOtpMutation,
+  useVerifyWithdrawalOtpMutation,
+} from '@/lib/features/funeralApiSlice';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function Withdrawal() {
   const params = useParams();
-  const [withdrawalMethod, setWithdrawalMethod] = useState('mobile');
+  const [withdrawalMethod, setWithdrawalMethod] = useState('mobile_money');
   const [bankName, setBankName] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
   const [accountName, setAccountName] = useState('');
@@ -46,6 +51,10 @@ export default function Withdrawal() {
   const { data: stats } = useGetDonationStatsQuery(
     (params?.id as string) || ''
   );
+  const [sendOtp] = useGetWithdrawalOtpMutation();
+  const [verifyOtp] = useVerifyWithdrawalOtpMutation();
+  const { toast } = useToast();
+
   const [debouncedAccountNumber] = useDebounce(accountNumber, 500);
 
   const banks = useMemo(() => {
@@ -58,31 +67,32 @@ export default function Withdrawal() {
     setAccountName('');
   }, [withdrawalMethod]);
 
-  // Simulated withdrawal amount (replace with actual system-determined amount)
-  const withdrawalAmount = 1000;
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Simulate API call to verify account and process withdrawal
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    setIsLoading(false);
-    // Handle successful withdrawal here
-
-    setShowOtpDialog(true);
+    try {
+      await sendOtp(params.id as string).unwrap();
+      toast({
+        title: 'OTP sent successfully',
+      });
+      setShowOtpDialog(true);
+    } catch (error) {
+      toast({
+        title: 'Error sending OTP',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const verifyAccount = async () => {
     setIsLoading(true);
 
     // Simulate API call to verify account
-    // await new Promise(resolve => setTimeout(resolve, 1000));
     await verifyAccountDetails({ accountNumber, bankCode: bankName })
       .unwrap()
       .then(res => {
-        // res.data;
         setAccountName(res?.data?.data?.account_name);
       })
       .catch(() => setIsLoading(false));
@@ -107,21 +117,25 @@ export default function Withdrawal() {
     setOtpError('');
 
     try {
-      // Simulate OTP verification
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      if (otp === '123456') {
-        // Replace with actual OTP verification logic
-        // Simulate withdrawal process
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        console.log('Withdrawal processed successfully');
-        setShowOtpDialog(false);
-        // Reset form or show success message
-      } else {
-        setOtpError('Invalid OTP. Please try again.');
-      }
+      const data = {
+        type: withdrawalMethod,
+        name: accountName,
+        currency: 'GHS',
+        account_number: accountNumber,
+        bank_code: bankName,
+        reason: 'Donation withdrawal',
+        amount:
+          stats?.totalMomoDonations?.toFixed(2) -
+          stats?.totalMomoDonations?.toFixed(2) * 0.06,
+        otp,
+        funeralId: params.id as string,
+      };
+      await verifyOtp(data).unwrap();
+      toast({
+        title: 'Withdrawal successful',
+      });
+      setShowOtpDialog(false);
     } catch (error) {
-      console.error('Error processing withdrawal:', error);
       setOtpError('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
@@ -147,12 +161,15 @@ export default function Withdrawal() {
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit}>
-            <Tabs defaultValue='mobile' onValueChange={setWithdrawalMethod}>
+            <Tabs
+              defaultValue='mobile_money'
+              onValueChange={setWithdrawalMethod}
+            >
               <TabsList className='grid w-full grid-cols-2'>
-                <TabsTrigger value='mobile'>Mobile Money</TabsTrigger>
+                <TabsTrigger value='mobile_money'>Mobile Money</TabsTrigger>
                 <TabsTrigger value='bank'>Bank Transfer</TabsTrigger>
               </TabsList>
-              <TabsContent value='mobile' className='space-y-4'>
+              <TabsContent value='mobile_money' className='space-y-4'>
                 <div className='space-y-2'>
                   <Label htmlFor='bankName'>Bank Name</Label>
                   <Select onValueChange={setBankName} required>
@@ -208,14 +225,6 @@ export default function Withdrawal() {
               </TabsContent>
             </Tabs>
             <div className='mt-4 space-y-4'>
-              {/* <Button
-                type='button'
-                variant='outline'
-                onClick={verifyAccount}
-                disabled={isLoading || !bankName || !accountNumber}
-              >
-                {isLoading ? 'Verifying...' : 'Verify Account'}
-              </Button> */}
               {accountName && (
                 <div className='text-sm'>
                   <strong>Account Name:</strong> {accountName}
@@ -223,16 +232,16 @@ export default function Withdrawal() {
               )}
               <div className='text-sm '>
                 <strong>Donations recieved:</strong> GHS{' '}
-                {stats?.totalDonations?.toFixed(2)}
+                {stats?.totalMomoDonations?.toFixed(2)}
               </div>
               <div className='text-sm '>
                 <strong>Charges (6 %):</strong> GHS{' '}
-                {stats?.totalDonations?.toFixed(2) * 0.06}
+                {stats?.totalMomoDonations?.toFixed(2) * 0.06}
               </div>
               <div className='text-sm '>
                 <strong>Withdrawal Amount:</strong> GHS{' '}
-                {stats?.totalDonations?.toFixed(2) -
-                  stats?.totalDonations?.toFixed(2) * 0.06}
+                {stats?.totalMomoDonations?.toFixed(2) -
+                  stats?.totalMomoDonations?.toFixed(2) * 0.06}
               </div>
               <Button type='submit' disabled={isLoading || !accountName}>
                 {isLoading ? 'Processing...' : 'Confirm Withdrawal'}

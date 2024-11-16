@@ -50,13 +50,13 @@ const Page = () => {
               </div>
               <div className='flex sm:flex-row flex-col gap-10 items-end justify-between '>
                 <div className='text-secondary w-full lg:w-fit flex justify-between pt-3 lg:0 lg:block text-lg'>
-                  <div className='flex items-center gap-x-1'>
+                  <div className='flex items-center gap-x-2'>
                     <MapPinIcon className='h-5 w-5' />
-                    <div className=''>{data?.funeralLocation}</div>
+                    <div className='text-sm'>{data?.funeralLocation}</div>
                   </div>
-                  <div className='hidden lg:flex items-center gap-2'>
+                  <div className='hidden lg:flex items-center gap-2 mt-2'>
                     <CalendarIcon className='h-5 w-5 ' />
-                    <div className=''>
+                    <div className='text-sm'>
                       <span>From</span>{' '}
                       <span>{formatDateToString(data?.startDate)}</span>{' '}
                       <span>to</span>{' '}

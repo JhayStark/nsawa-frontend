@@ -1,4 +1,5 @@
 import { apiSlice } from '@/lib/api/apiSlice';
+import { verify } from 'crypto';
 
 const funeralApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
@@ -19,6 +20,26 @@ const funeralApiSlice = apiSlice.injectEndpoints({
     getPublicFuneral: builder.query({
       query: (id: string) => `/funerals/public/${id}`,
     }),
+    getWithdrawalOtp: builder.mutation({
+      query: (id: string) => ({
+        url: `/funeral/withdraw-otp?funeralId=${id}`,
+        method: 'GET',
+      }),
+    }),
+    verifyWithdrawalOtp: builder.mutation({
+      query: (body: any) => ({
+        url: `/funeral/verify-otp`,
+        method: 'POST',
+        body,
+      }),
+    }),
+    confirmDonationOtp: builder.mutation({
+      query: (body: any) => ({
+        url: `/pub/confirm-otp`,
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -27,4 +48,7 @@ export const {
   useGetFuneralQuery,
   useGetFuneralsQuery,
   useGetPublicFuneralQuery,
+  useGetWithdrawalOtpMutation,
+  useVerifyWithdrawalOtpMutation,
+  useConfirmDonationOtpMutation,
 } = funeralApiSlice;

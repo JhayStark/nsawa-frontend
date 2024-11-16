@@ -77,6 +77,7 @@ export default function FileUpload({ onUpdate }: { onUpdate?: any }) {
                       toast.toast({
                         title: 'Banner Set',
                         description: 'Banner has been set',
+                        variant: 'default',
                       });
                     }}
                   >

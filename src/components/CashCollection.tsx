@@ -36,15 +36,22 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
   const params = new URLSearchParams(searchParams.toString());
   const [showAnnouncement, setShowAnnouncement] = useState(false);
   const [createDonation] = useAddDonationMutation();
-  const { data, isLoading } = useGetKeyPersonsQuery(funeralDetails?._id || '');
+  const { data } = useGetKeyPersonsQuery(funeralDetails?._id || '');
   const { toast } = useToast();
+
+  const donationDefaults = {
+    modeOfDonation: 'Cash',
+    funeralId: funeralDetails?._id,
+    donorName: '',
+    keyPerson: '',
+    donorPhoneNumber: '',
+    amountDonated: '',
+    announcement: '',
+  };
 
   const form = useForm<z.infer<typeof donationsSchema>>({
     resolver: zodResolver(donationsSchema),
-    defaultValues: {
-      modeOfDonation: 'Cash',
-      funeralId: funeralDetails?._id,
-    },
+    defaultValues: donationDefaults,
   });
 
   const keyPersons = useMemo(() => {
@@ -69,7 +76,7 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
           toast({
             title: 'Donation recieved',
           });
-          form.reset({});
+          form.reset(donationDefaults);
         })
         .catch(err =>
           toast({

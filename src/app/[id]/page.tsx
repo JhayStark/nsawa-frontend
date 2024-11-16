@@ -1,6 +1,9 @@
 'use client';
 
-import { useGetPublicFuneralQuery } from '@/lib/features/funeralApiSlice';
+import {
+  useConfirmDonationOtpMutation,
+  useGetPublicFuneralQuery,
+} from '@/lib/features/funeralApiSlice';
 import { useParams } from 'next/navigation';
 import {
   ShadcnCheckBox,
@@ -13,14 +16,24 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import CarouselComponent from '@/components/CarouselComponent';
 import Image from 'next/image';
-import { useMemo } from 'react';
-import { usePaystackPayment } from 'react-paystack';
+import { useMemo, useState } from 'react';
 import { useGetKeyPersonsPublicQuery } from '@/lib/features/keyPersonsApiSlice';
 import { useAddDonationPublicMutation } from '@/lib/features/donationsApiSlice';
 import { useToast } from '@/components/ui/use-toast';
-import { HookConfig } from 'react-paystack/dist/types';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle, Landmark } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const donationSchema = z.object({
   donorName: z.string(),
@@ -42,6 +55,12 @@ const Page = () => {
   );
   const [addDonation] = useAddDonationPublicMutation();
   const { toast } = useToast();
+  const [showOtpDialog, setShowOtpDialog] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [otpError, setOtpError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [confirmOtp] = useConfirmDonationOtpMutation();
+  const [reference, setReference] = useState('');
 
   const keyPersons = useMemo(() => {
     return (
@@ -62,41 +81,18 @@ const Page = () => {
     },
   });
 
-  const config: HookConfig = {
-    reference: form.watch('reference'),
-    email: `${form.watch('donorPhoneNumber')}@nsawa.com`,
-    amount: parseInt(form.watch('amountDonated')) * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-    publicKey: process.env.NEXT_PUBLIC_PAYSTACK as string,
-    currency: 'GHS',
-    firstname: form.watch('donorName'),
-  };
-
-  const initializePayment = usePaystackPayment(config);
-
-  const imagesOfDeceased = useMemo(() => {
-    if (data?.imagesOfDeceased?.length) {
-      return [...data?.imagesOfDeceased, data?.bannerImage];
-    } else {
-      return [];
-    }
-  }, [data]);
-
-  const onSuccess = () => {
-    // Implementation for whatever you want to do with reference and after success call.
-    toast({
-      title: 'Success',
-      description: 'Donation successful',
-    });
-    form.reset();
-  };
-
   const handleSubmit = async (values: z.infer<typeof donationSchema>) => {
     const submitData = values;
     delete submitData?.isAnnouncement;
     await addDonation(submitData)
       .unwrap()
-      .then(() => {
-        initializePayment({ onSuccess });
+      .then(res => {
+        setReference(res?.paymentReference);
+        setShowOtpDialog(res?.showOtpModal);
+        toast({
+          title: 'Donation',
+          description: 'Donation is being processed',
+        });
       })
       .catch(() =>
         toast({
@@ -105,6 +101,25 @@ const Page = () => {
         })
       );
   };
+
+  const handleOtpSubmit = async () => {
+    setIsLoading(true);
+    if (!otp || !reference) return;
+    await confirmOtp({ otp, reference })
+      .unwrap()
+      .then(() => {
+        toast({
+          title: 'Donation',
+          description: 'Donation is being processed',
+        });
+        setShowOtpDialog(false);
+      })
+      .catch(() => {
+        setOtpError('Invalid OTP');
+      })
+      .finally(() => setIsLoading(false));
+  };
+
   return (
     <div className='max-w-7xl mx-auto items-center h-[100svh] flex py-5 xl:py-10 xl:gap-2'>
       <div className='max-w-[589px] flex flex-col xl:px-5 mx-auto overflow-x-hidden'>
@@ -138,7 +153,7 @@ const Page = () => {
               <ShadcnInputField
                 form={form}
                 name='amountDonated'
-                label='Donation amount'
+                label='Amount'
                 formItemClassName=' py-2'
                 // placeholder='GHC 0.00'
               />
@@ -152,7 +167,7 @@ const Page = () => {
                 <ShadcnInputField
                   form={form}
                   name='donorPhoneNumber'
-                  label='Phone Number'
+                  label='Mobile Money Number'
                   // placeholder='Your phone number'
                 />
               </div>
@@ -163,7 +178,7 @@ const Page = () => {
                 className=''
                 formItemClassName='py-2'
                 // placeholder='Select Chief Mourner'
-                label='Chief Mourner'
+                label='Mourner'
               />
               <ShadcnCheckBox
                 form={form}
@@ -190,14 +205,50 @@ const Page = () => {
           </form>
         </Form>
       </div>
-      <div className='flex-1 hidden xl:block'>
-        <CarouselComponent
-          images={imagesOfDeceased}
-          showThumbs={false}
-          swipeable={true}
-          dynamicHeight
+      <div className=' hidden xl:block '>
+        <Image
+          src={data?.bannerImage}
+          width={500}
+          height={800}
+          alt='deceaseds image'
+          className='rounded-[8px] object-cover'
         />
       </div>
+      <Dialog open={showOtpDialog} onOpenChange={setShowOtpDialog}>
+        <DialogContent className='sm:max-w-[425px]'>
+          <DialogHeader>
+            <DialogTitle>Enter OTP</DialogTitle>
+            <DialogDescription>
+              We&apos;ve sent a one-time password to your mobile number. Please
+              enter it below to confirm your donation.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleOtpSubmit} className='space-y-4'>
+            <div className='space-y-2'>
+              <Label htmlFor='otp'>One-Time Password</Label>
+              <Input
+                id='otp'
+                placeholder='Enter OTP'
+                value={otp}
+                onChange={e => setOtp(e.target.value)}
+                required
+              />
+            </div>
+            {otpError && (
+              <Alert variant='destructive'>
+                <AlertCircle className='h-4 w-4' />
+                <AlertTitle>Sorry</AlertTitle>
+                <AlertDescription>{otpError}</AlertDescription>
+              </Alert>
+            )}
+            <DialogFooter>
+              <Button type='submit' disabled={isLoading} className='w-full'>
+                {isLoading ? 'Verifying...' : 'Confirm OTP'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
