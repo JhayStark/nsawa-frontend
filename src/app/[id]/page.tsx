@@ -124,7 +124,8 @@ const Page = () => {
     <div className='max-w-7xl mx-auto items-center h-[100svh] flex py-5 xl:py-10 xl:gap-2'>
       <div className='max-w-[589px] flex flex-col xl:px-5 mx-auto overflow-x-hidden'>
         <h2 className='text-xl font-bold font-sans px-4 pt-5 pb-4'>
-          Donate to the {data?.familyName} family
+          {/* Donate to the {data?.familyName} family */}
+          Funeral Donation
         </h2>
         <div className='px-4 py-2 space-x-4 flex items-center'>
           <Image
@@ -167,7 +168,7 @@ const Page = () => {
                 <ShadcnInputField
                   form={form}
                   name='donorPhoneNumber'
-                  label='Mobile Money Number'
+                  label='Mobile money umber'
                   // placeholder='Your phone number'
                 />
               </div>
@@ -196,7 +197,7 @@ const Page = () => {
             </div>
             <Button
               className='w-full mt-14'
-              variant='secondary'
+              variant='default'
               type='submit'
               form='donationForm'
             >
