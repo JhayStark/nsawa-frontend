@@ -122,6 +122,11 @@ export function SmsPurchaseFlow({
       setShowFLow(false);
       router.push(`/app/funerals/${funeralId}`);
     } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Payment Failed',
+        description: 'Please try again later',
+      });
     } finally {
       setIsLoading(false);
     }
