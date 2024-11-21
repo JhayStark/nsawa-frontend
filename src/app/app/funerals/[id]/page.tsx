@@ -78,7 +78,7 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
-                <ThankYouComposer />
+                <ThankYouComposer funeralId={params?.id as string} />
               </div>
             </div>
           </div>
@@ -142,7 +142,11 @@ const Page = () => {
           <CashCollection funeralDetails={data} />
           <AddMourner funeralDetails={data} />
           <Withdrawal />
-          <SmsPurchaseFlow open={showSmsTop} funeralId={params?.id as string} />
+          <SmsPurchaseFlow
+            open={showSmsTop}
+            funeralId={params?.id as string}
+            handler={setShowSmsTop}
+          />
         </div>
         {/* <DonorSMSSubscriptionPopup funeral={data} /> */}
       </div>

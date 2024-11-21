@@ -58,9 +58,11 @@ const smsPlanData: SMSPlan[] = [
 export function SmsPurchaseFlow({
   funeralId,
   open,
+  handler,
 }: Readonly<{
   funeralId: string;
   open: boolean;
+  handler?: any;
 }>) {
   const router = useRouter();
   const [confirmPayment] = useAddSmsToFuneralMutation();
@@ -99,7 +101,6 @@ export function SmsPurchaseFlow({
         `?paymentReference=${data?.paymentReference}&funerlaId=${funeralId}`
       );
       setStep('confirm');
-      console.log(data, 'data from end point');
     } catch (error) {
       toast({
         variant: 'destructive',
@@ -121,6 +122,11 @@ export function SmsPurchaseFlow({
       setShowFLow(false);
       router.push(`/app/funerals/${funeralId}`);
     } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Payment Failed',
+        description: 'Please try again later',
+      });
     } finally {
       setIsLoading(false);
     }
@@ -129,8 +135,15 @@ export function SmsPurchaseFlow({
   useEffect(() => {
     setShowFLow(open);
   }, [open]);
+
   return (
-    <Dialog open={showFLow} onOpenChange={setShowFLow}>
+    <Dialog
+      open={showFLow}
+      onOpenChange={() => {
+        setShowFLow(prev => !prev);
+        handler((prev: any) => !prev);
+      }}
+    >
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>
@@ -213,6 +226,10 @@ export function SmsPurchaseFlow({
             </div>
             <p className='text-center text-lg font-semibold'>
               Payment Initiated!
+            </p>
+            <p className='text-gray-600 text-sm text-center'>
+              Click confirm payment once you have authorised the transaction on
+              your device
             </p>
             <Button onClick={handleConfirm}>
               {' '}

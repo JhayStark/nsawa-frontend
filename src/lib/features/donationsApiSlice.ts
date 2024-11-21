@@ -30,6 +30,14 @@ const donationsApiSlice = apiSlice.injectEndpoints({
       query: (id: string) => `/donation/stats/${id}`,
       providesTags: ['Donation'],
     }),
+    sendThankYouMessage: builder.mutation({
+      query: body => ({
+        url: '/donation/thank-you-message',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Funeral'],
+    }),
   }),
 });
 
@@ -38,4 +46,5 @@ export const {
   useGetDonationsQuery,
   useGetDonationStatsQuery,
   useAddDonationPublicMutation,
+  useSendThankYouMessageMutation,
 } = donationsApiSlice;

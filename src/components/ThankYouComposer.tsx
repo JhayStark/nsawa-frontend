@@ -14,16 +14,21 @@ import {
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
+import { useSendThankYouMessageMutation } from '@/lib/features/donationsApiSlice';
 
-export default function ThankYouComposer() {
+export default function ThankYouComposer({
+  funeralId,
+}: Readonly<{ funeralId: string }>) {
   const [message, setMessage] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [sendThankYouMessage] = useSendThankYouMessageMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the message to your backend
-    // For this example, we'll just simulate a successful submission
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+    await sendThankYouMessage({
+      funeralId,
+      message,
+    }).unwrap();
     toast({
       title: 'Thank you message sent',
       description: 'Your message has been successfully sent to the donor.',
