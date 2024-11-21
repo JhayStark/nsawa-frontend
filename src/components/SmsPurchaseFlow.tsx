@@ -141,7 +141,9 @@ export function SmsPurchaseFlow({
       open={showFLow}
       onOpenChange={() => {
         setShowFLow(prev => !prev);
-        handler((prev: any) => !prev);
+        if (handler) {
+          handler((prev: any) => !prev);
+        }
       }}
     >
       <DialogContent className='sm:max-w-[425px]'>
