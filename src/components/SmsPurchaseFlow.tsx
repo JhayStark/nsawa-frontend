@@ -62,7 +62,7 @@ export function SmsPurchaseFlow({
 }: Readonly<{
   funeralId: string;
   open: boolean;
-  handler: any;
+  handler?: any;
 }>) {
   const router = useRouter();
   const [confirmPayment] = useAddSmsToFuneralMutation();
