@@ -118,6 +118,7 @@ export function SmsPurchaseFlow({
         funeralId,
         reference: paymentReference as string,
       }).unwrap();
+      setShowFLow(false);
       router.push(`/app/funerals/${funeralId}`);
     } catch (error) {
     } finally {
