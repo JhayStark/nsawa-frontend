@@ -19,9 +19,9 @@ import {
 import { Upload } from 'lucide-react';
 import { ImageListType } from 'react-images-uploading';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { Loader2 } from 'lucide-react';
+import { SmsPurchaseFlow } from '@/components/SmsPurchaseFlow';
 
 const createFuneralSchema = z.object({
   nameOfDeceased: z.string(),
@@ -62,10 +62,11 @@ const handleImageUpload = async (imageFiles: File[]) => {
 };
 
 const CreateFuneral = () => {
-  const router = useRouter();
   const { toast } = useToast();
   const [createFuneral] = useCreateMutation();
   const [submitting, setSubmitting] = useState(false);
+  const [showSmsPlans, setShowSmsPlans] = useState(false);
+  const [funeralId, setFuneralId] = useState<string | null>(null);
   const [imageData, setImageData] = useState<{
     bannerIndex: number | null;
     images: ImageListType | [];
@@ -76,7 +77,7 @@ const CreateFuneral = () => {
 
   const onSubmit = async (data: z.infer<typeof createFuneralSchema>) => {
     setSubmitting(true);
-    if (imageData?.images?.length <= 0 || imageData?.bannerIndex == null) {
+    if (imageData?.images?.length <= 0) {
       setSubmitting(false);
       toast({
         title: 'Upload images of deceased',
@@ -87,7 +88,7 @@ const CreateFuneral = () => {
       return;
     }
 
-    const bannerImage = imageData.images[imageData.bannerIndex].file as File;
+    const bannerImage = imageData.images[0].file as File;
 
     // Filter out the undefined values
     const imagesWithoutBannerImage = imageData.images
@@ -128,10 +129,12 @@ const CreateFuneral = () => {
       .unwrap()
       .then(res => {
         console.log(res);
-        toast({
-          title: 'Funeral Created',
-        });
-        router.push(`/app/funerals/${res?.id}`);
+        // toast({
+        //   title: 'Funeral Created',
+        // });
+        setFuneralId(res?.id);
+        setShowSmsPlans(true);
+        // router.push(`/app/funerals/${res?.id}`);
       })
       .catch(err => {
         console.log(err);
@@ -139,6 +142,9 @@ const CreateFuneral = () => {
           title: 'Failed to create funeral',
           variant: 'destructive',
         });
+      })
+      .finally(() => {
+        setSubmitting(false);
       });
   };
 
@@ -237,6 +243,7 @@ const CreateFuneral = () => {
           <FileUpload onUpdate={onImageChange} />
         </div>
       </div>
+      <SmsPurchaseFlow funeralId={funeralId as string} open={showSmsPlans} />
     </div>
   );
 };

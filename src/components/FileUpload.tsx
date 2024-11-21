@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 import { Trash2 } from 'lucide-react';
-import { Button } from './ui/button';
+// import { Button } from './ui/button';
 import { useToast } from './ui/use-toast';
 
 export default function FileUpload({ onUpdate }: { onUpdate?: any }) {
@@ -13,11 +13,12 @@ export default function FileUpload({ onUpdate }: { onUpdate?: any }) {
   const [showUpload, setShowUpload] = useState(true);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const toast = useToast();
-  const maxNumber = 4;
+  const maxNumber = 1;
 
   const onChange = (imageList: ImageListType) => {
     // data for submit
     setImages(imageList);
+    // setBannerIndex(imageList[0]['data_url']);
   };
 
   useEffect(() => {
@@ -68,7 +69,7 @@ export default function FileUpload({ onUpdate }: { onUpdate?: any }) {
                   fill
                   className='mx-auto'
                 />
-                <div className='absolute  -right-1 -top-3'>
+                {/* <div className='absolute  -right-1 -top-3'>
                   <Button
                     variant='secondary'
                     className='text-xs p-2'
@@ -83,7 +84,7 @@ export default function FileUpload({ onUpdate }: { onUpdate?: any }) {
                   >
                     Set as Banner
                   </Button>
-                </div>
+                </div> */}
               </div>
             )}
             <div className=' mt-2 overflow-y-auto  flex gap-3 p-2 justify-center items-center'>
