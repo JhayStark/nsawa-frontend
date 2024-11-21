@@ -40,6 +40,20 @@ const funeralApiSlice = apiSlice.injectEndpoints({
         body,
       }),
     }),
+    intitateSubscriptionPayment: builder.mutation({
+      query: (body: any) => ({
+        url: `/pub/initiate-payment`,
+        method: 'POST',
+        body,
+      }),
+    }),
+    addSmsToFuneral: builder.mutation({
+      query: (body: any) => ({
+        url: `/funeral/subscribe`,
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -51,4 +65,6 @@ export const {
   useGetWithdrawalOtpMutation,
   useVerifyWithdrawalOtpMutation,
   useConfirmDonationOtpMutation,
+  useIntitateSubscriptionPaymentMutation,
+  useAddSmsToFuneralMutation,
 } = funeralApiSlice;

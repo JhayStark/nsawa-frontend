@@ -19,10 +19,9 @@ import {
 import { Upload } from 'lucide-react';
 import { ImageListType } from 'react-images-uploading';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { Loader2 } from 'lucide-react';
-import SmsPlansModal from '@/components/SmsPlansModal';
+import { SmsPurchaseFlow } from '@/components/SmsPurchaseFlow';
 
 const createFuneralSchema = z.object({
   nameOfDeceased: z.string(),
@@ -63,11 +62,11 @@ const handleImageUpload = async (imageFiles: File[]) => {
 };
 
 const CreateFuneral = () => {
-  const router = useRouter();
   const { toast } = useToast();
   const [createFuneral] = useCreateMutation();
   const [submitting, setSubmitting] = useState(false);
   const [showSmsPlans, setShowSmsPlans] = useState(false);
+  const [funeralId, setFuneralId] = useState<string | null>(null);
   const [imageData, setImageData] = useState<{
     bannerIndex: number | null;
     images: ImageListType | [];
@@ -133,6 +132,7 @@ const CreateFuneral = () => {
         // toast({
         //   title: 'Funeral Created',
         // });
+        setFuneralId(res?.id);
         setShowSmsPlans(true);
         // router.push(`/app/funerals/${res?.id}`);
       })
@@ -243,10 +243,7 @@ const CreateFuneral = () => {
           <FileUpload onUpdate={onImageChange} />
         </div>
       </div>
-      <SmsPlansModal
-        isOpen={showSmsPlans}
-        onClose={() => setShowSmsPlans(false)}
-      />
+      <SmsPurchaseFlow funeralId={funeralId as string} open={showSmsPlans} />
     </div>
   );
 };

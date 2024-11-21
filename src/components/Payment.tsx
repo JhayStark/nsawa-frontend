@@ -2,20 +2,44 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { useToast } from './ui/use-toast';
+import { useIntitateSubscriptionPaymentMutation } from '@/lib/features/funeralApiSlice';
+import { useParams, useRouter } from 'next/navigation';
 
-const Payment = ({ selectedPlan }: any) => {
+const Payment = ({ selectedPlan, funeralId }: any) => {
   const [mobileNumber, setMobileNumber] = useState('');
   const { toast } = useToast();
+  const router = useRouter();
+  const [initiatePayment] = useIntitateSubscriptionPaymentMutation();
+  const [showConfirm, setShowConfirm] = useState(false);
+  const params = useParams();
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
+    console.log(selectedPlan, 'selected plan');
+    try {
+      const submitData = {
+        phoneNumber: mobileNumber,
+        amount: 1 || selectedPlan.price,
+        sms: selectedPlan.messages,
+        funeralId: funeralId || params?.id,
+      };
+      console.log(submitData, 'submit data');
+      const data = await initiatePayment(submitData).unwrap();
+      router.push(
+        `?showOtpModal=${data?.showOtpModal}&paymentReference=${data?.paymentReference}&funerlaId=${funeralId}`
+      );
+      setShowConfirm(true);
+      console.log(data, 'data from end point');
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Payment Failed',
+        description: 'Please try again later',
+      });
+    }
     console.log(
       `Initiating payment for ${selectedPlan} plan with mobile number: ${mobileNumber}`
     );
-    toast({
-      variant: 'destructive',
-      title: 'Payment Failed',
-      description: 'Please try again later',
-    });
+
     // Here you would typically integrate with a payment gateway
   };
   return (
@@ -24,7 +48,11 @@ const Payment = ({ selectedPlan }: any) => {
       <div className='space-y-4'>
         <div className='flex items-center space-x-4'>
           <span className='font-medium'>Selected Plan:</span>
-          <span>{selectedPlan}</span>
+          <span>{selectedPlan.name}</span>
+        </div>
+        <div className='flex items-center space-x-4'>
+          <span className='font-medium'>Plan Price:</span>
+          <span>GHS{selectedPlan.price}</span>
         </div>
         <div className='space-y-2'>
           <label

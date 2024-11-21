@@ -51,12 +51,15 @@ const smsPlanData: SMSPlan[] = [
 export default function SmsPlansModal({
   isOpen = true,
   onClose = () => {},
-}: {
+  funeralId,
+}: Readonly<{
   isOpen?: boolean;
   onClose?: () => void;
-}) {
+  funeralId: string;
+}>) {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [isPlanSelected, setIsPlanSelected] = useState(false);
+  const [planInformation, setPlanInformation] = useState({});
 
   const handlePlanSelection = (planName: string) => {
     setSelectedPlan(planName);
@@ -105,7 +108,10 @@ export default function SmsPlansModal({
                 <CardFooter>
                   <Button
                     className='w-full'
-                    onClick={() => handlePlanSelection(plan.name)}
+                    onClick={() => {
+                      handlePlanSelection(plan.name);
+                      setPlanInformation(plan);
+                    }}
                   >
                     Select {plan.name}
                   </Button>
@@ -114,7 +120,7 @@ export default function SmsPlansModal({
             ))}
           </div>
         ) : (
-          <Payment selectedPlan={selectedPlan} />
+          <Payment selectedPlan={planInformation} funeralId={funeralId} />
         )}
       </DialogContent>
     </Dialog>
