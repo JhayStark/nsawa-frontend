@@ -9,8 +9,10 @@ import AddMourner from '@/components/AddMourner';
 import { formatDateToString } from '@/lib/helpers';
 import MournersList from '@/components/MournersList';
 import Withdrawal from '@/components/Withdrawal';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import ThankYouComposer from '@/components/ThankYouComposer';
+import { Button } from '@/components/ui/button';
+import { SmsPurchaseFlow } from '@/components/SmsPurchaseFlow';
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -22,6 +24,7 @@ const Page = () => {
     () => urlParams.get('sub-form')?.toString(),
     [searchParams]
   );
+  const [showSmsTop, setShowSmsTop] = useState(false);
 
   return (
     <div className=' font-sentient h-full flex'>
@@ -37,17 +40,28 @@ const Page = () => {
         >
           <div className='bg-black bg-opacity-60 rounded-md h-full w-full'>
             <div className='text-white h-full p-3 lg:p-5 flex flex-col justify-between '>
-              <div>
+              <div className='flex justify-between'>
                 <div>
-                  <h2 className='xl:text-lg'>Funeral of the late</h2>
-                  <h3 className='text-2xl xl:text-4xl'>
-                    {data?.nameOfDeceased}
-                  </h3>
+                  <div>
+                    <h2 className='xl:text-lg'>Funeral of the late</h2>
+                    <h3 className='text-2xl xl:text-4xl'>
+                      {data?.nameOfDeceased}
+                    </h3>
+                  </div>
+                  <p className='xl:text-lg'>
+                    {data?.yearOfBirth} - {data?.yearOfDeath}
+                  </p>
                 </div>
-                <p className='xl:text-lg'>
-                  {data?.yearOfBirth} - {data?.yearOfDeath}
-                </p>
+                <Button
+                  type='button'
+                  variant='secondary'
+                  className='text-primary text-sm'
+                  onClick={() => setShowSmsTop(true)}
+                >
+                  SMS Balance: {data?.balance}
+                </Button>
               </div>
+
               <div className='flex sm:flex-row flex-col gap-10 items-end justify-between '>
                 <div className='text-secondary w-full lg:w-fit flex justify-between pt-3 lg:0 lg:block text-lg'>
                   <div className='flex items-center gap-x-2'>
@@ -128,6 +142,7 @@ const Page = () => {
           <CashCollection funeralDetails={data} />
           <AddMourner funeralDetails={data} />
           <Withdrawal />
+          <SmsPurchaseFlow open={showSmsTop} funeralId={params?.id as string} />
         </div>
         {/* <DonorSMSSubscriptionPopup funeral={data} /> */}
       </div>

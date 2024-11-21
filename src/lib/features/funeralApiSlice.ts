@@ -13,12 +13,15 @@ const funeralApiSlice = apiSlice.injectEndpoints({
     getFunerals: builder.query({
       query: ({ search = 1, pageSize = 10, pageNumber = 1 }) =>
         `/funeral/all-funerals?search=${search}&pageSize=${pageSize}&pageNumber=${pageNumber} `,
+      providesTags: ['Funeral'],
     }),
     getFuneral: builder.query({
       query: (id: string) => `/funeral/${id}`,
+      providesTags: ['Funeral'],
     }),
     getPublicFuneral: builder.query({
       query: (id: string) => `/funerals/public/${id}`,
+      providesTags: ['Funeral'],
     }),
     getWithdrawalOtp: builder.mutation({
       query: (id: string) => ({
@@ -53,6 +56,7 @@ const funeralApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Funeral'],
     }),
   }),
 });
