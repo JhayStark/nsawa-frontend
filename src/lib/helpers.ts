@@ -2,7 +2,7 @@ export function formatDateToString(date: string) {
   const dateToFormat = new Date(date);
   return dateToFormat.toLocaleDateString('en-US', {
     year: 'numeric',
-    month: 'long',
+    month: 'short',
     day: 'numeric',
   });
 }

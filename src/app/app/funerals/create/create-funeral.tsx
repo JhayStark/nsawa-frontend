@@ -22,6 +22,7 @@ import axios from 'axios';
 import { useToast } from '@/components/ui/use-toast';
 import { Loader2 } from 'lucide-react';
 import { SmsPurchaseFlow } from '@/components/SmsPurchaseFlow';
+import { useRouter } from 'next/navigation';
 
 const createFuneralSchema = z.object({
   nameOfDeceased: z.string(),
@@ -63,6 +64,7 @@ const handleImageUpload = async (imageFiles: File[]) => {
 
 const CreateFuneral = () => {
   const { toast } = useToast();
+  const router = useRouter();
   const [createFuneral] = useCreateMutation();
   const [submitting, setSubmitting] = useState(false);
   const [showSmsPlans, setShowSmsPlans] = useState(false);
@@ -133,8 +135,8 @@ const CreateFuneral = () => {
         //   title: 'Funeral Created',
         // });
         setFuneralId(res?.id);
-        setShowSmsPlans(true);
-        // router.push(`/app/funerals/${res?.id}`);
+        // setShowSmsPlans(true);
+        router.push(`/app/funerals/${res?.id}`);
       })
       .catch(err => {
         console.log(err);
