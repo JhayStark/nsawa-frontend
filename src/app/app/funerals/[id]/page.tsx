@@ -13,6 +13,7 @@ import { useMemo, useState } from 'react';
 import ThankYouComposer from '@/components/ThankYouComposer';
 import { Button } from '@/components/ui/button';
 import { SmsPurchaseFlow } from '@/components/SmsPurchaseFlow';
+import { useToast } from '@/components/ui/use-toast';
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -24,6 +25,7 @@ const Page = () => {
     () => urlParams.get('sub-form')?.toString(),
     [searchParams]
   );
+  const { toast } = useToast();
   const [showSmsTop, setShowSmsTop] = useState(false);
 
   return (
@@ -120,6 +122,7 @@ const Page = () => {
                       `${process.env.NEXT_PUBLIC_FRONTEND_URL}/${data?._id}/qr-code`
                     )
                   }
+                  className='cursor-pointer'
                 />
                 <p>Click to download QR code</p>
               </div>
@@ -129,11 +132,14 @@ const Page = () => {
                 </p>
                 <div className='bg-white/80 text-primary px-2 h-full rounded flex justify-center items-center'>
                   <Share2
-                    onClick={() =>
+                    onClick={() => {
                       navigator.clipboard.writeText(
                         `${process.env.NEXT_PUBLIC_FRONTEND_URL}/${data?._id}`
-                      )
-                    }
+                      );
+                      toast({
+                        title: 'Copied to clipboard',
+                      });
+                    }}
                   />
                 </div>
               </div>

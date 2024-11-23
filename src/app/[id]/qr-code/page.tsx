@@ -22,10 +22,10 @@ const Page = () => {
         />
         {/* </div> */}
         <div className='col-span-2 px-1 lg:col-span-1 flex justify-center items-center flex-col'>
-          <h2 className='text-center lg:text-left text-lg lg:text-xl font-bold font-sans px-4 pt-5 pb-4'>
+          <h2 className='text-center lg:text-left text-lg lg:text-2xl font-bold font-sans px-4 pt-5 pb-4'>
             Scan to donate to the {data?.familyName} family
           </h2>
-          <div className='px-4 pt-2 pb-10 space-x-4 flex items-center'>
+          <div className='px-4 pt-2 pb-10 space-x-4 flex lg:hidden items-center'>
             <Image
               src={data?.bannerImage}
               width={56}

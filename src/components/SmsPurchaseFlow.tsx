@@ -26,34 +26,7 @@ import {
 } from '@/lib/features/funeralApiSlice';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useToast } from './ui/use-toast';
-
-interface SMSPlan {
-  name: string;
-  price: number;
-  messages: number;
-  features: string[];
-}
-
-const smsPlanData: SMSPlan[] = [
-  {
-    name: 'Basic',
-    price: 99.99,
-    messages: 700,
-    features: ['Appreciation SMS', 'Automated thank you messages'],
-  },
-  {
-    name: 'Standard',
-    price: 190,
-    messages: 3000,
-    features: ['Appreciation SMS', 'Automated thank you messages'],
-  },
-  {
-    name: 'Premium',
-    price: 290,
-    messages: 7500,
-    features: ['Appreciation SMS', 'Automated thank you messages'],
-  },
-];
+import { smsPlanData } from '@/lib/config';
 
 export function SmsPurchaseFlow({
   funeralId,
@@ -146,7 +119,7 @@ export function SmsPurchaseFlow({
         }
       }}
     >
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className='sm:max-w-[425px] md:max-w-5xl'>
         <DialogHeader>
           <DialogTitle>
             {step === 'select'
@@ -167,6 +140,7 @@ export function SmsPurchaseFlow({
           <RadioGroup
             defaultValue={selectedPlan ?? undefined}
             onValueChange={handlePlanSelect}
+            className='md:grid md:grid-cols-2 md:gap-4'
           >
             {smsPlanData.map(plan => (
               <Card key={plan.name}>

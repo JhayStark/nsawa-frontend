@@ -39,7 +39,7 @@ const FuneralCard = ({ funeral }: any) => {
         variant='secondary'
         onClick={() => router.push(`/app/funerals/${funeral._id}`)}
       >
-        <Eye className='mr-2' /> <span>View Funeral</span>
+        <Eye className='mr-2' /> <span>View</span>
       </Button>
     </div>
   );
