@@ -9,7 +9,7 @@ import AddMourner from '@/components/AddMourner';
 import { formatDateToString } from '@/lib/helpers';
 import MournersList from '@/components/MournersList';
 import Withdrawal from '@/components/Withdrawal';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ThankYouComposer from '@/components/ThankYouComposer';
 import { Button } from '@/components/ui/button';
 import { SmsPurchaseFlow } from '@/components/SmsPurchaseFlow';
@@ -27,6 +27,12 @@ const Page = () => {
   );
   const { toast } = useToast();
   const [showSmsTop, setShowSmsTop] = useState(false);
+
+  useEffect(() => {
+    if (data?.balance < 20) {
+      setShowSmsTop(true);
+    }
+  }, [data]);
 
   return (
     <div className=' font-sentient h-full flex'>
@@ -57,7 +63,9 @@ const Page = () => {
                 <Button
                   type='button'
                   variant='secondary'
-                  className='text-primary text-sm'
+                  className={`text-primary text-sm ${
+                    data?.balance < 20 && 'animate-pulse bg-red-500 text-white'
+                  }`}
                   onClick={() => setShowSmsTop(true)}
                 >
                   SMS Balance: {data?.balance}

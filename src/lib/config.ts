@@ -7,13 +7,13 @@ interface SMSPlan {
 }
 
 export const smsPlanData: SMSPlan[] = [
-  {
-    id: 1,
-    name: 'Free',
-    price: 0.0,
-    messages: 10,
-    features: ['Appreciation SMS', 'Automated thank you messages'],
-  },
+  // {
+  //   id: 1,
+  //   name: 'Free',
+  //   price: 0.0,
+  //   messages: 10,
+  //   features: ['Appreciation SMS', 'Automated thank you messages'],
+  // },
   {
     id: 2,
     name: 'Basic',
