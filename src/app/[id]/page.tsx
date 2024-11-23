@@ -4,7 +4,7 @@ import {
   useConfirmDonationOtpMutation,
   useGetPublicFuneralQuery,
 } from '@/lib/features/funeralApiSlice';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import {
   ShadcnCheckBox,
   ShadcnInputField,
@@ -49,11 +49,13 @@ const donationSchema = z.object({
 
 const Page = () => {
   const params = useParams();
+  const router = useRouter();
   const { data } = useGetPublicFuneralQuery(params.id as string);
   const { data: keyPersonsData } = useGetKeyPersonsPublicQuery(
     params.id as string
   );
-  const [addDonation] = useAddDonationPublicMutation();
+  const [addDonation, { isLoading: donationLoading }] =
+    useAddDonationPublicMutation();
   const { toast } = useToast();
   const [showOtpDialog, setShowOtpDialog] = useState(false);
   const [otp, setOtp] = useState('');
@@ -93,6 +95,7 @@ const Page = () => {
           title: 'Donation',
           description: 'Donation is being processed',
         });
+        !res?.showOtpModal && router.push('/thank-you');
       })
       .catch(() =>
         toast({
@@ -113,6 +116,7 @@ const Page = () => {
           description: 'Donation is being processed',
         });
         setShowOtpDialog(false);
+        router.push(`/${params.id}/thank-you}`);
       })
       .catch(() => {
         setOtpError('Invalid OTP');
@@ -200,8 +204,9 @@ const Page = () => {
               variant='default'
               type='submit'
               form='donationForm'
+              disabled={donationLoading}
             >
-              Donate
+              {donationLoading ? 'Loading' : 'Donate'}
             </Button>
           </form>
         </Form>
