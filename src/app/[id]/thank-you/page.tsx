@@ -16,13 +16,14 @@ import { useParams } from 'next/navigation';
 export default function Page() {
   const params = useParams();
   const { data } = useGetPublicFuneralQuery(params.id as string);
-  console.log(data, 'Thank you data');
 
   return (
     <div className='min-h-screen bg-gray-100 flex items-center justify-center p-4'>
       <Card className='w-full max-w-2xl'>
         <CardHeader className='text-center'>
-          <CardTitle className='text-3xl font-bold'>In Loving Memory</CardTitle>
+          <CardTitle className='text-3xl font-bold'>
+            Thank you for your donation to{' '}
+          </CardTitle>
           <CardDescription className='text-xl'>
             {data?.nameOfDeceased}
           </CardDescription>
@@ -46,9 +47,8 @@ export default function Page() {
         <CardFooter className='flex flex-col items-center space-y-4'>
           <p className='text-sm text-muted-foreground text-center'>
             Your contribution will help honor {data?.nameOfDeceased} memory and
-            support his family.
+            support the family.
           </p>
-          {/* <Button className='w-full max-w-xs'>Make a Donation</Button> */}
         </CardFooter>
       </Card>
     </div>
