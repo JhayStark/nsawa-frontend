@@ -33,6 +33,7 @@ import {
   useVerifyWithdrawalOtpMutation,
 } from '@/lib/features/funeralApiSlice';
 import { useToast } from '@/components/ui/use-toast';
+import { NoticeCard } from './ui/notice-card';
 
 export default function Withdrawal() {
   const params = useParams();
@@ -54,6 +55,7 @@ export default function Withdrawal() {
   const [sendOtp] = useGetWithdrawalOtpMutation();
   const [verifyOtp] = useVerifyWithdrawalOtpMutation();
   const { toast } = useToast();
+  const [step, setStep] = useState<'notice' | 'withdrawal'>('notice');
 
   const [debouncedAccountNumber] = useDebounce(accountNumber, 500);
 
@@ -151,15 +153,23 @@ export default function Withdrawal() {
             <p className='text-lg'>Withdraw Donation</p>
           </div>
         </DialogTrigger>
-        <DialogContent className='sm:max-w-[425px]'>
+        <DialogContent className='sm:max-w-[425px] md:max-w-xl'>
           <DialogHeader>
             <DialogTitle className='text-primary'>
               Withdraw Funeral Donations
             </DialogTitle>
-            <DialogDescription>
+            {/* <DialogDescription>
               Choose your preferred withdrawal method and enter your details.
-            </DialogDescription>
+            </DialogDescription> */}
           </DialogHeader>
+          <NoticeCard
+            variant='info'
+            title='Withdrawal notice'
+            items={[
+              'Withdrawals can only be made after the funerals end date',
+              'Withdrawals are processed within 24 hours.',
+            ]}
+          />
           <form onSubmit={handleSubmit}>
             <Tabs
               defaultValue='mobile_money'

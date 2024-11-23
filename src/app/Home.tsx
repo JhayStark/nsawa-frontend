@@ -4,7 +4,14 @@ import CoinIcon from '@/components/svgs/CoinIcon';
 import DrivingIcon from '@/components/svgs/DrivingIcon';
 import MoneyIcon from '@/components/svgs/MoneyIcon';
 import { Button } from '@/components/ui/button';
-import { ArrowDown, Check, MessageSquare, MoveRight, X } from 'lucide-react';
+import {
+  ArrowDown,
+  Check,
+  MessageSquare,
+  MoveRight,
+  Terminal,
+  X,
+} from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -15,12 +22,8 @@ import {
 } from '@/components/ui/card';
 import Image from 'next/image';
 import Link from 'next/link';
-
-const subscriptionPlans = [
-  { id: 'basic', name: 'Basic', price: '', smsLimit: 700 },
-  { id: 'standard', name: 'Standard', price: 'GHS 199', smsLimit: 3000 },
-  { id: 'premium', name: 'Premium', price: 'GHS 299', smsLimit: 7500 },
-];
+import { smsPlanData } from '@/lib/config';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function HomePage() {
   return (
@@ -115,8 +118,39 @@ export default function HomePage() {
           <h2 className='text-3xl font-bold text-center mb-10 text-primary'>
             Subscriptions
           </h2>
-          <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-            <Card className='flex flex-col'>
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+            {smsPlanData.map(plan => (
+              <Card key={plan.id} className='flex flex-col'>
+                <CardHeader>
+                  <CardTitle className='text-2xl'>{plan.name}</CardTitle>
+                  <CardDescription className='font-bold text-lg text-primary'>
+                    GHS {plan.price}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className='flex-grow'>
+                  <ul className='space-y-2'>
+                    <li className='flex items-center'>
+                      <Check className='mr-2 h-4 w-4 text-green-500' />
+                      {plan.messages} SMS bundle
+                    </li>
+                    {plan.features.map(feature => (
+                      <li className='flex items-center' key={feature}>
+                        <Check className='mr-2 h-4 w-4 text-green-500' />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ))}
+            <Alert className='text-orange-600 border-orange-600 w-full col-span-2'>
+              <Terminal className='h-4 w-4' />
+              <AlertTitle>Heads up!</AlertTitle>
+              <AlertDescription className='text-lg italic'>
+                All sms related featues are capped to your sms bundle
+              </AlertDescription>
+            </Alert>
+            {/* <Card className='flex flex-col'>
               <CardHeader>
                 <CardTitle className='text-2xl'>Basic Plan</CardTitle>
                 <CardDescription>Free</CardDescription>
@@ -214,21 +248,10 @@ export default function HomePage() {
                   Select Premium Plan
                 </Button>
               </CardFooter>
-            </Card>
+            </Card> */}
           </div>
         </section>
 
-        {/* <section id='howItWorks' className='my-16 lg:my-24'>
-          <h1 className='mb-12 font-bold text-center md:text-4xl md:text-left'>
-            How it works
-          </h1>
-          <Image
-            src='/image/dashboard.png'
-            width={1169.3}
-            height={819}
-            alt='dashboard image'
-          />
-        </section> */}
         <section
           id='faqs'
           className='py-[5.6875rem] text-[#FFFFE2] bg-[#043F2E] mb-12 md:mb-28 rounded-[0.6875rem] px-5'
@@ -283,6 +306,21 @@ export default function HomePage() {
                 Friends and family can make donations on Nsawa through our
                 online payment system, which collects the data and help
                 organizers track donors
+              </p>
+            </details>
+            <details className='md:px-9 '>
+              <summary className='flex items-center justify-between font-medium cursor-pointer '>
+                <span className=' font-medium text-base'>
+                  How do i withdraw online donations
+                </span>
+                <span className='ml-auto text-lg text-black bg-white rounded-md '>
+                  <ArrowDown />
+                </span>
+              </summary>
+              <p className=' text-lg  pt-2 font-normal text-[#FFFFE2]'>
+                Withdrawal of online donations are allowed 24hrs after the end
+                of the funeral. Funds can be withdrawn into either your bank or
+                mobile money account
               </p>
             </details>
           </div>
