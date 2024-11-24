@@ -14,6 +14,7 @@ import ThankYouComposer from '@/components/ThankYouComposer';
 import { Button } from '@/components/ui/button';
 import { SmsPurchaseFlow } from '@/components/SmsPurchaseFlow';
 import { useToast } from '@/components/ui/use-toast';
+import DonationTable from '@/components/DonationsTable';
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -27,6 +28,7 @@ const Page = () => {
   );
   const { toast } = useToast();
   const [showSmsTop, setShowSmsTop] = useState(false);
+  const [showDonations, setShowDonations] = useState(true);
 
   useEffect(() => {
     if (data?.balance < 20) {
@@ -37,65 +39,79 @@ const Page = () => {
   return (
     <div className=' font-sentient h-full flex'>
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-5 w-full'>
-        <div
-          className='w-full flex-1 lg:col-span-2 h-full rounded-md'
-          style={{
-            backgroundImage: `url(${data?.bannerImage})`,
-            backgroundSize: '100%',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}
-        >
-          <div className='bg-black bg-opacity-60 rounded-md h-full w-full'>
-            <div className='text-white h-full p-3 lg:p-5 flex flex-col justify-between '>
-              <div className='flex justify-between'>
-                <div>
+        {!showDonations ? (
+          <div
+            className='w-full flex-1 lg:col-span-2 h-full rounded-md'
+            style={{
+              backgroundImage: `url(${data?.bannerImage})`,
+              backgroundSize: '100%',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
+          >
+            <div className='bg-black bg-opacity-60 rounded-md h-full w-full'>
+              <div className='text-white h-full p-3 lg:p-5 flex flex-col justify-between '>
+                <div className='flex justify-between'>
                   <div>
-                    <h2 className='xl:text-lg'>Funeral of the late</h2>
-                    <h3 className='text-2xl xl:text-4xl'>
-                      {data?.nameOfDeceased}
-                    </h3>
+                    <div>
+                      <h2 className='xl:text-lg'>Funeral of the late</h2>
+                      <h3 className='text-2xl xl:text-4xl'>
+                        {data?.nameOfDeceased}
+                      </h3>
+                    </div>
+                    <p className='xl:text-lg'>
+                      {data?.yearOfBirth} - {data?.yearOfDeath}
+                    </p>
                   </div>
-                  <p className='xl:text-lg'>
-                    {data?.yearOfBirth} - {data?.yearOfDeath}
-                  </p>
+                  <Button
+                    type='button'
+                    variant='secondary'
+                    className={`text-primary text-sm ${
+                      data?.balance < 20 &&
+                      'animate-pulse bg-red-500 text-white'
+                    }`}
+                    onClick={() => setShowSmsTop(true)}
+                  >
+                    SMS Balance: {data?.balance}
+                  </Button>
                 </div>
-                <Button
-                  type='button'
-                  variant='secondary'
-                  className={`text-primary text-sm ${
-                    data?.balance < 20 && 'animate-pulse bg-red-500 text-white'
-                  }`}
-                  onClick={() => setShowSmsTop(true)}
-                >
-                  SMS Balance: {data?.balance}
-                </Button>
-              </div>
 
-              <div className='flex sm:flex-row flex-col gap-10 items-end justify-between '>
-                <div className='text-secondary w-full lg:w-fit flex justify-between pt-3 lg:0 lg:block text-lg'>
-                  <div className='flex items-center gap-x-2'>
-                    <MapPinIcon className='h-5 w-5' />
-                    <div className='text-sm'>{data?.funeralLocation}</div>
-                  </div>
-                  <div className='hidden lg:flex items-center gap-2 mt-2'>
-                    <CalendarIcon className='h-5 w-5 ' />
-                    <div className='text-sm'>
-                      <span>From</span>{' '}
-                      <span>{formatDateToString(data?.startDate)}</span>{' '}
-                      <span>to</span>{' '}
-                      <span>{formatDateToString(data?.endDate)}</span>
+                <div className='flex sm:flex-row flex-col gap-10 items-end justify-between '>
+                  <div className='text-secondary w-full lg:w-fit flex justify-between pt-3 lg:0 lg:block text-lg'>
+                    <div className='flex items-center gap-x-2'>
+                      <MapPinIcon className='h-5 w-5' />
+                      <div className='text-sm'>{data?.funeralLocation}</div>
+                    </div>
+                    <div className='hidden lg:flex items-center gap-2 mt-2'>
+                      <CalendarIcon className='h-5 w-5 ' />
+                      <div className='text-sm'>
+                        <span>From</span>{' '}
+                        <span>{formatDateToString(data?.startDate)}</span>{' '}
+                        <span>to</span>{' '}
+                        <span>{formatDateToString(data?.endDate)}</span>
+                      </div>
                     </div>
                   </div>
+                  <ThankYouComposer funeralId={params?.id as string} />
                 </div>
-                <ThankYouComposer funeralId={params?.id as string} />
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className='w-full flex-1 lg:col-span-2 h-full rounded-md'>
+            <DonationTable funeralDetails={data} />
+          </div>
+        )}
         <div className=' flex flex-col gap-2 pb-3 lg:pb-0'>
           <div className='grid-cols-2 grid gap-2 w-full'>
-            <DonationHistory funeralDetails={data} />
+            <Button
+              variant='default'
+              className='gap-3'
+              type='button'
+              onClick={() => setShowDonations(prev => !prev)}
+            >
+              {showDonations ? 'Hide' : 'Show'} Donations
+            </Button>
             <MournersList funeralDetails={data} />
           </div>
           <div
