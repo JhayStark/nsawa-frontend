@@ -30,3 +30,10 @@ export const decryptData = (ciphertext: any) => {
     return null;
   }
 };
+
+export function formatToGhanaCurrency(amount: number) {
+  return new Intl.NumberFormat('en-GH', {
+    style: 'currency',
+    currency: 'GHS',
+  }).format(amount);
+}

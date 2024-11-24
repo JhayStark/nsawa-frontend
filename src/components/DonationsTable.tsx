@@ -31,6 +31,7 @@ import {
 } from '@/lib/features/donationsApiSlice';
 import { useDebounce } from 'use-debounce';
 import PaginationComponent from './PaginationComponent';
+import { formatToGhanaCurrency } from '@/lib/utils';
 
 export default function DonationTable({ funeralDetails }: any) {
   const [open, setOpen] = useState(false);
@@ -78,7 +79,9 @@ export default function DonationTable({ funeralDetails }: any) {
             <HandCoins className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
           <CardContent>
-            <div className='text-2xl font-bold'>{stats?.totalDonations}</div>
+            <div className='text-2xl font-bold'>
+              {formatToGhanaCurrency(stats?.totalDonations)}
+            </div>
           </CardContent>
         </Card>
         <Card>

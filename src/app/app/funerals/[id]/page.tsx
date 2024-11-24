@@ -148,7 +148,7 @@ const Page = () => {
                   }
                   className='cursor-pointer'
                 />
-                <p>Click to download QR code</p>
+                <p>Funeral QR code</p>
               </div>
               <div className='flex items-end gap-3  h-10'>
                 <p className='bg-white/80 text-primary p-2 truncate rounded flex-1 '>

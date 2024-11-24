@@ -129,7 +129,7 @@ const Page = () => {
       <div className='max-w-[589px] flex flex-col xl:px-5 mx-auto overflow-x-hidden'>
         <h2 className='text-xl lg:text-2xl font-bold font-sans px-4 pt-5 pb-4'>
           {/* Donate to the {data?.familyName} family */}
-          Funeral Donation
+          Donation
         </h2>
         <div className='px-4 py-2 space-x-4 flex items-center'>
           <Image
@@ -143,9 +143,9 @@ const Page = () => {
             <h3 className='font-medium'>
               In loving memory of {data?.nameOfDeceased}
             </h3>
-            <p className='text-[#4F7396] text-sm'>
+            {/* <p className='text-[#4F7396] text-sm'>
               Your donation will help the {data?.familyName}s.
-            </p>
+            </p> */}
           </div>
         </div>
         <Form {...form}>
@@ -158,7 +158,7 @@ const Page = () => {
               <ShadcnInputField
                 form={form}
                 name='amountDonated'
-                label='Amount'
+                label='Amount ( GHC ₵)'
                 formItemClassName=' py-2'
                 // placeholder='GHC 0.00'
               />
@@ -206,7 +206,7 @@ const Page = () => {
               form='donationForm'
               disabled={donationLoading}
             >
-              {donationLoading ? 'Loading' : 'Donate'}
+              {donationLoading ? 'Processing...' : 'Donate'}
             </Button>
           </form>
         </Form>
