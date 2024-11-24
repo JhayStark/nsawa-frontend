@@ -166,8 +166,9 @@ export default function Withdrawal() {
             variant='info'
             title='Withdrawal notice'
             items={[
-              'Withdrawals can only be made after the funerals end date',
+              'Withdrawals can only be made 2 days after the funeral end date',
               'Withdrawals are processed within 24 hours.',
+              'Contact info@nsawa-digital.com for any issues or enquiry',
             ]}
           />
           <form onSubmit={handleSubmit}>
