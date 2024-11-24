@@ -80,7 +80,12 @@ export default function DonationTable({ funeralDetails }: any) {
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold'>
-              {formatToGhanaCurrency(stats?.totalDonations)}
+              {modeFilter == 'all' &&
+                formatToGhanaCurrency(stats?.totalDonations)}
+              {modeFilter == 'Cash' &&
+                formatToGhanaCurrency(stats?.totalCashDonations)}
+              {modeFilter == 'Online' &&
+                formatToGhanaCurrency(stats?.totalMomoDonations)}
             </div>
           </CardContent>
         </Card>
