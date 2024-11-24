@@ -133,7 +133,7 @@ const Page = () => {
                   Share link to accept donations
                 </h2>
                 <p className='text-sm '>
-                  Funeral of the late{data?.nameOfDeceased}
+                  Funeral of the late {data?.nameOfDeceased}
                 </p>
               </div>
               <div
