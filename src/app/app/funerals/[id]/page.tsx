@@ -130,7 +130,7 @@ const Page = () => {
                     subFormOpen && 'lg:hidden'
                   } font-medium font-sentient `}
                 >
-                  Share Funeral Donation Details
+                  Share ink to accept Donations
                 </h2>
                 <p className='text-sm '>In Memory of {data?.nameOfDeceased}</p>
               </div>
