@@ -117,7 +117,9 @@ export default function DonationTable({ funeralDetails }: any) {
                   {donation.donorPhoneNumber}
                 </TableCell>
                 <TableCell>{donation?.keyPerson?.name || ''}</TableCell>
-                <TableCell>{donation.amountDonated}</TableCell>
+                <TableCell>
+                  {formatToGhanaCurrency(donation.amountDonated)}
+                </TableCell>
                 <TableCell className='hidden md:table-cell'>
                   {donation.modeOfDonation}
                 </TableCell>

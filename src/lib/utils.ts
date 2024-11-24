@@ -35,5 +35,7 @@ export function formatToGhanaCurrency(amount: number) {
   return new Intl.NumberFormat('en-GH', {
     style: 'currency',
     currency: 'GHS',
-  }).format(amount);
+  })
+    .format(amount)
+    .replace('GH₵', 'GH₵ ');
 }
