@@ -130,9 +130,11 @@ const Page = () => {
                     subFormOpen && 'lg:hidden'
                   } font-medium font-sentient `}
                 >
-                  Share ink to accept Donations
+                  Share link to accept donations
                 </h2>
-                <p className='text-sm '>In Memory of {data?.nameOfDeceased}</p>
+                <p className='text-sm '>
+                  Funeral of the late{data?.nameOfDeceased}
+                </p>
               </div>
               <div
                 className={`flex flex-col justify-center items-center ${
