@@ -57,7 +57,7 @@ const Page = () => {
   const [addDonation, { isLoading: donationLoading }] =
     useAddDonationPublicMutation();
   const { toast } = useToast();
-  const [showOtpDialog, setShowOtpDialog] = useState(true);
+  const [showOtpDialog, setShowOtpDialog] = useState(false);
   const [otp, setOtp] = useState('');
   const [otpError, setOtpError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
