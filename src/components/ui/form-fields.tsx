@@ -104,7 +104,7 @@ export const InputField = <T extends FieldValues>({
             />
           </FormControl>
           {description && (
-            <FormDescription className='text-red-400'>
+            <FormDescription className='text-blue-500'>
               {description}
             </FormDescription>
           )}
