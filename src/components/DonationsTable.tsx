@@ -97,7 +97,11 @@ export default function DonationTable({ funeralDetails }: any) {
             <UsersIcon className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
           <CardContent>
-            <div className='text-2xl font-bold'>{stats?.numberOfDonations}</div>
+            <div className='text-2xl font-bold'>
+              {(!modeFilter || modeFilter == 'all') && stats?.numberOfDonations}
+              {modeFilter == 'Cash' && stats?.totalNumberOfCashDonations}
+              {modeFilter == 'Online' && stats?.totalNumberOfOnlineDonations}
+            </div>
           </CardContent>
         </Card>
       </div>
