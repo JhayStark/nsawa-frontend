@@ -57,7 +57,7 @@ const Page = () => {
   const [addDonation, { isLoading: donationLoading }] =
     useAddDonationPublicMutation();
   const { toast } = useToast();
-  const [showOtpDialog, setShowOtpDialog] = useState(false);
+  const [showOtpDialog, setShowOtpDialog] = useState(true);
   const [otp, setOtp] = useState('');
   const [otpError, setOtpError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -95,7 +95,7 @@ const Page = () => {
           title: 'Donation',
           description: 'Donation is being processed',
         });
-        !res?.showOtpModal && router.push('/thank-you');
+        !res?.showOtpModal && router.push(`/${params.id}/thank-you`);
       })
       .catch(() =>
         toast({
@@ -108,20 +108,20 @@ const Page = () => {
   const handleOtpSubmit = async () => {
     setIsLoading(true);
     if (!otp || !reference) return;
-    await confirmOtp({ otp, reference })
-      .unwrap()
-      .then(() => {
-        toast({
-          title: 'Donation',
-          description: 'Donation is being processed',
-        });
-        setShowOtpDialog(false);
-        router.push(`/${params.id}/thank-you}`);
-      })
-      .catch(() => {
-        setOtpError('Invalid OTP');
-      })
-      .finally(() => setIsLoading(false));
+
+    try {
+      await confirmOtp({ otp, reference }).unwrap();
+      toast({
+        title: 'Donation',
+        description: 'Donation is being processed',
+      });
+      setShowOtpDialog(false);
+      router.push(`/${params.id}/thank-you`);
+    } catch (error) {
+      setOtpError('Invalid OTP');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -158,7 +158,7 @@ const Page = () => {
               <ShadcnInputField
                 form={form}
                 name='amountDonated'
-                label='Amount ( GHC ₵)'
+                label='Amount (₵)'
                 formItemClassName=' py-2'
                 // placeholder='GHC 0.00'
               />
@@ -239,6 +239,13 @@ const Page = () => {
                 onChange={e => setOtp(e.target.value)}
                 required
               />
+              <button
+                type='submit'
+                form='donationForm'
+                className='text-xs font-medium text-blue-500 underline'
+              >
+                Resend OTP ?
+              </button>
             </div>
             {otpError && (
               <Alert variant='destructive'>
