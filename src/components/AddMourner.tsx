@@ -37,24 +37,22 @@ const AddMourner = ({ funeralDetails }: { funeralDetails: any }) => {
     resolver: zodResolver(createPersonalitySchema),
   });
 
-  const onSubmit = useCallback(
-    async (data: z.infer<typeof createPersonalitySchema>) => {
-      createPersonality(data)
-        .unwrap()
-        .then(() => {
-          toast({
-            title: 'Mourner created',
-          });
-          form.reset({});
+  const onSubmit = async (data: z.infer<typeof createPersonalitySchema>) => {
+    createPersonality(data)
+      .unwrap()
+      .then(() => {
+        toast({
+          title: 'Mourner created',
+        });
+        form.reset({});
+      })
+      .catch(() =>
+        toast({
+          title: 'Failed to create mourner',
         })
-        .catch(() =>
-          toast({
-            title: 'Failed to create mourner',
-          })
-        );
-    },
-    []
-  );
+      );
+  };
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {

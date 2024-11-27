@@ -68,25 +68,22 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
     form.setValue('funeralId', funeralDetails?._id);
   }, [funeralDetails]);
 
-  const onSubmit = useCallback(
-    async (data: z.infer<typeof donationsSchema>) => {
-      createDonation(data)
-        .unwrap()
-        .then(() => {
-          toast({
-            title: 'Donation recieved',
-          });
-          form.reset(donationDefaults);
+  const onSubmit = async (data: z.infer<typeof donationsSchema>) => {
+    createDonation(data)
+      .unwrap()
+      .then(() => {
+        toast({
+          title: 'Donation recieved',
+        });
+        form.reset(donationDefaults);
+      })
+      .catch(err =>
+        toast({
+          title: 'Donation not recieved',
+          variant: 'destructive',
         })
-        .catch(err =>
-          toast({
-            title: 'Donation not recieved',
-            variant: 'destructive',
-          })
-        );
-    },
-    []
-  );
+      );
+  };
 
   const handleOpen = () => {
     params.set('sub-form', 'recieve-donation');
@@ -196,7 +193,11 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
               )}
             </form>
           </Form>
-          <Button className='h-16 rounded-none w-full' form='cash-donation'>
+          <Button
+            className='h-16 rounded-none w-full'
+            form='cash-donation'
+            variant='secondary'
+          >
             Recieve Donation
           </Button>
         </div>
