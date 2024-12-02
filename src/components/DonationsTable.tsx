@@ -1,12 +1,9 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import {
   Table,
   TableBody,
@@ -23,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ExternalLink, HandCoins, UsersIcon } from 'lucide-react';
+import { Filter, HandCoins, UsersIcon } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import {
   useGetDonationsQuery,
@@ -32,6 +29,7 @@ import {
 import { useDebounce } from 'use-debounce';
 import PaginationComponent from './PaginationComponent';
 import { formatToGhanaCurrency } from '@/lib/utils';
+import { DatePicker } from './ui/DatePicker';
 
 export default function DonationTable({ funeralDetails }: any) {
   const [open, setOpen] = useState(false);
@@ -40,12 +38,16 @@ export default function DonationTable({ funeralDetails }: any) {
   const [modeFilter, setModeFilter] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const { data } = useGetDonationsQuery({
     id: funeralDetails?._id,
     pageSize,
     pageNumber,
     search: value,
     paymentMethod: modeFilter,
+    startDate,
+    endDate,
   });
 
   const { data: stats } = useGetDonationStatsQuery(funeralDetails?._id || '');
@@ -59,16 +61,25 @@ export default function DonationTable({ funeralDetails }: any) {
           onChange={e => setSearch(e.target.value)}
           className='max-w-sm'
         />
-        <Select value={modeFilter} onValueChange={setModeFilter}>
-          <SelectTrigger className='w-[180px]'>
-            <SelectValue placeholder='Select filter' />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value='all'>All</SelectItem>
-            <SelectItem value='Cash'>Cash</SelectItem>
-            <SelectItem value='Online'>Online</SelectItem>
-          </SelectContent>
-        </Select>
+        <Popover>
+          <PopoverTrigger className='flex items-center gap-x-1 border px-2 rounded-md text-gray-600'>
+            <Filter />
+          </PopoverTrigger>
+          <PopoverContent className='w-full flex flex-col gap-y-3'>
+            <DatePicker placeholder='Start date' onDateChange={setStartDate} />
+            <DatePicker placeholder='End date' onDateChange={setEndDate} />
+            <Select value={modeFilter} onValueChange={setModeFilter}>
+              <SelectTrigger className='min:w-[180px]'>
+                <SelectValue placeholder='Select payment method' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='all'>All</SelectItem>
+                <SelectItem value='Cash'>Cash</SelectItem>
+                <SelectItem value='Online'>Online</SelectItem>
+              </SelectContent>
+            </Select>
+          </PopoverContent>
+        </Popover>
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
         <Card>

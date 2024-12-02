@@ -1,7 +1,6 @@
 'use client';
 
 import CashCollection from '@/components/CashCollection';
-import DonationHistory from '@/components/DonationHistory';
 import { CalendarIcon, ImageDown, MapPinIcon, Share2 } from 'lucide-react';
 import { useGetFuneralQuery } from '@/lib/features/funeralApiSlice';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
@@ -180,7 +179,6 @@ const Page = () => {
             handler={setShowSmsTop}
           />
         </div>
-        {/* <DonorSMSSubscriptionPopup funeral={data} /> */}
       </div>
     </div>
   );
