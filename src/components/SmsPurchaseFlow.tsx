@@ -123,7 +123,7 @@ export function SmsPurchaseFlow({
         <DialogHeader>
           <DialogTitle>
             {step === 'select'
-              ? 'Choose a Plan'
+              ? 'Choose SMS Plan'
               : step === 'payment'
               ? 'Payment Details'
               : 'Confirmation'}
