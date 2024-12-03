@@ -17,7 +17,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AlertCircle } from 'lucide-react';
 
-type PaymentStatus = 'idle' | 'pending' | 'success' | 'failed';
+type PaymentStatus = 'pending' | 'success' | 'failed';
 
 export default function Page() {
   const params = useParams();
@@ -29,14 +29,21 @@ export default function Page() {
     donationId ?? ''
   );
 
-  console.log(donationStatus, 'test');
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (paymentStatus === 'pending') {
+        refetch();
+      }
+    }, 30000); // Refetch every 30 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, [paymentStatus, refetch]);
+
   useEffect(() => {
     if (donationStatus?.status === 'Paid') {
       setPaymentStatus('success');
     } else if (donationStatus?.status === 'failed') {
       setPaymentStatus('failed');
-    } else {
-      refetch();
     }
   }, [donationStatus]);
   return (
