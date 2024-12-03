@@ -62,17 +62,22 @@ const Page = () => {
                       {data?.yearOfBirth} - {data?.yearOfDeath}
                     </p>
                   </div>
-                  <Button
-                    type='button'
-                    variant='secondary'
-                    className={`text-primary text-sm ${
-                      data?.balance < 20 &&
-                      'animate-pulse bg-red-500 text-white'
-                    }`}
-                    onClick={() => setShowSmsTop(true)}
-                  >
-                    SMS Balance: {data?.balance}
-                  </Button>
+                  <div className='space-y-1'>
+                    <p
+                      className={`text-primary text-sm h-fit p-2 rounded-sm ${
+                        data?.balance < 20 &&
+                        'animate-pulse bg-red-500 text-white'
+                      }`}
+                    >
+                      SMS Balance: {data?.balance}
+                    </p>
+                    <button
+                      onClick={() => setShowSmsTop(true)}
+                      className='text-secondary font-medium'
+                    >
+                      Purchase SMS
+                    </button>
+                  </div>
                 </div>
 
                 <div className='flex sm:flex-row flex-col gap-10 items-end justify-between '>

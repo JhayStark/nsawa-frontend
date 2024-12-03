@@ -95,7 +95,8 @@ const Page = () => {
           title: 'Donation',
           description: 'Donation is being processed',
         });
-        !res?.showOtpModal && router.push(`/${params.id}/thank-you`);
+        !res?.showOtpModal &&
+          router.push(`/${params.id}/thank-you?donationId=${res?.id}`);
       })
       .catch(() =>
         toast({

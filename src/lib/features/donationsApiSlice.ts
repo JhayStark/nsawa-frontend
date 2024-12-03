@@ -64,6 +64,9 @@ const donationsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Funeral'],
     }),
+    getDonationStatus: builder.query({
+      query: (id: string) => `/donations/public/status/${id}`,
+    }),
   }),
 });
 
@@ -73,4 +76,5 @@ export const {
   useGetDonationStatsQuery,
   useAddDonationPublicMutation,
   useSendThankYouMessageMutation,
+  useGetDonationStatusQuery,
 } = donationsApiSlice;

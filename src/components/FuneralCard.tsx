@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Button } from './ui/button';
-import { formatDateToString } from '@/lib/helpers';
+import { checkActiveFuneral, formatDateToString } from '@/lib/helpers';
 import { Eye } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -32,6 +32,13 @@ const FuneralCard = ({ funeral }: any) => {
           <p className='text-sm text-[#4F4F96]'>
             {formatDateToString(funeral?.startDate)}
           </p>
+          <div className='text-sm font-medium'>
+            {checkActiveFuneral(funeral?.endDate) ? (
+              <p className='text-green-600'>Active</p>
+            ) : (
+              <p className='text-red-600'>Ended</p>
+            )}
+          </div>
         </div>
       </div>
       <Button
