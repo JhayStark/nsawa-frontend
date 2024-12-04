@@ -98,10 +98,10 @@ const Page = () => {
         !res?.showOtpModal &&
           router.push(`/${params.id}/thank-you?donationId=${res?.id}`);
       })
-      .catch(() =>
+      .catch(err =>
         toast({
-          title: 'Failed',
-          description: 'Donation failed',
+          title: err?.status !== 500 ? err?.data : 'Donation not recieved',
+          variant: 'destructive',
         })
       );
   };

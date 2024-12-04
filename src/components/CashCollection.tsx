@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { InputField, SelectFormField, TextField } from './ui/form-fields';
 import { Form } from './ui/form';
 import { Button } from './ui/button';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useGetKeyPersonsQuery } from '@/lib/features/keyPersonsApiSlice';
 import { useAddDonationMutation } from '@/lib/features/donationsApiSlice';
 import { CircleX, HandCoins } from 'lucide-react';
@@ -77,12 +77,12 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
         });
         form.reset(donationDefaults);
       })
-      .catch(err =>
+      .catch(err => {
         toast({
-          title: 'Donation not recieved',
+          title: err?.status !== 500 ? err?.data : 'Donation not recieved',
           variant: 'destructive',
-        })
-      );
+        });
+      });
   };
 
   const handleOpen = () => {
