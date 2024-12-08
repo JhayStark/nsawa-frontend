@@ -34,6 +34,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, Landmark } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import FuneralEnded from '@/components/FuneralEndedCard';
 
 const donationSchema = z.object({
   donorName: z.string(),
@@ -63,6 +64,7 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [confirmOtp] = useConfirmDonationOtpMutation();
   const [reference, setReference] = useState('');
+  const [funeralEndedState, setFuneralEndedState] = useState(false);
 
   const keyPersons = useMemo(() => {
     return (
@@ -98,12 +100,18 @@ const Page = () => {
         !res?.showOtpModal &&
           router.push(`/${params.id}/thank-you?donationId=${res?.id}`);
       })
-      .catch(err =>
-        toast({
-          title: err?.status !== 500 ? err?.data : 'Donation not recieved',
-          variant: 'destructive',
-        })
-      );
+      .catch(err => {
+        console.log(err);
+        const { status, data } = err;
+        if (status === 400 && data.ended) {
+          setFuneralEndedState(true);
+        } else {
+          toast({
+            title: 'Donation not recieved',
+            variant: 'destructive',
+          });
+        }
+      });
   };
 
   const handleOtpSubmit = async () => {
@@ -263,6 +271,11 @@ const Page = () => {
           </form>
         </DialogContent>
       </Dialog>
+      <FuneralEnded
+        phoneNumber={data?.phoneNumber as string}
+        isOpen={funeralEndedState}
+        onClose={() => setFuneralEndedState(prev => false)}
+      />
     </div>
   );
 };

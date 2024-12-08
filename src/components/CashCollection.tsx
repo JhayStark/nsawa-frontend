@@ -18,6 +18,7 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { Checkbox } from './ui/checkbox';
+import { checkActiveFuneral } from '@/lib/helpers';
 
 const donationsSchema = z.object({
   donorName: z.string(),
@@ -197,6 +198,10 @@ const CashCollection = ({ funeralDetails }: { funeralDetails: any }) => {
             className='h-16 rounded-none w-full'
             form='cash-donation'
             variant='secondary'
+            disabled={
+              !checkActiveFuneral(funeralDetails?.endDate) ||
+              !funeralDetails?.status
+            }
           >
             Recieve Donation
           </Button>
