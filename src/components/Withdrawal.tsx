@@ -63,6 +63,10 @@ export default function Withdrawal() {
     return data?.data?.data || [];
   }, [data]);
 
+  const handleNextStep = () => {
+    setStep('withdrawal');
+  };
+
   useEffect(() => {
     setAccountNumber('');
     setBankName('');
@@ -162,103 +166,112 @@ export default function Withdrawal() {
               Choose your preferred withdrawal method and enter your details.
             </DialogDescription> */}
           </DialogHeader>
-          <NoticeCard
-            variant='info'
-            title='Withdrawal notice'
-            items={[
-              'Withdrawals can only be made 2 days after the funeral end date',
-              'Withdrawals are processed within 24 hours.',
-              'Contact info@nsawa-digital.com for any issues or enquiry',
-            ]}
-          />
-          <form onSubmit={handleSubmit}>
-            <Tabs
-              defaultValue='mobile_money'
-              onValueChange={setWithdrawalMethod}
-            >
-              <TabsList className='grid w-full grid-cols-2'>
-                <TabsTrigger value='mobile_money'>Mobile Money</TabsTrigger>
-                <TabsTrigger value='bank'>Bank Transfer</TabsTrigger>
-              </TabsList>
-              <TabsContent value='mobile_money' className='space-y-4'>
-                <div className='space-y-2'>
-                  <Label htmlFor='bankName'>Bank Name</Label>
-                  <Select onValueChange={setBankName} required>
-                    <SelectTrigger id='bankName'>
-                      <SelectValue placeholder='Select your bank' />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {banks?.map((bank: any) => (
-                        <SelectItem key={bank.code} value={bank.code}>
-                          {bank.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className='space-y-2'>
-                  <Label htmlFor='mobileNumber'>Mobile Number</Label>
-                  <Input
-                    id='mobileNumber'
-                    placeholder='Enter your mobile number'
-                    value={accountNumber}
-                    onChange={e => setAccountNumber(e.target.value)}
-                    required
-                  />
-                </div>
-              </TabsContent>
-              <TabsContent value='bank' className='space-y-4'>
-                <div className='space-y-2'>
-                  <Label htmlFor='bankName'>Bank Name</Label>
-                  <Select onValueChange={setBankName} required>
-                    <SelectTrigger id='bankName'>
-                      <SelectValue placeholder='Select your bank' />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {banks?.map((bank: any) => (
-                        <SelectItem key={bank.code} value={bank.code}>
-                          {bank.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className='space-y-2'>
-                  <Label htmlFor='accountNumber'>Account Number</Label>
-                  <Input
-                    id='accountNumber'
-                    placeholder='Enter your account number'
-                    value={accountNumber}
-                    onChange={e => setAccountNumber(e.target.value)}
-                    required
-                  />
-                </div>
-              </TabsContent>
-            </Tabs>
-            <div className='mt-4 space-y-4'>
-              {accountName && (
-                <div className='text-sm'>
-                  <strong>Account Name:</strong> {accountName}
-                </div>
-              )}
-              <div className='text-sm '>
-                <strong>Donations recieved:</strong> GHS{' '}
-                {stats?.totalMomoDonations?.toFixed(2)}
-              </div>
-              <div className='text-sm '>
-                <strong>Charges (6 %):</strong> GHS{' '}
-                {stats?.totalMomoDonations?.toFixed(2) * 0.06}
-              </div>
-              <div className='text-sm '>
-                <strong>Withdrawal Amount:</strong> GHS{' '}
-                {stats?.totalMomoDonations?.toFixed(2) -
-                  stats?.totalMomoDonations?.toFixed(2) * 0.06}
-              </div>
-              <Button type='submit' disabled={isLoading || !accountName}>
-                {isLoading ? 'Processing...' : 'Confirm Withdrawal'}
+          {step === 'notice' ? (
+            <div className='space-y-4'>
+              <NoticeCard
+                variant='info'
+                title='Withdrawal notice'
+                items={[
+                  'Once withdrawals are initiated, no further donations can be accepted for the funeral.',
+                  'It is advisable to withdraw funds only after the funeral has concluded.',
+                  'Withdrawals are processed within 24 hours.',
+                  'Contact info@nsawa-digital.com for any issues or enquiry',
+                ]}
+              />
+              <Button onClick={handleNextStep} className='w-full'>
+                I Understand, Proceed to Withdrawal
               </Button>
             </div>
-          </form>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <Tabs
+                defaultValue='mobile_money'
+                onValueChange={setWithdrawalMethod}
+              >
+                <TabsList className='grid w-full grid-cols-2'>
+                  <TabsTrigger value='mobile_money'>Mobile Money</TabsTrigger>
+                  <TabsTrigger value='bank'>Bank Transfer</TabsTrigger>
+                </TabsList>
+                <TabsContent value='mobile_money' className='space-y-4'>
+                  <div className='space-y-2'>
+                    <Label htmlFor='bankName'>Bank Name</Label>
+                    <Select onValueChange={setBankName} required>
+                      <SelectTrigger id='bankName'>
+                        <SelectValue placeholder='Select your bank' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {banks?.map((bank: any) => (
+                          <SelectItem key={bank.code} value={bank.code}>
+                            {bank.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className='space-y-2'>
+                    <Label htmlFor='mobileNumber'>Mobile Number</Label>
+                    <Input
+                      id='mobileNumber'
+                      placeholder='Enter your mobile number'
+                      value={accountNumber}
+                      onChange={e => setAccountNumber(e.target.value)}
+                      required
+                    />
+                  </div>
+                </TabsContent>
+                <TabsContent value='bank' className='space-y-4'>
+                  <div className='space-y-2'>
+                    <Label htmlFor='bankName'>Bank Name</Label>
+                    <Select onValueChange={setBankName} required>
+                      <SelectTrigger id='bankName'>
+                        <SelectValue placeholder='Select your bank' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {banks?.map((bank: any) => (
+                          <SelectItem key={bank.code} value={bank.code}>
+                            {bank.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className='space-y-2'>
+                    <Label htmlFor='accountNumber'>Account Number</Label>
+                    <Input
+                      id='accountNumber'
+                      placeholder='Enter your account number'
+                      value={accountNumber}
+                      onChange={e => setAccountNumber(e.target.value)}
+                      required
+                    />
+                  </div>
+                </TabsContent>
+              </Tabs>
+              <div className='mt-4 space-y-4'>
+                {accountName && (
+                  <div className='text-sm'>
+                    <strong>Account Name:</strong> {accountName}
+                  </div>
+                )}
+                <div className='text-sm '>
+                  <strong>Donations recieved:</strong> GHS{' '}
+                  {stats?.totalMomoDonations?.toFixed(2)}
+                </div>
+                <div className='text-sm '>
+                  <strong>Charges (6 %):</strong> GHS{' '}
+                  {stats?.totalMomoDonations?.toFixed(2) * 0.06}
+                </div>
+                <div className='text-sm '>
+                  <strong>Withdrawal Amount:</strong> GHS{' '}
+                  {stats?.totalMomoDonations?.toFixed(2) -
+                    stats?.totalMomoDonations?.toFixed(2) * 0.06}
+                </div>
+                <Button type='submit' disabled={isLoading || !accountName}>
+                  {isLoading ? 'Processing...' : 'Confirm Withdrawal'}
+                </Button>
+              </div>
+            </form>
+          )}
         </DialogContent>
       </Dialog>
       <Dialog open={showOtpDialog} onOpenChange={setShowOtpDialog}>
