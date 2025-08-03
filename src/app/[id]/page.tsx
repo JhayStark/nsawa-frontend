@@ -6,6 +6,7 @@ import {
 	useScroll,
 	useSpring,
 	useTransform,
+	type Variants,
 } from "framer-motion";
 import {
 	Calendar,
@@ -24,7 +25,6 @@ import { Textarea } from "@/components/ui/textarea";
 
 export default function TributePage() {
 	const [activeTab, setActiveTab] = useState("tribute");
-	const [showModal, setShowModal] = useState(false);
 	const [contributionAmount, setContributionAmount] = useState("50");
 	const [showConfirmation, setShowConfirmation] = useState(false);
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -67,7 +67,11 @@ export default function TributePage() {
 
 	const presetAmounts = ["25", "50", "100", "250"];
 
-	const containerVariants = {
+	const serviceDateLabel = "Friday, August 2, 2025 at 2:00 PM";
+	const quickInfoDate = "Aug 2";
+	const quickInfoTime = "2:00 PM";
+
+	const containerVariants: Variants = {
 		hidden: { opacity: 0 },
 		visible: {
 			opacity: 1,
@@ -78,7 +82,7 @@ export default function TributePage() {
 		},
 	};
 
-	const itemVariants = {
+	const itemVariants: Variants = {
 		hidden: { y: 20, opacity: 0 },
 		visible: {
 			y: 0,
@@ -91,16 +95,16 @@ export default function TributePage() {
 		},
 	};
 
-	const tabContentVariants = {
+	const tabContentVariants: Variants = {
 		hidden: {
 			opacity: 0,
 			x: -20,
-			filter: "blur(4px)",
+			filter: "blur(4px)" as any,
 		},
 		visible: {
 			opacity: 1,
 			x: 0,
-			filter: "blur(0px)",
+			filter: "blur(0px)" as any,
 			transition: {
 				type: "spring",
 				stiffness: 120,
@@ -111,7 +115,7 @@ export default function TributePage() {
 		exit: {
 			opacity: 0,
 			x: 20,
-			filter: "blur(4px)",
+			filter: "blur(4px)" as any,
 			transition: { duration: 0.2 },
 		},
 	};
@@ -190,7 +194,7 @@ export default function TributePage() {
 							>
 								<motion.img
 									src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-									alt="Maria Thompson"
+									alt="Portrait of Maria Thompson"
 									className="w-full h-full rounded-full object-cover"
 									whileHover={{ scale: 1.1 }}
 									transition={{ duration: 0.4 }}
@@ -247,7 +251,7 @@ export default function TributePage() {
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ delay: 0.9, duration: 0.8 }}
 							>
-								"A life of quiet strength, boundless kindness"
+								&quot;A life of quiet strength, boundless kindness&quot;
 							</motion.p>
 						</motion.div>
 
@@ -257,7 +261,11 @@ export default function TributePage() {
 							variants={itemVariants}
 						>
 							{[
-								{ icon: Calendar, label: "Aug 2", sublabel: "2:00 PM" },
+								{
+									icon: Calendar,
+									label: quickInfoDate,
+									sublabel: quickInfoTime,
+								},
 								{ icon: MapPin, label: "Location", sublabel: "St. Mary's" },
 								{ icon: Clock, label: "Duration", sublabel: "1 Hour" },
 							].map((item, index) => (
@@ -292,7 +300,7 @@ export default function TributePage() {
 				>
 					{/* Tab Navigation with morphing background */}
 					<div className="flex space-x-1 mb-6 bg-slate-800/50 rounded-lg p-1 relative">
-						{tabs.map((tab, index) => (
+						{tabs.map((tab) => (
 							<motion.button
 								key={tab.id}
 								onClick={() => setActiveTab(tab.id)}
@@ -363,11 +371,11 @@ export default function TributePage() {
 											transition={{ duration: 0.6 }}
 										/>
 										<p className="italic text-amber-200 relative z-10">
-											"The best teachers are those who show you where to look,
-											but don't tell you what to see."
+											&quot;The best teachers are those who show you where to
+											look, but do not tell you what to see.&quot;
 										</p>
 										<p className="text-sm text-slate-400 mt-2 relative z-10">
-											— Maria's favorite teaching philosophy
+											— Maria&apos;s favorite teaching philosophy
 										</p>
 									</motion.div>
 								</motion.div>
@@ -391,7 +399,7 @@ export default function TributePage() {
 												{
 													icon: Calendar,
 													title: "Memorial Service",
-													subtitle: "Friday, August 2, 2025 at 2:00 PM",
+													subtitle: serviceDateLabel,
 												},
 												{
 													icon: MapPin,
@@ -573,9 +581,6 @@ export default function TributePage() {
 												"https://images.unsplash.com/photo-1573579509754-e9c73edcbaf0?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDk0fHx8ZW58MHx8fHx8",
 												"https://images.unsplash.com/photo-1616014247708-51c2d58e6bd8?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDg4fHx8ZW58MHx8fHx8",
 												"https://images.unsplash.com/photo-1662690833162-c45cae0357fc?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDg5fHx8ZW58MHx8fHx8",
-												"https://images.unsplash.com/photo-1591515446522-073985aca532?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE3MHx8fGVufDB8fHx8fA%3D%3D",
-												"https://images.unsplash.com/photo-1667857481448-75034114a45c?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE3OXx8fGVufDB8fHx8fA%3D%3D",
-												"https://images.unsplash.com/photo-1655400941188-3f70e51df00f?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE5MXx8fGVufDB8fHx8fA%3D%3D",
 											].map((imageUrl, index) => (
 												<motion.div
 													key={index}
@@ -618,7 +623,7 @@ export default function TributePage() {
 								Contribute in Her Honor
 							</h2>
 							<p className="text-slate-400 text-sm">
-								Support the family's legacy—your gift honors her memory.
+								Support the family&apos;s legacy—your gift honors her memory.
 							</p>
 						</motion.div>
 
