@@ -722,33 +722,33 @@ export default function TributePage() {
 											Contribution Amount
 										</label>
 										<div className="grid grid-cols-4 gap-2 mb-3 relative">
-											{presetAmounts.map((amount) => (
-												<motion.button
-													key={amount}
-													onClick={() => setContributionAmount(amount)}
-													className={`py-2 px-3 rounded-md text-sm font-medium transition-colors relative ${
-														contributionAmount === amount
-															? "text-slate-900"
-															: "bg-slate-800 text-slate-300 hover:bg-slate-700"
-													}`}
-													whileHover={{ scale: 1.05 }}
-													whileTap={{ scale: 0.95 }}
-												>
-													${amount}
-													{contributionAmount === amount && (
-														<motion.div
-															className="absolute inset-0 bg-amber-400 rounded-md"
-															layoutId="selectedAmount"
-															transition={{
-																type: "spring",
-																stiffness: 500,
-																damping: 30,
-															}}
-															style={{ zIndex: -1 }}
-														/>
-													)}
-												</motion.button>
-											))}
+											{/* {presetAmounts.map((amount) => ( */}
+											{/* 	<motion.button */}
+											{/* 		key={amount} */}
+											{/* 		onClick={() => setContributionAmount(amount)} */}
+											{/* 		className={`py-2 px-3 rounded-md text-sm font-medium transition-colors relative ${ */}
+											{/* 			contributionAmount === amount */}
+											{/* 				? "text-slate-900" */}
+											{/* 				: "bg-slate-800 text-slate-300 hover:bg-slate-700" */}
+											{/* 		}`} */}
+											{/* 		whileHover={{ scale: 1.05 }} */}
+											{/* 		whileTap={{ scale: 0.95 }} */}
+											{/* 	> */}
+											{/* 		${amount} */}
+											{/* 		{contributionAmount === amount && ( */}
+											{/* 			<motion.div */}
+											{/* 				className="absolute inset-0 bg-amber-400 rounded-md" */}
+											{/* 				layoutId="selectedAmount" */}
+											{/* 				transition={{ */}
+											{/* 					type: "spring", */}
+											{/* 					stiffness: 500, */}
+											{/* 					damping: 30, */}
+											{/* 				}} */}
+											{/* 				style={{ zIndex: -1 }} */}
+											{/* 			/> */}
+											{/* 		)} */}
+											{/* 	</motion.button> */}
+											{/* ))} */}
 										</div>
 										<motion.div whileFocus={{ scale: 1.02 }}>
 											<Input
