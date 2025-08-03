@@ -147,7 +147,7 @@ export default function TributePage() {
 			{[...Array(6)].map((_, i) => (
 				<motion.div
 					key={i}
-					className="absolute w-1 h-1 bg-amber-400/30 rounded-full"
+					className="absolute w-2 h-2 bg-amber-400/30 rounded-full"
 					animate={{
 						y: [0, -100, 0],
 						x: [0, Math.sin(i) * 50, 0],
@@ -173,19 +173,20 @@ export default function TributePage() {
 			>
 				{/* Left Panel - Tribute Snapshot */}
 				<motion.div
-					className="lg:w-1/3 p-6 lg:p-8 flex flex-col"
+					className="lg:w-1/3 p-6 lg:p-8 flex flex-col rounded-2xl shadow-xl"
 					variants={itemVariants}
 					style={{ x, y }}
 				>
 					<div className="space-y-6">
 						{/* Portrait with advanced animations */}
 						<motion.div
-							className="relative"
+							className="relative mx-auto"
 							whileHover={{ scale: 1.05 }}
 							transition={{ type: "spring", stiffness: 300, damping: 20 }}
+							aria-label="Portrait of Maria Thompson"
 						>
 							<motion.div
-								className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-gradient-to-br from-amber-200 to-amber-400 p-1 mx-auto lg:mx-0 relative overflow-hidden"
+								className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-gradient-to-br from-amber-200 to-amber-400 p-1 relative overflow-hidden"
 								whileHover={{
 									boxShadow: "0 0 40px rgba(251, 191, 36, 0.4)",
 									rotate: [0, -2, 2, 0],
@@ -194,7 +195,7 @@ export default function TributePage() {
 							>
 								<motion.img
 									src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-									alt="Portrait of Maria Thompson"
+									alt="Smiling portrait of Maria Thompson"
 									className="w-full h-full rounded-full object-cover"
 									whileHover={{ scale: 1.1 }}
 									transition={{ duration: 0.4 }}
@@ -219,18 +220,19 @@ export default function TributePage() {
 									ease: "easeInOut",
 								}}
 								whileHover={{ scale: 1.3 }}
+								aria-hidden="true"
 							>
 								<Heart className="w-4 h-4 text-slate-900" />
 							</motion.div>
 						</motion.div>
 
-						{/* Name and Details with staggered animation */}
+						{/* Name, Dates, Motto */}
 						<motion.div
 							className="text-center lg:text-left"
 							variants={itemVariants}
 						>
 							<motion.h1
-								className="text-3xl lg:text-4xl font-serif font-bold mb-2"
+								className="text-3xl lg:text-4xl font-serif font-bold mb-1"
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ delay: 0.5, duration: 0.8 }}
@@ -238,7 +240,7 @@ export default function TributePage() {
 								Maria Thompson
 							</motion.h1>
 							<motion.p
-								className="text-slate-400 text-lg mb-3"
+								className="text-slate-400 text-lg mb-2"
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ delay: 0.7, duration: 0.8 }}
@@ -251,11 +253,11 @@ export default function TributePage() {
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ delay: 0.9, duration: 0.8 }}
 							>
-								&quot;A life of quiet strength, boundless kindness&quot;
+								“A life of quiet strength, boundless kindness”
 							</motion.p>
 						</motion.div>
 
-						{/* Service Quick Info with hover animations */}
+						{/* Quick Stats / Service Info */}
 						<motion.div
 							className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-700"
 							variants={itemVariants}
@@ -272,10 +274,7 @@ export default function TributePage() {
 								<motion.div
 									key={index}
 									className="text-center cursor-pointer"
-									whileHover={{
-										scale: 1.05,
-										y: -2,
-									}}
+									whileHover={{ scale: 1.05, y: -2 }}
 									whileTap={{ scale: 0.95 }}
 									transition={{ type: "spring", stiffness: 400, damping: 17 }}
 								>
@@ -283,12 +282,68 @@ export default function TributePage() {
 										whileHover={{ rotate: 360 }}
 										transition={{ duration: 0.6 }}
 									>
-										<item.icon className="w-5 h-5 text-amber-400 mx-auto mb-1" />
+										<item.icon
+											className="w-5 h-5 text-amber-400 mx-auto mb-1"
+											aria-hidden="true"
+										/>
 									</motion.div>
 									<p className="text-xs text-slate-400">{item.label}</p>
 									<p className="text-sm font-medium">{item.sublabel}</p>
 								</motion.div>
 							))}
+						</motion.div>
+
+						{/* Divider */}
+						<div className="border-t border-slate-700 mt-2" />
+
+						{/* Brief Bio / Timeline */}
+						<motion.div variants={itemVariants} className="space-y-2">
+							<h3 className="text-lg font-semibold">Life & Legacy</h3>
+							<ul className="list-disc list-inside text-sm text-slate-300 space-y-1">
+								<li>
+									Born in a small Ohio town; devoted over 30 years to elementary
+									education.
+								</li>
+								<li>
+									Beloved teacher known for making every child feel seen and
+									capable.
+								</li>
+								<li>
+									Passionate gardener, family matriarch, and community
+									volunteer.
+								</li>
+							</ul>
+						</motion.div>
+
+						{/* Core values / traits */}
+						<motion.div
+							variants={itemVariants}
+							className="flex flex-wrap gap-2 pt-1"
+							aria-label="Core values"
+						>
+							<Badge className="bg-amber-500 text-slate-900">Kindness</Badge>
+							<Badge className="bg-slate-700 text-amber-200">Wisdom</Badge>
+							<Badge className="bg-amber-400 text-slate-900">Patience</Badge>
+							<Badge className="bg-slate-600 text-slate-300">Community</Badge>
+						</motion.div>
+
+						{/* Call to action / Obituary */}
+						<motion.div
+							variants={itemVariants}
+							className="mt-2 flex flex-col gap-2"
+						>
+							<Button
+								className="w-full bg-slate-800 border border-amber-400 text-amber-400 flex items-center justify-center gap-2"
+								aria-label="Read full obituary"
+							>
+								Read Full Obituary
+							</Button>
+							<button
+								className="text-xs underline text-slate-400 hover:text-slate-200 self-start"
+								aria-label="Download obituary as PDF"
+							>
+								Download as PDF
+							</button>
 						</motion.div>
 					</div>
 				</motion.div>
