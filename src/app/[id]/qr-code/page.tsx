@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function FuneralDonationPage() {
@@ -82,9 +83,11 @@ export default function FuneralDonationPage() {
 								<div className="relative group">
 									<div className="absolute -inset-1 bg-gradient-to-br from-amber-500/20 to-amber-600/10 rounded-lg blur-sm" />
 									<div className="relative overflow-hidden rounded-lg bg-slate-800 p-2">
-										<img
+										<Image
 											src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=400&fit=crop&crop=faces,center&auto=format&q=85"
 											alt="Eleanor Grace Thompson"
+											width={500}
+											height={400}
 											className="w-full h-48 lg:h-64 object-cover rounded transition-all duration-500 group-hover:scale-105"
 											style={{
 												filter:
@@ -111,7 +114,7 @@ export default function FuneralDonationPage() {
 								</p>
 
 								<blockquote className="text-slate-400 italic pl-4 border-l-2 border-slate-700 font-light">
-									"She made everyone feel deeply valued."
+									&ldquo;She made everyone feel deeply valued.&rdquo;
 								</blockquote>
 							</div>
 						</div>
@@ -140,9 +143,11 @@ export default function FuneralDonationPage() {
 
 											{/* Large QR code for easy mobile scanning */}
 											<div className="relative">
-												<img
+												<Image
 													src={qrCodeUrl}
 													alt="Memorial Fund Donation QR Code"
+													width={320}
+													height={320}
 													className="w-72 h-72 lg:w-80 lg:h-80 mx-auto rounded-lg shadow-lg transition-all duration-500 group-hover:scale-105"
 												/>
 
@@ -216,8 +221,8 @@ export default function FuneralDonationPage() {
 							</div>
 
 							<blockquote className="text-lg lg:text-xl font-light text-slate-400 italic leading-relaxed">
-								"Those we love never truly leave us. They live on in our hearts
-								and memories."
+								&ldquo;Those we love never truly leave us. They live on in our
+								hearts and memories.&rdquo;
 							</blockquote>
 						</div>
 					</div>
