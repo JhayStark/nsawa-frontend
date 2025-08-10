@@ -98,30 +98,31 @@ export default function TributePage() {
 	const tabContentVariants: Variants = {
 		hidden: {
 			opacity: 0,
-			x: -20,
-			filter: "blur(4px)" as any,
+			x: -10,
 		},
 		visible: {
 			opacity: 1,
 			x: 0,
-			filter: "blur(0px)" as any,
 			transition: {
-				type: "spring",
-				stiffness: 120,
-				damping: 20,
+				type: "tween",
+				ease: "easeInOut",
+				duration: 0.3,
 				staggerChildren: 0.05,
 			},
 		},
 		exit: {
 			opacity: 0,
-			x: 20,
-			filter: "blur(4px)" as any,
-			transition: { duration: 0.2 },
+			x: 10,
+			transition: {
+				type: "tween",
+				ease: "easeInOut",
+				duration: 0.2,
+			},
 		},
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 overflow-hidden relative">
+		<div className="h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 overflow-y-auto">
 			{/* Animated background elements */}
 			<motion.div
 				className="absolute inset-0 opacity-30"
@@ -132,7 +133,7 @@ export default function TributePage() {
 			</motion.div>
 			{/* Mouse follower */}
 			<motion.div
-				className="fixed w-6 h-6 bg-amber-400/20 rounded-full pointer-events-none z-50 mix-blend-difference"
+				className="fixed w-6 h-6 bg-amber-400/20 rounded-full pointer-events-none z-50 mix-blend-difference hidden lg:block"
 				animate={{
 					x: mousePosition.x - 12,
 					y: mousePosition.y - 12,
@@ -147,7 +148,7 @@ export default function TributePage() {
 			{[...Array(6)].map((_, i) => (
 				<motion.div
 					key={i}
-					className="absolute w-2 h-2 bg-amber-400/30 rounded-full"
+					className="absolute w-2 h-2 bg-amber-400/30 rounded-full hidden lg:block"
 					animate={{
 						y: [0, -100, 0],
 						x: [0, Math.sin(i) * 50, 0],
@@ -166,14 +167,14 @@ export default function TributePage() {
 				/>
 			))}
 			<motion.div
-				className="relative h-screen flex flex-col lg:flex-row"
+				className="relative flex flex-col lg:flex-row w-full"
 				variants={containerVariants}
 				initial="hidden"
 				animate={isLoaded ? "visible" : "hidden"}
 			>
 				{/* Left Panel - Tribute Snapshot */}
 				<motion.div
-					className="lg:w-1/3 p-6 lg:p-8 flex flex-col rounded-2xl shadow-xl"
+					className="w-full lg:w-1/4 p-6 lg:p-8 flex flex-col rounded-2xl shadow-xl"
 					variants={itemVariants}
 					style={{ x, y }}
 				>
@@ -186,7 +187,7 @@ export default function TributePage() {
 							aria-label="Portrait of Maria Thompson"
 						>
 							<motion.div
-								className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-gradient-to-br from-amber-200 to-amber-400 p-1 relative overflow-hidden"
+								className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-gradient-to-br from-amber-200 to-amber-400 p-1 relative overflow-hidden mx-auto"
 								whileHover={{
 									boxShadow: "0 0 40px rgba(251, 191, 36, 0.4)",
 									rotate: [0, -2, 2, 0],
@@ -227,12 +228,9 @@ export default function TributePage() {
 						</motion.div>
 
 						{/* Name, Dates, Motto */}
-						<motion.div
-							className="text-center lg:text-left"
-							variants={itemVariants}
-						>
+						<motion.div className="text-center" variants={itemVariants}>
 							<motion.h1
-								className="text-3xl lg:text-4xl font-serif font-bold mb-1"
+								className="text-3xl lg:text-2xl font-serif font-bold mb-1"
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ delay: 0.5, duration: 0.8 }}
@@ -298,8 +296,10 @@ export default function TributePage() {
 
 						{/* Brief Bio / Timeline */}
 						<motion.div variants={itemVariants} className="space-y-2">
-							<h3 className="text-lg font-semibold">Life & Legacy</h3>
-							<ul className="list-disc list-inside text-sm text-slate-300 space-y-1">
+							<h3 className="text-lg font-semibold text-center lg:text-left">
+								Life & Legacy
+							</h3>
+							<ul className="list-disc list-inside text-sm text-slate-300 space-y-1 text-center lg:text-left">
 								<li>
 									Born in a small Ohio town; devoted over 30 years to elementary
 									education.
@@ -318,19 +318,18 @@ export default function TributePage() {
 						{/* Core values / traits */}
 						<motion.div
 							variants={itemVariants}
-							className="flex flex-wrap gap-2 pt-1"
+							className="flex flex-wrap gap-2 pt-1 justify-center lg:justify-start"
 							aria-label="Core values"
 						>
 							<Badge className="bg-amber-500 text-slate-900">Kindness</Badge>
 							<Badge className="bg-slate-700 text-amber-200">Wisdom</Badge>
 							<Badge className="bg-amber-400 text-slate-900">Patience</Badge>
-							<Badge className="bg-slate-600 text-slate-300">Community</Badge>
 						</motion.div>
 
 						{/* Call to action / Obituary */}
 						<motion.div
 							variants={itemVariants}
-							className="mt-2 flex flex-col gap-2"
+							className="mt-2 flex flex-col gap-2 items-center lg:items-start"
 						>
 							<Button
 								className="w-full bg-slate-800 border border-amber-400 text-amber-400 flex items-center justify-center gap-2"
@@ -339,7 +338,7 @@ export default function TributePage() {
 								Read Full Obituary
 							</Button>
 							<button
-								className="text-xs underline text-slate-400 hover:text-slate-200 self-start"
+								className="text-xs underline text-slate-400 hover:text-slate-200 self-center lg:self-start"
 								aria-label="Download obituary as PDF"
 							>
 								Download as PDF
@@ -350,16 +349,16 @@ export default function TributePage() {
 
 				{/* Center Panel - Tabbed Content */}
 				<motion.div
-					className="lg:w-1/2 p-6 lg:p-8 flex flex-col"
+					className="w-full lg:w-1/2 p-6 lg:p-8 flex flex-col"
 					variants={itemVariants}
 				>
 					{/* Tab Navigation with morphing background */}
-					<div className="flex space-x-1 mb-6 bg-slate-800/50 rounded-lg p-1 relative">
+					<div className="flex flex-wrap space-x-1 mb-6 bg-slate-800/50 rounded-lg p-1 relative">
 						{tabs.map((tab) => (
 							<motion.button
 								key={tab.id}
 								onClick={() => setActiveTab(tab.id)}
-								className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 relative z-10 flex items-center justify-center gap-2 ${
+								className={`flex-1 py-2 px-2 sm:px-4 rounded-md text-xs sm:text-sm font-medium transition-all duration-200 relative z-10 flex items-center justify-center gap-2 ${
 									activeTab === tab.id
 										? "text-slate-900"
 										: "text-slate-400 hover:text-slate-200"
@@ -368,7 +367,7 @@ export default function TributePage() {
 								whileTap={{ scale: 0.98 }}
 							>
 								<span className="text-xs">{tab.icon}</span>
-								{tab.label}
+								<span className="hidden sm:inline">{tab.label}</span>
 								{activeTab === tab.id && (
 									<motion.div
 										className="absolute inset-0 bg-amber-400 rounded-md"
@@ -394,10 +393,10 @@ export default function TributePage() {
 									className="space-y-6"
 								>
 									<motion.div variants={itemVariants}>
-										<h2 className="text-2xl font-serif font-bold mb-4">
+										<h2 className="text-2xl font-serif font-bold mb-4 text-center lg:text-left">
 											Remembering Maria
 										</h2>
-										<div className="space-y-4 text-slate-300 leading-relaxed">
+										<div className="space-y-4 text-slate-300 leading-relaxed text-center lg:text-left">
 											{[
 												"Maria Thompson lived a life that touched countless hearts. Born in a small town in Ohio, she dedicated her career to education, spending over 30 years as an elementary school teacher.",
 												"Her students remember her not just for her patience and wisdom, but for the way she made each child feel special and capable. Maria believed that every person had something unique to offer the world.",
@@ -446,7 +445,7 @@ export default function TributePage() {
 									className="space-y-6"
 								>
 									<motion.div variants={itemVariants}>
-										<h2 className="text-2xl font-serif font-bold mb-4">
+										<h2 className="text-2xl font-serif font-bold mb-4 text-center lg:text-left">
 											Service Details
 										</h2>
 										<div className="space-y-4">
@@ -512,10 +511,10 @@ export default function TributePage() {
 												variants={itemVariants}
 												whileHover={{ scale: 1.01 }}
 											>
-												<h3 className="font-semibold mb-2">
+												<h3 className="font-semibold mb-2 text-center lg:text-left">
 													In lieu of flowers
 												</h3>
-												<p className="text-slate-300 text-sm">
+												<p className="text-slate-300 text-sm text-center lg:text-left">
 													The family requests donations be made to the
 													Springfield Animal Shelter or the Maria Thompson
 													Education Fund.
@@ -536,7 +535,7 @@ export default function TributePage() {
 									className="space-y-6"
 								>
 									<motion.div variants={itemVariants}>
-										<h2 className="text-2xl font-serif font-bold mb-4">
+										<h2 className="text-2xl font-serif font-bold mb-4 text-center lg:text-left">
 											Share a Memory
 										</h2>
 										<div className="space-y-4">
@@ -553,7 +552,7 @@ export default function TributePage() {
 													className="bg-slate-800/50 border-slate-600 text-slate-100 placeholder:text-slate-400 min-h-[120px] focus:border-amber-400 transition-colors"
 												/>
 											</motion.div>
-											<div className="flex space-x-3">
+											<div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
 												<motion.div
 													className="flex-1"
 													whileFocus={{ scale: 1.02 }}
@@ -567,7 +566,7 @@ export default function TributePage() {
 													whileHover={{ scale: 1.05 }}
 													whileTap={{ scale: 0.95 }}
 												>
-													<Button className="bg-amber-400 hover:bg-amber-500 text-slate-900">
+													<Button className="w-full bg-amber-400 hover:bg-amber-500 text-slate-900">
 														Share Memory
 													</Button>
 												</motion.div>
@@ -576,7 +575,9 @@ export default function TributePage() {
 									</motion.div>
 
 									<motion.div className="space-y-3" variants={itemVariants}>
-										<h3 className="font-semibold text-lg">Recent Memories</h3>
+										<h3 className="font-semibold text-lg text-center lg:text-left">
+											Recent Memories
+										</h3>
 										<div className="space-y-3 max-h-64 overflow-y-auto">
 											{[
 												{
@@ -622,10 +623,10 @@ export default function TributePage() {
 									className="space-y-6"
 								>
 									<motion.div variants={itemVariants}>
-										<h2 className="text-2xl font-serif font-bold mb-4">
+										<h2 className="text-2xl font-serif font-bold mb-4 text-center lg:text-left">
 											Photo Memories
 										</h2>
-										<div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+										<div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
 											{[
 												"https://images.unsplash.com/photo-1569292912461-802a58b76d5f?q=80&w=2346&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 												"https://images.unsplash.com/photo-1588857805015-3fb765b35e92?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDMwfHx8ZW58MHx8fHx8",
@@ -669,15 +670,15 @@ export default function TributePage() {
 
 				{/* Right Panel - Contribution with enhanced animations */}
 				<motion.div
-					className="lg:w-1/3 p-6 lg:p-8 border-t lg:border-t-0 lg:border-l border-slate-700"
+					className="w-full lg:w-1/4 p-6 lg:p-8 border-t lg:border-t-0 lg:border-l border-slate-700"
 					variants={itemVariants}
 				>
 					<div className="space-y-6">
 						<motion.div variants={itemVariants}>
-							<h2 className="text-2xl font-serif font-bold mb-2">
+							<h2 className="text-2xl font-serif font-bold mb-2 text-center lg:text-left">
 								Contribute in Her Honor
 							</h2>
-							<p className="text-slate-400 text-sm">
+							<p className="text-slate-400 text-sm text-center lg:text-left">
 								Support the family&apos;s legacy—your gift honors her memory.
 							</p>
 						</motion.div>
@@ -718,10 +719,10 @@ export default function TributePage() {
 								>
 									{/* Amount Selection with morphing selection */}
 									<motion.div variants={itemVariants}>
-										<label className="block text-sm font-medium mb-2">
+										<label className="block text-sm font-medium mb-2 text-center lg:text-left">
 											Contribution Amount
 										</label>
-										<div className="grid grid-cols-4 gap-2 mb-3 relative">
+										<div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3 relative">
 											{/* {presetAmounts.map((amount) => ( */}
 											{/* 	<motion.button */}
 											{/* 		key={amount} */}
@@ -822,42 +823,6 @@ export default function TributePage() {
 						</AnimatePresence>
 					</div>
 				</motion.div>
-			</motion.div>
-			{/* Enhanced Footer Strip */}
-			<motion.div
-				className="absolute bottom-0 left-0 right-0 bg-slate-900/80 backdrop-blur-sm border-t border-slate-700 px-6 py-3"
-				initial={{ y: 100 }}
-				animate={{ y: 0 }}
-				transition={{ delay: 1, type: "spring", stiffness: 100, damping: 20 }}
-			>
-				<div className="flex items-center justify-between text-xs text-slate-400">
-					<div className="flex items-center space-x-4">
-						<span>Hosted by Transition Funeral Home</span>
-						<motion.button
-							className="flex items-center space-x-1 hover:text-slate-200 transition-colors"
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}
-						>
-							<Share2 className="w-3 h-3" />
-							<span>Share</span>
-						</motion.button>
-					</div>
-					<div className="flex items-center space-x-2">
-						<motion.button
-							className="hover:text-slate-200 transition-colors"
-							whileHover={{ scale: 1.05 }}
-						>
-							Accessibility
-						</motion.button>
-						<span>•</span>
-						<motion.button
-							className="hover:text-slate-200 transition-colors"
-							whileHover={{ scale: 1.05 }}
-						>
-							Contact
-						</motion.button>
-					</div>
-				</div>
 			</motion.div>
 		</div>
 	);
