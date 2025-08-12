@@ -111,7 +111,7 @@ export default function TributePage() {
 	};
 
 	return (
-		<div className="h-screen bg-gradient-to-br from-[#1a2321] via-[#040a09] to-[#1a2321] text-slate-100 overflow-y-auto">
+		<div className="h-screen bg-gradient-to-br from-[#1a2321] via-[#040a09] to-[#1a2321] text-slate-100 overflow-auto">
 			{/* <div className="h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 overflow-y-auto"> */}
 			{/* Animated background elements */}
 			<motion.div
@@ -157,7 +157,7 @@ export default function TributePage() {
 				/>
 			))}
 			<motion.div
-				className="relative flex flex-col lg:flex-row w-full"
+				className="relative flex flex-col lg:flex-row w-full h-full"
 				variants={containerVariants}
 				initial="hidden"
 				animate={isLoaded ? "visible" : "hidden"}
@@ -174,7 +174,7 @@ export default function TributePage() {
 							className="relative mx-auto"
 							whileHover={{ scale: 1.05 }}
 							transition={{ type: "spring", stiffness: 300, damping: 20 }}
-							aria-label="Portrait of Maria Thompson"
+							aria-label="Portrait of Eleanor Grace Thompson"
 						>
 							<motion.div
 								className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-gradient-to-br from-amber-200 to-amber-400 p-1 relative overflow-hidden mx-auto"
@@ -186,7 +186,7 @@ export default function TributePage() {
 							>
 								<motion.img
 									src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-									alt="Smiling portrait of Maria Thompson"
+									alt="Smiling portrait of Eleanor Grace Thompson"
 									className="w-full h-full rounded-full object-cover"
 									whileHover={{ scale: 1.1 }}
 									transition={{ duration: 0.4 }}
@@ -233,7 +233,7 @@ export default function TributePage() {
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ delay: 0.5, duration: 0.8 }}
 							>
-								Maria Thompson
+								Eleanor Grace Thompson
 							</motion.h1>
 							<motion.p
 								className="text-slate-400 text-lg mb-2"
@@ -396,13 +396,13 @@ export default function TributePage() {
 								>
 									<motion.div variants={itemVariants}>
 										<h2 className="text-2xl font-serif font-bold mb-4 text-center lg:text-left">
-											Remembering Maria
+											Remembering Eleanor Grace
 										</h2>
 										<div className="space-y-4 text-slate-300 leading-relaxed text-center lg:text-left">
 											{[
-												"Maria Thompson lived a life that touched countless hearts. Born in a small town in Ohio, she dedicated her career to education, spending over 30 years as an elementary school teacher.",
-												"Her students remember her not just for her patience and wisdom, but for the way she made each child feel special and capable. Maria believed that every person had something unique to offer the world.",
-												"Beyond the classroom, Maria was a devoted mother, grandmother, and friend. She found joy in her garden, Sunday dinners with family, and volunteering at the local animal shelter.",
+												"Eleanor Grace Thompson lived a life that touched countless hearts. Born in a small town in Ohio, she dedicated her career to education, spending over 30 years as an elementary school teacher.",
+												"Her students remember her not just for her patience and wisdom, but for the way she made each child feel special and capable. Eleanor Grace believed that every person had something unique to offer the world.",
+												"Beyond the classroom, Eleanor Grace was a devoted mother, grandmother, and friend. She found joy in her garden, Sunday dinners with family, and volunteering at the local animal shelter.",
 											].map((text, index) => (
 												<motion.p
 													key={index}
@@ -431,7 +431,7 @@ export default function TributePage() {
 											look, but do not tell you what to see.&quot;
 										</p>
 										<p className="text-sm text-slate-400 mt-2 relative z-10">
-											— Maria&apos;s favorite teaching philosophy
+											— Eleanor Grace&apos;s favorite teaching philosophy
 										</p>
 									</motion.div>
 								</motion.div>
@@ -518,8 +518,8 @@ export default function TributePage() {
 												</h3>
 												<p className="text-slate-300 text-sm text-center lg:text-left">
 													The family requests donations be made to the
-													Springfield Animal Shelter or the Maria Thompson
-													Education Fund.
+													Springfield Animal Shelter or the Eleanor Grace
+													Thompson Education Fund.
 												</p>
 											</motion.div>
 										</div>
@@ -550,8 +550,8 @@ export default function TributePage() {
 												}}
 											>
 												<Textarea
-													placeholder="Share your favorite memory of Maria..."
-													className="bg-slate-800/50  border-slate-600 text-slate-100 placeholder:text-slate-400 min-h-[120px] transition-colors resize-none"
+													placeholder="Share your favorite memory of Eleanor Grace..."
+													className="bg-slate-800/50  border-slate-600 text-slate-100 placeholder:text-slate-400 max-h-[120px] transition-colors resize-none"
 												/>
 											</motion.div>
 											<div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
@@ -580,7 +580,7 @@ export default function TributePage() {
 										<h3 className="font-semibold text-lg text-center lg:text-left">
 											Recent Memories
 										</h3>
-										<div className="space-y-3 max-h-96 overflow-y-auto p-4">
+										<div className="space-y-3 max-h-[500px] overflow-y-scroll p-4 cursor-all-scroll">
 											{[
 												{
 													text: "Mrs. Thompson encouraged me to pursue art, and now I paint every day with joy.",
@@ -611,7 +611,7 @@ export default function TributePage() {
 													author: "Olivia F.",
 												},
 												{
-													text: "Maria’s Sunday dinners brought our whole family together. Her laughter filled every room she entered.",
+													text: "Eleanor Grace’s Sunday dinners brought our whole family together. Her laughter filled every room she entered.",
 													author: "David T.",
 												},
 												{
