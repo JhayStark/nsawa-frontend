@@ -8,8 +8,8 @@ import {
 	useTransform,
 	type Variants,
 } from "framer-motion";
-import { Calendar, Clock, CreditCard, Heart, MapPin } from "lucide-react";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { type SVGProps, useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,7 +20,7 @@ type Tab = "memories" | "tribute" | "services" | "photos";
 
 export default function TributePage() {
 	const [activeTab, setActiveTab] = useState<Tab>("memories");
-	const [contributionAmount, setContributionAmount] = useState("50");
+	const [contributionAmount, setContributionAmount] = useState("");
 	const [showConfirmation, setShowConfirmation] = useState(false);
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -59,12 +59,6 @@ export default function TributePage() {
 		{ id: "services", label: "Service", icon: "🕊" },
 		{ id: "photos", label: "Photos", icon: "📸" },
 	];
-
-	const presetAmounts = ["25", "50", "100", "250"];
-
-	const serviceDateLabel = "Friday, August 2, 2025 at 2:00 PM";
-	const quickInfoDate = "Aug 2";
-	const quickInfoTime = "2:00 PM";
 
 	const containerVariants: Variants = {
 		hidden: { opacity: 0 },
@@ -205,22 +199,30 @@ export default function TributePage() {
 								/>
 							</motion.div>
 
-							<motion.div
-								className="absolute -bottom-2 -right-2 w-8 h-8 bg-amber-400 rounded-full flex items-center justify-center"
-								animate={{
-									scale: [1, 1.2, 1],
-									rotate: [0, 180, 360],
-								}}
-								transition={{
-									duration: 4,
-									repeat: Number.POSITIVE_INFINITY,
-									ease: "easeInOut",
-								}}
-								whileHover={{ scale: 1.3 }}
-								aria-hidden="true"
-							>
-								<Heart className="w-4 h-4 text-slate-900" />
-							</motion.div>
+							{/* <motion.div */}
+							{/* 	className="absolute -bottom-2 -right-2 w-8 h-8 bg-amber-400 rounded-full flex items-center justify-center" */}
+							{/* 	animate={{ */}
+							{/* 		scale: [1, 1.2, 1], */}
+							{/* 		rotate: [0, 180, 360], */}
+							{/* 	}} */}
+							{/* 	transition={{ */}
+							{/* 		duration: 4, */}
+							{/* 		repeat: Number.POSITIVE_INFINITY, */}
+							{/* 		ease: "easeInOut", */}
+							{/* 	}} */}
+							{/* 	whileHover={{ scale: 1.3 }} */}
+							{/* 	aria-hidden="true" */}
+							{/* > */}
+							{/* 	<Heart className="w-4 h-4 text-slate-900" /> */}
+							{/* </motion.div> */}
+							<div className="absolute -bottom-8 right-5 flex items-center justify-center">
+								<Image
+									src="/image/flower.png"
+									width={100}
+									height={100}
+									alt="flower"
+								/>
+							</div>
 						</motion.div>
 
 						{/* Name, Dates, Motto */}
@@ -258,12 +260,16 @@ export default function TributePage() {
 						>
 							{[
 								{
-									icon: Calendar,
-									label: quickInfoDate,
-									sublabel: quickInfoTime,
+									icon: CalendarSvg,
+									label: "Aug 2",
+									sublabel: "2:00 PM",
 								},
-								{ icon: MapPin, label: "Location", sublabel: "St. Mary's" },
-								{ icon: Clock, label: "Duration", sublabel: "1 Hour" },
+								{
+									icon: LocationSvg,
+									label: "Location",
+									sublabel: "St. Mary's",
+								},
+								{ icon: ClockSvg, label: "Duration", sublabel: "1 Hour" },
 							].map((item, index) => (
 								<motion.div
 									key={index}
@@ -317,9 +323,9 @@ export default function TributePage() {
 							className="flex flex-wrap gap-2 pt-1 justify-center lg:justify-start"
 							aria-label="Core values"
 						>
-							<Badge className="bg-amber-500 text-slate-900">Kindness</Badge>
-							<Badge className="bg-slate-700 text-amber-200">Wisdom</Badge>
-							<Badge className="bg-amber-400 text-slate-900">Patience</Badge>
+							{/* <Badge className="bg-amber-500 text-slate-900">Kindness</Badge> */}
+							{/* <Badge className="bg-slate-700 text-amber-200">Wisdom</Badge> */}
+							{/* <Badge className="bg-amber-400 text-slate-900">Patience</Badge> */}
 						</motion.div>
 
 						{/* Call to action / Obituary */}
@@ -333,12 +339,12 @@ export default function TributePage() {
 							>
 								Read Full Obituary
 							</Button>
-							<button
-								className="text-xs underline text-slate-400 hover:text-slate-200 self-center lg:self-start"
-								aria-label="Download obituary as PDF"
-							>
-								Download as PDF
-							</button>
+							{/* <button */}
+							{/* 	className="text-xs underline text-slate-400 hover:text-slate-200 self-center lg:self-start" */}
+							{/* 	aria-label="Download obituary as PDF" */}
+							{/* > */}
+							{/* 	Download as PDF */}
+							{/* </button> */}
 						</motion.div>
 					</div>
 				</motion.div>
@@ -386,7 +392,7 @@ export default function TributePage() {
 									initial="hidden"
 									animate="visible"
 									exit="exit"
-									className="space-y-6"
+									className="space-y-6 p-2"
 								>
 									<motion.div variants={itemVariants}>
 										<h2 className="text-2xl font-serif font-bold mb-4 text-center lg:text-left">
@@ -431,14 +437,14 @@ export default function TributePage() {
 								</motion.div>
 							)}
 
-							{activeTab === "service" && (
+							{activeTab === "services" && (
 								<motion.div
-									key="service"
+									key="services"
 									variants={tabContentVariants}
 									initial="hidden"
 									animate="visible"
 									exit="exit"
-									className="space-y-6"
+									className="space-y-6 p-2"
 								>
 									<motion.div variants={itemVariants}>
 										<h2 className="text-2xl font-serif font-bold mb-4 text-center lg:text-left">
@@ -447,12 +453,12 @@ export default function TributePage() {
 										<div className="space-y-4">
 											{[
 												{
-													icon: Calendar,
+													icon: CalendarSvg,
 													title: "Memorial Service",
-													subtitle: serviceDateLabel,
+													subtitle: "Friday, August 2, 2025 at 2:00 PM",
 												},
 												{
-													icon: MapPin,
+													icon: LocationSvg,
 													title: "St. Mary's Chapel",
 													subtitle: "123 Oak Street, Springfield, OH 45503",
 													note: "Reception to follow in Fellowship Hall",
@@ -528,7 +534,7 @@ export default function TributePage() {
 									initial="hidden"
 									animate="visible"
 									exit="exit"
-									className="space-y-6"
+									className="space-y-6 p-2"
 								>
 									<motion.div variants={itemVariants}>
 										<h2 className="text-2xl font-serif font-bold mb-4 text-center lg:text-left">
@@ -545,7 +551,7 @@ export default function TributePage() {
 											>
 												<Textarea
 													placeholder="Share your favorite memory of Maria..."
-													className="bg-slate-800/50 border-slate-600 text-slate-100 placeholder:text-slate-400 min-h-[120px] focus:border-amber-400 transition-colors"
+													className="bg-slate-800/50  border-slate-600 text-slate-100 placeholder:text-slate-400 min-h-[120px] transition-colors resize-none"
 												/>
 											</motion.div>
 											<div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
@@ -555,7 +561,7 @@ export default function TributePage() {
 												>
 													<Input
 														placeholder="Your name (optional)"
-														className="bg-slate-800/50 border-slate-600 text-slate-100 placeholder:text-slate-400 focus:border-amber-400 transition-colors"
+														className="bg-slate-800/50 border-slate-600 text-slate-100 placeholder:text-slate-400 transition-colors"
 													/>
 												</motion.div>
 												<motion.div
@@ -574,15 +580,43 @@ export default function TributePage() {
 										<h3 className="font-semibold text-lg text-center lg:text-left">
 											Recent Memories
 										</h3>
-										<div className="space-y-3 max-h-64 overflow-y-auto">
+										<div className="space-y-3 max-h-96 overflow-y-auto p-4">
 											{[
 												{
-													text: "Mrs. Thompson was my 3rd grade teacher. She always believed in me when I didn't believe in myself. Her kindness changed my life.",
-													author: "Sarah M.",
+													text: "Mrs. Thompson encouraged me to pursue art, and now I paint every day with joy.",
+													author: "Emma W.",
 												},
 												{
-													text: "Maria's Sunday dinners brought our whole family together. Her laughter filled every room she entered.",
+													text: "Coach Miller taught me resilience — not just in sports, but in life.",
+													author: "James R.",
+												},
+												{
+													text: "Grandma Lucy's bedtime stories sparked my love for reading and writing.",
+													author: "Hannah K.",
+												},
+												{
+													text: "Uncle Ben always reminded me to be kind to everyone, no matter the circumstances.",
+													author: "Michael P.",
+												},
+												{
+													text: "Aunt Clara’s smile could brighten even the gloomiest of days.",
+													author: "Sophie L.",
+												},
+												{
+													text: "Mr. Carter showed me that hard work and patience can open any door.",
+													author: "Daniel H.",
+												},
+												{
+													text: "Nana Mae baked the best pies, but her warmth was the real treat.",
+													author: "Olivia F.",
+												},
+												{
+													text: "Maria’s Sunday dinners brought our whole family together. Her laughter filled every room she entered.",
 													author: "David T.",
+												},
+												{
+													text: "The journey of a thousand miles begins with a single step.",
+													author: "Lao Tzu",
 												},
 											].map((memory, index) => (
 												<motion.div
@@ -616,7 +650,7 @@ export default function TributePage() {
 									initial="hidden"
 									animate="visible"
 									exit="exit"
-									className="space-y-6"
+									className="space-y-6 p-2"
 								>
 									<motion.div variants={itemVariants}>
 										<h2 className="text-2xl font-serif font-bold mb-4 text-center lg:text-left">
@@ -669,7 +703,7 @@ export default function TributePage() {
 					className="w-full lg:w-1/4 p-6 lg:p-8 border-t lg:border-t-0 lg:border-l border-slate-700"
 					variants={itemVariants}
 				>
-					<div className="space-y-6">
+					<div className="space-y-6 p-2">
 						<motion.div variants={itemVariants}>
 							<h2 className="text-2xl font-serif font-bold mb-2 text-center lg:text-left">
 								Contribute in Her Honor
@@ -696,7 +730,7 @@ export default function TributePage() {
 										}}
 										transition={{ duration: 0.6 }}
 									>
-										<Heart className="w-6 h-6 text-green-900" />
+										<HeartSvg className="text-green-900" />
 									</motion.div>
 									<h3 className="font-semibold text-green-200 mb-2">
 										Thank You
@@ -752,8 +786,9 @@ export default function TributePage() {
 												type="number"
 												value={contributionAmount}
 												onChange={(e) => setContributionAmount(e.target.value)}
-												className="bg-slate-800/50 border-slate-600 text-slate-100 focus:border-amber-400 transition-colors"
-												placeholder="Custom amount"
+												className="bg-slate-800/50 border-slate-600 text-slate-100 transition-colors 
+                                                 [&::-webkit-inner-spin-button]:appearance-none"
+												placeholder="Enter Amount"
 											/>
 										</motion.div>
 									</motion.div>
@@ -768,14 +803,14 @@ export default function TributePage() {
 												<Input
 													type={field.type}
 													placeholder={field.placeholder}
-													className="bg-slate-800/50 border-slate-600 text-slate-100 placeholder:text-slate-400 focus:border-amber-400 transition-colors"
+													className="bg-slate-800/50 border-slate-600 text-slate-100  transition-colors"
 												/>
 											</motion.div>
 										))}
 										<motion.div whileFocus={{ scale: 1.02 }}>
 											<Textarea
 												placeholder="Message (optional)"
-												className="bg-slate-800/50 border-slate-600 text-slate-100 placeholder:text-slate-400 min-h-[80px] focus:border-amber-400 transition-colors"
+												className="bg-slate-800/50 border-slate-600 text-slate-100  min-h-[80px]  transition-colors resize-none "
 											/>
 										</motion.div>
 									</motion.div>
@@ -796,7 +831,7 @@ export default function TributePage() {
 												whileHover={{ x: "100%" }}
 												transition={{ duration: 0.6 }}
 											/>
-											<CreditCard className="w-4 h-4 mr-2" />
+											<CardSvg className="w-5 h-5 mr-2" />
 											Contribute ${contributionAmount}
 										</Button>
 									</motion.div>
@@ -821,5 +856,157 @@ export default function TributePage() {
 				</motion.div>
 			</motion.div>
 		</div>
+	);
+}
+
+function CalendarSvg(props: SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 24 24"
+			width="24"
+			height="24"
+			fill="none"
+			{...props}
+		>
+			<path
+				d="M16 2V6M8 2V6"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+			<path
+				d="M13 4H11C7.22876 4 5.34315 4 4.17157 5.17157C3 6.34315 3 8.22876 3 12V14C3 17.7712 3 19.6569 4.17157 20.8284C5.34315 22 7.22876 22 11 22H13C16.7712 22 18.6569 22 19.8284 20.8284C21 19.6569 21 17.7712 21 14V12C21 8.22876 21 6.34315 19.8284 5.17157C18.6569 4 16.7712 4 13 4Z"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+			<path
+				d="M3 10H21"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+			<path
+				d="M11.9955 14H12.0045M11.9955 18H12.0045M15.991 14H16M8 14H8.00897M8 18H8.00897"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	);
+}
+
+function LocationSvg(props: SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 24 24"
+			width="24"
+			height="24"
+			fill="none"
+			{...props}
+		>
+			<path
+				d="M18 18C19.2447 18.4244 20 18.9819 20 19.5925C20 20.9221 16.4183 22 12 22C7.58172 22 4 20.9221 4 19.5925C4 18.9819 4.75527 18.4244 6 18"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+			></path>
+			<path
+				d="M15 9.5C15 11.1569 13.6569 12.5 12 12.5C10.3431 12.5 9 11.1569 9 9.5C9 7.84315 10.3431 6.5 12 6.5C13.6569 6.5 15 7.84315 15 9.5Z"
+				stroke="currentColor"
+				stroke-width="2"
+			></path>
+			<path
+				d="M12 2C16.0588 2 19.5 5.42803 19.5 9.5869C19.5 13.812 16.0028 16.777 12.7725 18.7932C12.5371 18.9287 12.2709 19 12 19C11.7291 19 11.4629 18.9287 11.2275 18.7932C8.00325 16.7573 4.5 13.8266 4.5 9.5869C4.5 5.42803 7.9412 2 12 2Z"
+				stroke="currentColor"
+				stroke-width="2"
+			></path>
+		</svg>
+	);
+}
+
+function ClockSvg(props: SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 24 24"
+			width="24"
+			height="24"
+			fill="none"
+			{...props}
+		>
+			<circle
+				cx="12"
+				cy="12"
+				r="10"
+				stroke="currentColor"
+				stroke-width="2"
+			></circle>
+			<path
+				d="M12 8V12L14 14"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			></path>
+		</svg>
+	);
+}
+
+function HeartSvg(props: SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 24 24"
+			width="24"
+			height="24"
+			fill="none"
+			{...props}
+		>
+			<path
+				d="M10.4107 19.9677C7.58942 17.858 2 13.0348 2 8.69444C2 5.82563 4.10526 3.5 7 3.5C8.5 3.5 10 4 12 6C14 4 15.5 3.5 17 3.5C19.8947 3.5 22 5.82563 22 8.69444C22 13.0348 16.4106 17.858 13.5893 19.9677C12.6399 20.6776 11.3601 20.6776 10.4107 19.9677Z"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			></path>
+		</svg>
+	);
+}
+
+function CardSvg(props: SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 24 24"
+			width="24"
+			height="24"
+			fill="none"
+			{...props}
+		>
+			<path
+				d="M3.3457 16.1976L16.1747 3.36866M18.6316 11.0556L16.4321 13.2551M14.5549 15.1099L13.5762 16.0886"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+			></path>
+			<path
+				d="M3.17467 16.1411C1.60844 14.5749 1.60844 12.0355 3.17467 10.4693L10.4693 3.17467C12.0355 1.60844 14.5749 1.60844 16.1411 3.17467L20.8253 7.85891C22.3916 9.42514 22.3916 11.9645 20.8253 13.5307L13.5307 20.8253C11.9645 22.3916 9.42514 22.3916 7.85891 20.8253L3.17467 16.1411Z"
+				stroke="currentColor"
+				stroke-width="2"
+			></path>
+			<path
+				d="M4 22H20"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+			></path>
+		</svg>
 	);
 }
