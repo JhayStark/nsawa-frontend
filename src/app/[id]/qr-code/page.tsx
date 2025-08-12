@@ -27,8 +27,8 @@ export default function FuneralDonationPage() {
 
 			<main className="h-full flex items-center justify-center p-6 lg:p-12">
 				<div
-					className={`w-full max-w-7xl transition-all duration-1000 ease-out transform ${
-						isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+					className={`w-full max-w-7xl transition-all duration-1000 ease-out transform${
+						isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 "
 					}`}
 				>
 					{/* Main Grid - Desktop: 2 columns, Mobile: 1 column */}
@@ -147,6 +147,36 @@ export default function FuneralDonationPage() {
 						{/* Right Column - QR Code */}
 						<div className="flex flex-col items-center justify-center space-y-8">
 							{/* QR Code Section */}
+
+							{/* Alternative Methods - Compact */}
+							<div
+								className={`transition-all duration-800 delay-1000 ease-out transform w-full ${
+									isLoaded
+										? "opacity-100 translate-y-0"
+										: "opacity-0 translate-y-4"
+								}`}
+							>
+								<div className="bg-slate-800/60 backdrop-blur-sm rounded-xl border border-slate-700 p-6 space-y-4">
+									<h4 className="text-center text-sm font-medium text-slate-400 tracking-wide uppercase">
+										Other Ways to Donate
+									</h4>
+
+									<div className="grid grid-cols-3 gap-4 text-center">
+										<div className="space-y-1">
+											<div className="text-2xl">🌐</div>
+											<div className="text-xs text-slate-400">Online</div>
+										</div>
+										<div className="space-y-1">
+											<div className="text-2xl">📞</div>
+											<div className="text-xs text-slate-400">Phone</div>
+										</div>
+										<div className="space-y-1">
+											<div className="text-2xl">✉</div>
+											<div className="text-xs text-slate-400">Mail</div>
+										</div>
+									</div>
+								</div>
+							</div>
 							<div
 								className={`transition-all duration-800 delay-800 ease-out transform ${
 									isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"
@@ -199,36 +229,6 @@ export default function FuneralDonationPage() {
 									<div className="absolute -top-2 -left-2 w-5 h-5 bg-amber-400 rounded-full opacity-60" />
 								</div>
 							</div>
-
-							{/* Alternative Methods - Compact */}
-							{/* <div */}
-							{/* 	className={`transition-all duration-800 delay-1000 ease-out transform ${ */}
-							{/* 		isLoaded */}
-							{/* 			? "opacity-100 translate-y-0" */}
-							{/* 			: "opacity-0 translate-y-4" */}
-							{/* 	}`} */}
-							{/* > */}
-							{/* 	<div className="bg-slate-800/60 backdrop-blur-sm rounded-xl border border-slate-700 p-6 space-y-4"> */}
-							{/* 		<h4 className="text-center text-sm font-light text-slate-400 tracking-wide uppercase"> */}
-							{/* 			Other Ways to Give */}
-							{/* 		</h4> */}
-							{/**/}
-							{/* 		<div className="grid grid-cols-3 gap-4 text-center"> */}
-							{/* 			<div className="space-y-1"> */}
-							{/* 				<div className="text-2xl">🌐</div> */}
-							{/* 				<div className="text-xs text-slate-400">Online</div> */}
-							{/* 			</div> */}
-							{/* 			<div className="space-y-1"> */}
-							{/* 				<div className="text-2xl">📞</div> */}
-							{/* 				<div className="text-xs text-slate-400">Phone</div> */}
-							{/* 			</div> */}
-							{/* 			<div className="space-y-1"> */}
-							{/* 				<div className="text-2xl">✉</div> */}
-							{/* 				<div className="text-xs text-slate-400">Mail</div> */}
-							{/* 			</div> */}
-							{/* 		</div> */}
-							{/* 	</div> */}
-							{/* </div> */}
 						</div>
 					</div>
 
