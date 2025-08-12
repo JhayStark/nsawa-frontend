@@ -8,14 +8,7 @@ import {
 	useTransform,
 	type Variants,
 } from "framer-motion";
-import {
-	Calendar,
-	Clock,
-	CreditCard,
-	Heart,
-	MapPin,
-	Share2,
-} from "lucide-react";
+import { Calendar, Clock, CreditCard, Heart, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,8 +16,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+type Tab = "memories" | "tribute" | "services" | "photos";
+
 export default function TributePage() {
-	const [activeTab, setActiveTab] = useState("tribute");
+	const [activeTab, setActiveTab] = useState<Tab>("memories");
 	const [contributionAmount, setContributionAmount] = useState("50");
 	const [showConfirmation, setShowConfirmation] = useState(false);
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -58,10 +53,10 @@ export default function TributePage() {
 		setTimeout(() => setShowConfirmation(false), 3000);
 	};
 
-	const tabs = [
-		{ id: "tribute", label: "Tribute", icon: "💝" },
-		{ id: "service", label: "Service", icon: "🕊" },
+	const tabs: Array<{ id: Tab; label: string; icon: string }> = [
 		{ id: "memories", label: "Memories", icon: "💭" },
+		{ id: "tribute", label: "Tribute", icon: "💝" },
+		{ id: "services", label: "Service", icon: "🕊" },
 		{ id: "photos", label: "Photos", icon: "📸" },
 	];
 
@@ -122,7 +117,8 @@ export default function TributePage() {
 	};
 
 	return (
-		<div className="h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 overflow-y-auto">
+		<div className="h-screen bg-gradient-to-br from-[#1a2321] via-[#040a09] to-[#1a2321] text-slate-100 overflow-y-auto">
+			{/* <div className="h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 overflow-y-auto"> */}
 			{/* Animated background elements */}
 			<motion.div
 				className="absolute inset-0 opacity-30"
@@ -488,7 +484,7 @@ export default function TributePage() {
 																	<item.icon className="w-5 h-5 text-amber-400 mt-1" />
 																</motion.div>
 																<div>
-																	<h3 className="font-semibold">
+																	<h3 className="font-semibold text-white">
 																		{item.title}
 																	</h3>
 																	<p className="text-slate-400">

@@ -15,7 +15,8 @@ export default function FuneralDonationPage() {
 	const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(donationUrl)}&bgcolor=FFFFFF&color=1a1a1a&margin=10&ecc=M`;
 
 	return (
-		<div className="h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+		// -		<div className="h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+		<div className="h-screen bg-gradient-to-br from-[#1a2321] via-[#040a09] to-[#1a2321] relative overflow-hidden">
 			{/* Subtle background pattern */}
 			<div className="absolute inset-0 opacity-5">
 				<div className="absolute top-20 left-20 w-32 h-32 border border-white/20 rounded-full" />
@@ -83,17 +84,41 @@ export default function FuneralDonationPage() {
 								<div className="relative group">
 									<div className="absolute -inset-1 bg-gradient-to-br from-amber-500/20 to-amber-600/10 rounded-lg blur-sm" />
 									<div className="relative overflow-hidden rounded-lg bg-slate-800 p-2">
-										<Image
-											src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=400&fit=crop&crop=faces,center&auto=format&q=85"
-											alt="Eleanor Grace Thompson"
-											width={500}
-											height={400}
-											className="w-full h-48 lg:h-64 object-cover rounded transition-all duration-500 group-hover:scale-105"
-											style={{
-												filter:
-													"sepia(15%) saturate(80%) contrast(105%) brightness(95%)",
-											}}
-										/>
+										<div className="grid grid-cols-3 gap-2">
+											<Image
+												src="https://images.unsplash.com/photo-1569292912461-802a58b76d5f?q=80&w=2346&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+												alt="Eleanor Grace Thompson"
+												width={500}
+												height={400}
+												className="w-full h-48 lg:h-64 object-cover rounded transition-all duration-500 group-hover:scale-105"
+												style={{
+													filter:
+														"sepia(15%) saturate(80%) contrast(105%) brightness(95%)",
+												}}
+											/>
+											<Image
+												src="https://images.unsplash.com/photo-1588857805015-3fb765b35e92?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDMwfHx8ZW58MHx8fHx8"
+												alt="Eleanor Grace Thompson"
+												width={500}
+												height={400}
+												className="w-full h-48 lg:h-64 object-cover rounded transition-all duration-500 group-hover:scale-105"
+												style={{
+													filter:
+														"sepia(15%) saturate(80%) contrast(105%) brightness(95%)",
+												}}
+											/>
+											<Image
+												src="https://images.unsplash.com/photo-1542595735-e9f9932efe8b?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDM1fHx8ZW58MHx8fHx8"
+												alt="Eleanor Grace Thompson"
+												width={500}
+												height={400}
+												className="w-full h-48 lg:h-64 object-cover rounded transition-all duration-500 group-hover:scale-105"
+												style={{
+													filter:
+														"sepia(15%) saturate(80%) contrast(105%) brightness(95%)",
+												}}
+											/>
+										</div>
 									</div>
 								</div>
 							</div>
