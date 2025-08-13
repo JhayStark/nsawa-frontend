@@ -914,18 +914,18 @@ function LocationSvg(props: SVGProps<SVGSVGElement>) {
 			<path
 				d="M18 18C19.2447 18.4244 20 18.9819 20 19.5925C20 20.9221 16.4183 22 12 22C7.58172 22 4 20.9221 4 19.5925C4 18.9819 4.75527 18.4244 6 18"
 				stroke="currentColor"
-				stroke-width="2"
-				stroke-linecap="round"
+				strokeWidth="2"
+				strokeLinecap="round"
 			></path>
 			<path
 				d="M15 9.5C15 11.1569 13.6569 12.5 12 12.5C10.3431 12.5 9 11.1569 9 9.5C9 7.84315 10.3431 6.5 12 6.5C13.6569 6.5 15 7.84315 15 9.5Z"
 				stroke="currentColor"
-				stroke-width="2"
+				strokeWidth="2"
 			></path>
 			<path
 				d="M12 2C16.0588 2 19.5 5.42803 19.5 9.5869C19.5 13.812 16.0028 16.777 12.7725 18.7932C12.5371 18.9287 12.2709 19 12 19C11.7291 19 11.4629 18.9287 11.2275 18.7932C8.00325 16.7573 4.5 13.8266 4.5 9.5869C4.5 5.42803 7.9412 2 12 2Z"
 				stroke="currentColor"
-				stroke-width="2"
+				strokeWidth="2"
 			></path>
 		</svg>
 	);
@@ -946,7 +946,7 @@ function ClockSvg(props: SVGProps<SVGSVGElement>) {
 				cy="12"
 				r="10"
 				stroke="currentColor"
-				stroke-width="2"
+				strokeWidth="2"
 			></circle>
 			<path
 				d="M12 8V12L14 14"
@@ -993,19 +993,19 @@ function CardSvg(props: SVGProps<SVGSVGElement>) {
 			<path
 				d="M3.3457 16.1976L16.1747 3.36866M18.6316 11.0556L16.4321 13.2551M14.5549 15.1099L13.5762 16.0886"
 				stroke="currentColor"
-				stroke-width="2"
-				stroke-linecap="round"
+				strokeWidth="2"
+				strokeLinecap="round"
 			></path>
 			<path
 				d="M3.17467 16.1411C1.60844 14.5749 1.60844 12.0355 3.17467 10.4693L10.4693 3.17467C12.0355 1.60844 14.5749 1.60844 16.1411 3.17467L20.8253 7.85891C22.3916 9.42514 22.3916 11.9645 20.8253 13.5307L13.5307 20.8253C11.9645 22.3916 9.42514 22.3916 7.85891 20.8253L3.17467 16.1411Z"
 				stroke="currentColor"
-				stroke-width="2"
+				strokeWidth="2"
 			></path>
 			<path
 				d="M4 22H20"
 				stroke="currentColor"
-				stroke-width="2"
-				stroke-linecap="round"
+				strokeWidth="2"
+				strokeLinecap="round"
 			></path>
 		</svg>
 	);
