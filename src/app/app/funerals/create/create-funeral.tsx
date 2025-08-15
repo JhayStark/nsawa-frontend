@@ -5,7 +5,7 @@ import axios from "axios";
 import { Loader2, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import type { ImageListType } from "react-images-uploading";
 import * as z from "zod";
 import FileUpload from "@/components/FileUpload";
@@ -25,21 +25,21 @@ import { useToast } from "@/components/ui/use-toast";
 import { useCreateMutation } from "@/lib/features/funeralApiSlice";
 
 const createFuneralSchema = z.object({
-	nameOfDeceased: z.string(),
-	familyName: z.string(),
-	yearOfBirth: z.string(),
-	yearOfDeath: z.string(),
-	phoneNumber: z.string(),
-	funeralLocation: z.string(),
+	nameOfDeceased: z.string().min(1, "Name is required"),
+	familyName: z.string().min(1, "Family name is required"),
+	yearOfBirth: z.string().min(1, "Year of birth is required"),
+	yearOfDeath: z.string().min(1, "Year of death is required"),
+	phoneNumber: z.string().min(10, "Phone number must be at least 10 digits"),
+	funeralLocation: z.string().min(1, "Funeral location is required"),
 	startDate: z.date(),
 	endDate: z.date(),
-	lifeAndLegacy: z.string(),
-	tribute: z.string(),
-	memorialMotto: z.string(),
-	donationRequest: z.string(),
+	lifeAndLegacy: z
+		.string()
+		.min(10, "Life and legacy must be at least 10 characters"),
+	tribute: z.string().min(10, "Tribute must be at least 10 characters"),
+	donationRequest: z.string().optional(),
+	funeralEndDate: z.string().min(1, "Funeral end time is required"),
 });
-
-type CreateFuneralForm = z.infer<typeof createFuneralSchema>;
 
 const preset_key: string = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET as string;
 const cloud_name: string = process.env
@@ -80,21 +80,19 @@ const CreateFuneral = () => {
 		images: ImageListType | [];
 	}>({ bannerIndex: null, images: [] });
 
-	const form = useForm<CreateFuneralForm>({
+	const form = useForm<z.infer<typeof createFuneralSchema>>({
 		resolver: zodResolver(createFuneralSchema),
 		defaultValues: {
-			// nameOfDeceased: "",
-			// familyName: "",
-			// yearOfBirth: "",
-			// yearOfDeath: "",
-			// phoneNumber: "",
-			// funeralLocation: "",
-			// startDate: new Date(),
-			// endDate: new Date(),
-			// lifeAndLegacy: "",
-			// tribute: "",
-			// memorialMotto: "",
-			// donationRequest: "",
+			nameOfDeceased: "",
+			familyName: "",
+			yearOfBirth: "",
+			yearOfDeath: "",
+			phoneNumber: "",
+			funeralLocation: "",
+			lifeAndLegacy: "",
+			tribute: "",
+			donationRequest: "",
+			funeralEndDate: "",
 		},
 	});
 
@@ -105,8 +103,9 @@ const CreateFuneral = () => {
 			toast({
 				title: "Upload images of deceased",
 				description:
-					"You failed to upload images of the deacesd or set a banner Image",
+					"You failed to upload images of the deceased or set a banner Image",
 			});
+
 			return;
 		}
 
@@ -118,6 +117,9 @@ const CreateFuneral = () => {
 				index !== imageData.bannerIndex ? image.file : null,
 			)
 			.filter((file): file is File => file !== null);
+
+		// Debug: Log filtered images
+		console.log("Images without banner:", imagesWithoutBannerImage);
 
 		// Upload images
 		let imageToUpload = [];
@@ -147,7 +149,12 @@ const CreateFuneral = () => {
 		createFuneral(objectToSubmit)
 			.unwrap()
 			.then((res) => {
+				console.log(res);
+				// toast({
+				//   title: 'Funeral Created',
+				// });
 				setFuneralId(res?.id);
+				// setShowSmsPlans(true);
 				router.push(`/app/funerals/${res?.id}`);
 			})
 			.catch((err) => {
@@ -243,23 +250,40 @@ const CreateFuneral = () => {
 						/>
 						<InputField
 							form={form}
-							placeholder="Memorial Motto"
-							name="memorialMotto"
+							placeholder="Funeral End Time (e.g., 3:00 PM)"
+							name="funeralEndDate"
 							className="placeholder:text-gray-500"
 						/>
-						<Textarea
-							{...form.register("tribute")}
-							placeholder="Tribute"
-							className="placeholder:text-gray-500"
-						/>
-						<Textarea
-							{...form.register("lifeAndLegacy")}
-							placeholder="Life and Legacy"
-							className="placeholder:text-gray-500"
-						/>
-						<Textarea
-							{...form.register("donationRequest")}
-							placeholder="Family donation request"
+						<div className="space-y-2">
+							<Textarea
+								{...form.register("lifeAndLegacy")}
+								placeholder="Write about the life and legacy of the deceased..."
+								rows={4}
+								className="placeholder:text-gray-500"
+							/>
+							{form.formState.errors.lifeAndLegacy && (
+								<p className="text-red-500 text-sm">
+									{form.formState.errors.lifeAndLegacy.message}
+								</p>
+							)}
+						</div>
+						<div className="space-y-2">
+							<Textarea
+								{...form.register("tribute")}
+								placeholder="Write a tribute to the deceased..."
+								rows={4}
+								className="placeholder:text-gray-500"
+							/>
+							{form.formState.errors.tribute && (
+								<p className="text-red-500 text-sm">
+									{form.formState.errors.tribute.message}
+								</p>
+							)}
+						</div>
+						<InputField
+							form={form}
+							placeholder="Donation Request (Optional)"
+							name="donationRequest"
 							className="placeholder:text-gray-500"
 						/>
 					</form>
