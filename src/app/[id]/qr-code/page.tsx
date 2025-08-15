@@ -291,24 +291,24 @@ export default function FuneralDonationPage() {
 					</div>
 
 					{/* Bottom Quote - Minimal */}
-					<div
-						className={`mt-8 lg:mt-12 text-center transition-all duration-1000 delay-1200 ease-out transform ${
-							isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-						}`}
-					>
-						<div className="max-w-2xl mx-auto">
-							<div className="flex items-center justify-center space-x-4 mb-4">
-								<div className="w-12 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
-								<div className="w-1 h-1 bg-amber-500 rounded-full" />
-								<div className="w-12 h-px bg-gradient-to-l from-transparent via-amber-500 to-transparent" />
-							</div>
-
-							<blockquote className="text-lg lg:text-xl font-light text-slate-400 italic leading-relaxed">
-								&ldquo;Those we love never truly leave us. They live on in our
-								hearts and memories.&rdquo;
-							</blockquote>
-						</div>
-					</div>
+					{/* <div */}
+					{/* 	className={`mt-8 lg:mt-12 text-center transition-all duration-1000 delay-1200 ease-out transform ${ */}
+					{/* 		isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4" */}
+					{/* 	}`} */}
+					{/* > */}
+					{/* 	<div className="max-w-2xl mx-auto"> */}
+					{/* 		<div className="flex items-center justify-center space-x-4 mb-4"> */}
+					{/* 			<div className="w-12 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent" /> */}
+					{/* 			<div className="w-1 h-1 bg-amber-500 rounded-full" /> */}
+					{/* 			<div className="w-12 h-px bg-gradient-to-l from-transparent via-amber-500 to-transparent" /> */}
+					{/* 		</div> */}
+					{/**/}
+					{/* 		<blockquote className="text-lg lg:text-xl font-light text-slate-400 italic leading-relaxed"> */}
+					{/* 			&ldquo;Those we love never truly leave us. They live on in our */}
+					{/* 			hearts and memories.&rdquo; */}
+					{/* 		</blockquote> */}
+					{/* 	</div> */}
+					{/* </div> */}
 				</div>
 			</main>
 		</div>
